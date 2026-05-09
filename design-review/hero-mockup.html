@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hero mockup — Surf Morocco</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Special+Elite&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --color-paper:    #FFECB6;
+    --color-cream:    #F9CCAD;
+    --color-ink:      #681F24;
+    --color-cinnamon: #C15C28;
+    --color-sriracha: #EC5422;
+    --color-satay:    #D5A83A;
+    --color-cardamom: #AEB479;
+    --color-cumin:    #C8D7D3;
+    --color-belacan:  #653651;
+    --color-anise:    #876046;
+  }
+  html { background: var(--color-paper); color: var(--color-ink); }
+  body { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 17px; line-height: 1.55; }
+  .font-display { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+  .font-mono-accent {
+    font-family: "Special Elite", "Courier New", monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .text-display { font-size: clamp(3.25rem, 8vw, 7rem); font-weight: 800; line-height: 0.88; letter-spacing: -0.02em; }
+  .text-h1      { font-size: clamp(2.25rem, 5vw, 4rem);  font-weight: 800; line-height: 1.0; letter-spacing: -0.015em; }
+  .text-h2      { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700; line-height: 1.15; }
+  .text-label   { font-size: 15px; font-weight: 600; }
+  .text-caption { font-size: 13px; }
+
+  .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.875rem 1.5rem; min-height:3rem; font-size:15px; font-weight:600; letter-spacing:-0.005em; border:2px solid transparent; transition:transform 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease; cursor:pointer; user-select:none; text-decoration:none; }
+  .btn:hover  { transform: translateY(-1px); }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--color-cinnamon); color: var(--color-paper); box-shadow: 0 3px 0 var(--color-ink); }
+  .btn-primary:hover { background: var(--color-sriracha); }
+  .btn-secondary { background: transparent; color: var(--color-ink); border-color: var(--color-ink); }
+  .btn-secondary:hover { background: var(--color-ink); color: var(--color-paper); }
+
+  .card--polaroid { padding: 0.75rem 0.75rem 2rem 0.75rem; background: var(--color-paper); box-shadow: 2px 4px 0 rgba(104,31,36,0.12); }
+  .photo { overflow: hidden; background: var(--color-cream); position: relative; }
+  .photo img { width:100%; height:100%; object-fit:cover; filter: contrast(0.97) saturate(0.92); display:block; }
+
+  /* Hero collage zone — contained, isolated. */
+  .collage-zone {
+    position: relative;
+    height: min(640px, 70vh);
+    overflow: visible;
+    pointer-events: none;
+  }
+  .collage-zone > * { pointer-events: auto; }
+
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    opacity: 0.045; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+  <div class="grain"></div>
+
+  <!-- ─────────── NAV ─────────── -->
+  <!-- [slot: nav] -->
+  <nav class="fixed top-0 left-0 right-0 z-50 px-10 py-5 flex items-center justify-between" style="background: color-mix(in srgb, var(--color-paper) 88%, transparent); backdrop-filter: saturate(120%);">
+    <span class="font-display font-bold text-[var(--color-ink)]">Surf Morocco</span>
+    <div class="flex items-center gap-8 text-label text-[var(--color-ink)]">
+      <a href="#about" class="opacity-70 hover:opacity-100">About</a>
+      <a href="#lifestyle" class="opacity-70 hover:opacity-100">Lifestyle</a>
+      <a href="#pricing" class="opacity-70 hover:opacity-100">Pricing</a>
+      <a href="#apply" class="text-[var(--color-cinnamon)]">Apply</a>
+    </div>
+  </nav>
+
+  <!-- ─────────── HERO ─────────── -->
+  <!-- [slot: hero] -->
+  <section id="hero" class="relative" style="min-height: 100svh;">
+    <div class="max-w-7xl mx-auto px-10 pt-32 pb-12">
+
+      <div class="grid grid-cols-12 gap-8 items-start">
+
+        <!-- ===== LEFT ZONE — text, cols 1–5 ===== -->
+        <div class="col-span-5 flex flex-col gap-8 pt-8">
+          <!-- [slot: hero-index | mono caption] -->
+          <p class="font-mono-accent text-[var(--color-anise)] opacity-60">
+            01 / 10 &mdash; A Slow Trip. Not a Camp.
+          </p>
+
+          <!-- [slot: hero-headline | token: --color-ink | text-display] -->
+          <h1 class="font-display text-display text-[var(--color-ink)] italic" style="max-width: 11ch;">
+            Live Morocco, not tourism.
+          </h1>
+
+          <!-- [slot: hero-subhead | body 17] -->
+          <p class="text-[var(--color-ink)] opacity-70" style="max-width: 38ch;">
+            Seven days in a fishing village that hasn't been packaged yet.
+            Small group, real house, the Atlantic at the door.
+          </p>
+
+          <!-- [slot: hero-cta-row] -->
+          <div class="flex flex-wrap gap-4 mt-2">
+            <a href="#apply" class="btn btn-primary"><!-- [slot: cta-primary | token: --color-cinnamon] -->Apply</a>
+            <a href="#about" class="btn btn-secondary"><!-- [slot: cta-secondary] -->View Program</a>
+          </div>
+        </div>
+
+        <!-- ===== RIGHT ZONE — collage, cols 6–12 ===== -->
+        <div class="col-span-7">
+          <div class="collage-zone">
+
+            <!-- [slot: hero-photo-A | role: anchor | aspect 3/4 | rotate -2.5deg] -->
+            <div class="absolute card--polaroid"
+                 style="top:4%; left:6%; width:58%; max-width:380px; transform:rotate(-2.5deg); z-index:1;">
+              <div class="photo" style="aspect-ratio: 3/4;">
+                <img src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=900&auto=format&fit=crop"
+                     alt="Lone surfer, atlantic, golden hour" />
+              </div>
+            </div>
+
+            <!-- [slot: hero-photo-B | role: village | aspect 4/5 | rotate 2.5deg] -->
+            <div class="absolute card--polaroid"
+                 style="top:38%; left:50%; width:42%; max-width:280px; transform:rotate(2.5deg); z-index:2;">
+              <div class="photo" style="aspect-ratio: 4/5;">
+                <img src="https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=700&auto=format&fit=crop"
+                     alt="Whitewashed wall, blue door, morocco" />
+              </div>
+              <p class="font-mono-accent text-[var(--color-ink)] opacity-60 text-center mt-1">
+                <!-- [slot: photo-B-caption] -->TAMRAGHT '26
+              </p>
+            </div>
+
+            <!-- [slot: hero-photo-C | role: accent detail | aspect 1/1 | rotate -4deg] -->
+            <div class="absolute"
+                 style="top:2%; left:62%; width:26%; max-width:170px; transform:rotate(-4deg); z-index:3;">
+              <div class="photo" style="aspect-ratio: 1/1;">
+                <img src="https://images.unsplash.com/photo-1502933691298-84fc14542831?w=400&auto=format&fit=crop"
+                     alt="Surf wax close up" />
+              </div>
+              <p class="font-mono-accent text-[var(--color-anise)] opacity-70 mt-1">
+                <!-- [slot: photo-C-caption] -->FILM 200
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===== Bottom mono bar ===== -->
+      <!-- [slot: hero-foot] -->
+      <div class="mt-24 pt-6 flex items-center justify-between"
+           style="border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);">
+        <p class="font-mono-accent text-[var(--color-anise)] opacity-70">
+          Surf Morocco &mdash; A Slow Trip. Not a Camp.
+        </p>
+        <p class="font-mono-accent text-[var(--color-anise)] opacity-40">01 / 10</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- spacer to demonstrate end-of-hero rhythm -->
+  <section class="max-w-7xl mx-auto px-10 py-40">
+    <p class="font-mono-accent text-[var(--color-anise)] opacity-50">
+      02 / 10 &mdash; Tamraght, Morocco — Winter 2026
+    </p>
+  </section>
+
+</body>
+</html>

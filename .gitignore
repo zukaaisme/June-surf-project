@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.env*.local
+.DS_Store
+/tmp/
+design-review/snaps/
+design-review/last-review-prev.md

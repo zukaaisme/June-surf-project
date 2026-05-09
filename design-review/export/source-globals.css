@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette — coastal film surf, sun-faded analog */
+  --color-paper:    #D8C7AF; /* Driftwood Beige — page background, primary light surface */
+  --color-cream:    #EFE3CC; /* Driftwood +tint — polaroid frames, lifted secondary surfaces */
+  --color-ink:      #4A394B; /* Night Plum — primary text, deep typography */
+  --color-cinnamon: #D96C4A; /* Burnt Coral — primary CTA, warm sunburned accent */
+  --color-sriracha: #C25A3D; /* Deeper Coral — CTA hover / emphasis only */
+  --color-satay:    #D4B06A; /* Golden Sand — sun-faded yellow, badges, separators */
+  --color-cardamom: #78866B; /* Palm Shadow Green — cards, gallery surfaces */
+  --color-cumin:    #5FA7A7; /* Salted Turquoise — cool ocean accent, contact section */
+  --color-belacan:  #2F4754; /* Deep Ocean Navy — anchor dark sections, footer, overlays */
+  --color-anise:    #4A394B; /* same as ink — Night Plum, mono-tag fallback */
+
+  /* Typography scale — exactly 6 sizes */
+  --text-display:  clamp(3.25rem, 8vw, 7rem);   /* hero only */
+  --text-h1:       clamp(2.25rem, 5vw, 4rem);   /* section openers */
+  --text-h2:       clamp(1.5rem, 2.6vw, 2rem);  /* subheads */
+  --text-body:     1.0625rem;                    /* 17px */
+  --text-label:    0.9375rem;                    /* 15px — nav, buttons, captions */
+  --text-caption:  0.8125rem;                    /* 13px — section indices, mono */
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-display: 800;
+
+  /* Typography families */
+  --font-family-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-family-ui: var(--font-bricolage), system-ui, sans-serif;
+  --font-family-mono: var(--font-typewriter), "Courier New", monospace;
+}
+
+/* Base resets */
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-family-ui);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────
+   TYPE SCALE — 6 named classes, use these
+   and nothing else for font-size.
+───────────────────────────────────────── */
+
+.text-display {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+}
+
+.text-h1 {
+  font-size: var(--text-h1);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.015em;
+}
+
+.text-h2 {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* Body inherits from <body> above — no class needed */
+
+/* Nav / buttons — weight 600, --text-label */
+.text-label {
+  font-size: var(--text-label);
+  font-weight: 600;
+}
+
+/* Section indices, mono captions */
+.text-caption {
+  font-size: var(--text-caption);
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-family-display);
+}
+
+.font-mono-accent {
+  font-family: var(--font-family-mono);
+  font-size: var(--text-caption);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────────────
+   BUTTON SYSTEM — 3 variants
+   .btn base + .btn-primary / .btn-secondary / .btn-on-dark
+───────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  min-height: 3rem;
+  font-family: var(--font-family-display);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  border: 2px solid transparent;
+  text-transform: none;
+  transition: transform 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+
+.btn:hover  { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--color-cinnamon);
+  color: var(--color-paper);
+  box-shadow: 0 3px 0 var(--color-ink);
+}
+.btn-primary:hover {
+  background: var(--color-sriracha);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.btn-secondary:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn-on-dark {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  box-shadow: 0 3px 0 var(--color-cinnamon);
+}
+.btn-on-dark:hover {
+  background: var(--color-cream);
+}
+
+/* ─────────────────────────────────────────
+   CARD SYSTEM — unified card styles
+───────────────────────────────────────── */
+
+.card {
+  background: var(--color-paper);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+  padding: 1.5rem;
+}
+
+.card--polaroid {
+  padding: 0.75rem 0.75rem 2rem 0.75rem;
+  background: var(--color-cream);
+  box-shadow: 2px 4px 0 color-mix(in srgb, var(--color-ink) 18%, transparent);
+}
+
+.card--dark {
+  background: var(--color-belacan);
+  color: var(--color-paper);
+  border-color: color-mix(in srgb, var(--color-paper) 18%, transparent);
+}
+
+/* ─────────────────────────────────────────
+   PHOTO treatment — unified film-like look
+───────────────────────────────────────── */
+
+.photo {
+  overflow: hidden;
+  background: var(--color-cream);
+}
+
+.photo img {
+  filter: contrast(0.97) saturate(0.92);
+}
+
+/* ─────────────────────────────────────────
+   GRAIN OVERLAY — SVG noise fixed to viewport
+───────────────────────────────────────── */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* Divider line utility */
+.divider {
+  height: 1px;
+  background-color: color-mix(in srgb, var(--color-cardamom) 25%, transparent);
+}
+
+/* Focus ring — accessible, on-brand */
+:focus-visible {
+  outline: 2px solid var(--color-cinnamon);
+  outline-offset: 3px;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
