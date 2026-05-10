@@ -1,56 +1,108 @@
-// V3 Footer — magenta-light brand band per Figma (08-top_bar-fixed_scroll)
-// "Surf Morocco" in magenta color, big text, left-aligned
-// Additional text: rotated details (collaborator email, date)
+"use client";
 
-import { site } from "@/content/site";
+import { useReducedMotion, motion } from "framer-motion";
+import { NoiseOverlay } from "@/components/ui/noise-overlay";
+import { captionUppercase } from "@/lib/styles";
+import { trip } from "@/content/trip";
+
+const sigStyle = { ...captionUppercase, color: "var(--color-slate)", lineHeight: 1.45 };
+
+const SPRING = { type: "spring", stiffness: 220, damping: 11 } as const;
+const VIEWPORT = { once: true, margin: "-80px" } as const;
+
+const HEADLINE_ROTATE = 2;
+const DATE_ROTATE = -2;
+const EMAIL_ROTATE = 1.67;
+
+const headlineMotion = {
+  initial: { rotate: 0 },
+  whileInView: { rotate: HEADLINE_ROTATE },
+  viewport: VIEWPORT,
+  transition: { ...SPRING, delay: 0.15 },
+};
+const dateMotion = {
+  initial: { rotate: 0 },
+  whileInView: { rotate: DATE_ROTATE },
+  viewport: VIEWPORT,
+  transition: { ...SPRING, delay: 0.35 },
+};
+const emailMotion = {
+  initial: { rotate: 0 },
+  whileInView: { rotate: EMAIL_ROTATE },
+  viewport: VIEWPORT,
+  transition: { ...SPRING, delay: 0.55 },
+};
 
 export function Footer() {
+  const reduced = useReducedMotion();
+
   return (
     <footer
-      className="relative overflow-hidden"
-      style={{ backgroundColor: "var(--color-magenta-light)", minHeight: "230px" }}
+      id="contacts-bottom"
+      className="relative w-full overflow-hidden bg-[var(--color-magenta-light)]"
     >
-      <div className="relative mx-auto max-w-7xl px-5 md:px-10 h-full flex items-center" style={{ minHeight: "230px" }}>
-        {/* Big brand name in magenta color */}
-        <span
-          className="text-[var(--color-magenta)]"
-          style={{
-            fontFamily: "var(--font-bricolage), sans-serif",
-            fontSize: "clamp(3rem, 8vw, 6rem)",
-            fontWeight: 700,
-            lineHeight: 0.95,
-          }}
-        >
-          {site.footerBrand}
-        </span>
+      <NoiseOverlay />
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-10 py-16 text-center md:gap-7 md:py-20 lg:py-24">
+        {reduced ? (
+          <h2
+            className="text-[var(--color-mist)]"
+            style={{ ...headlineBaseStyle, transform: `rotate(${HEADLINE_ROTATE}deg)` }}
+          >
+            {trip.footerHeadline}
+          </h2>
+        ) : (
+          <motion.h2
+            {...headlineMotion}
+            className="text-[var(--color-mist)]"
+            style={headlineBaseStyle}
+          >
+            {trip.footerHeadline}
+          </motion.h2>
+        )}
 
-        {/* Right side — collaboration text (positioned per Figma) */}
-        <div className="absolute right-10 md:right-20 top-1/2 -translate-y-1/2 hidden md:flex flex-col items-end gap-2">
-          <p
-            style={{
-              fontFamily: "var(--font-typewriter), serif",
-              fontSize: "14px",
-              color: "var(--color-slate)",
-              letterSpacing: "0.09em",
-              textTransform: "uppercase",
-            }}
-          >
-            {site.footerTagline}
+        <div className="flex w-full max-w-[420px] flex-col items-center gap-1">
+          <p style={sigStyle}>
+            <RotatedSpan reduced={reduced} motion={dateMotion} rotate={DATE_ROTATE}>
+              {trip.footerDate}
+            </RotatedSpan>
           </p>
-          <p
-            style={{
-              fontFamily: "var(--font-typewriter), serif",
-              fontSize: "14px",
-              color: "var(--color-slate)",
-              letterSpacing: "0.09em",
-              textTransform: "uppercase",
-              transform: "rotate(1.67deg)",
-            }}
-          >
-            {site.footerEmail}
-          </p>
+          <p style={sigStyle}>{trip.footerCollaboration}</p>
+          <a href={`mailto:${trip.footerEmail}`} className="hover-fade" style={sigStyle}>
+            <RotatedSpan reduced={reduced} motion={emailMotion} rotate={EMAIL_ROTATE}>
+              {trip.footerEmail}
+            </RotatedSpan>
+          </a>
         </div>
       </div>
     </footer>
+  );
+}
+
+const headlineBaseStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "clamp(2.25rem, 8vw, 6rem)",
+  fontWeight: 700,
+  lineHeight: 0.9,
+  letterSpacing: "-0.02em",
+  maxWidth: "1100px",
+} as const;
+
+type RotatedSpanProps = {
+  reduced: boolean | null;
+  motion: typeof dateMotion;
+  rotate: number;
+  children: React.ReactNode;
+};
+
+function RotatedSpan({ reduced, motion: motionProps, rotate, children }: RotatedSpanProps) {
+  if (reduced) {
+    return (
+      <span style={{ display: "inline-block", transform: `rotate(${rotate}deg)` }}>{children}</span>
+    );
+  }
+  return (
+    <motion.span {...motionProps} style={{ display: "inline-block" }}>
+      {children}
+    </motion.span>
   );
 }

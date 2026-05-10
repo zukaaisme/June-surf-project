@@ -9,16 +9,13 @@
 @source not "../public/**";
 
 @theme {
-  /* Palette — V3 Figma (magenta/cream/mist) */
-  --color-paper:         #EFE3CC; /* cream — primary page bg */
-  --color-ink:           #1E1E1E; /* near-black text */
-  --color-slate:         #323740; /* secondary text */
-  --color-bone:          #EAEAEA; /* light grey dividers / pricing bg */
-  --color-mist:          #EEF5FF; /* pale blue surfaces (people cards, contact chips) */
-  --color-magenta:       #F095F0; /* primary accent */
-  --color-magenta-light: #FFB0FF; /* lighter magenta (nav CTA, footer, form button) */
-  --color-pink:          #FFD7FF; /* palest accent */
-  /* white is a built-in Tailwind token — no override needed */
+  /* Palette — V3 Figma iter 3 */
+  --color-paper:         #EFE3CC; /* cream — mobile drawer + photo section bg */
+  --color-slate:         #323740; /* primary text */
+  --color-bone:          #EAEBEC; /* pricing section bg */
+  --color-mist:          #EEF5FF; /* mist blue — team cards, contact chips, footer accent */
+  --color-mist-2:        #E0E9F6; /* slightly cooler mist — Tamraght tag */
+  --color-magenta-light: #FFB0FF; /* primary accent — CTAs, headlines, tag chips */
 
   /* Typography scale — exactly 6 sizes */
   --text-display:  clamp(3.25rem, 8vw, 6rem);   /* hero headline */
@@ -38,7 +35,7 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-paper);
-  color: var(--color-ink);
+  color: var(--color-slate);
 }
 
 body {
@@ -98,14 +95,28 @@ body {
 }
 
 /* ─────────────────────────────────────────
-   HOVER — only opacity 30% on clickable elements
+   HOVER — scale 0.8 + opacity 0.7 on all clickable elements
+   (Operator constraint, Figma comment iter 2)
 ───────────────────────────────────────── */
 
 .hover-fade {
-  transition: opacity 120ms ease;
+  transition: transform 160ms ease, opacity 160ms ease;
+  transform-origin: center;
 }
-.hover-fade:hover {
-  opacity: 0.3;
+.hover-fade:hover,
+.hover-fade:focus-visible {
+  transform: scale(0.95);
+  opacity: 0.95;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hover-fade {
+    transition: opacity 120ms ease;
+  }
+  .hover-fade:hover,
+  .hover-fade:focus-visible {
+    transform: none;
+    opacity: 0.95;
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -127,10 +138,17 @@ body {
   color: var(--color-slate);
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 120ms ease;
+  transition: transform 160ms ease, opacity 160ms ease;
+  transform-origin: center;
 }
-.btn-nav:hover {
-  opacity: 0.3;
+.btn-nav:hover,
+.btn-nav:focus-visible {
+  transform: scale(0.95);
+  opacity: 0.95;
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-nav { transition: opacity 120ms ease; }
+  .btn-nav:hover, .btn-nav:focus-visible { transform: none; opacity: 0.95; }
 }
 
 /* ─────────────────────────────────────────
@@ -149,12 +167,19 @@ body {
   font-family: var(--font-family-ui);
   font-size: var(--text-label);
   font-weight: 500;
-  color: white;
+  color: var(--color-slate);
   cursor: pointer;
-  transition: opacity 120ms ease;
+  transition: transform 160ms ease, opacity 160ms ease;
+  transform-origin: center;
 }
-.btn-submit:hover {
-  opacity: 0.3;
+.btn-submit:hover,
+.btn-submit:focus-visible {
+  transform: scale(0.95);
+  opacity: 0.95;
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-submit { transition: opacity 120ms ease; }
+  .btn-submit:hover, .btn-submit:focus-visible { transform: none; opacity: 0.95; }
 }
 
 /* ─────────────────────────────────────────
@@ -174,16 +199,23 @@ body {
   background-size: 128px 128px;
 }
 
+/* Form placeholder color — per Figma */
+input::placeholder,
+textarea::placeholder,
+select:invalid {
+  color: rgba(50, 55, 64, 0.3);
+}
+
 /* Focus ring — accessible */
 :focus-visible {
-  outline: 2px solid var(--color-magenta);
+  outline: 2px solid var(--color-magenta-light);
   outline-offset: 3px;
 }
 
 /* Selection */
 ::selection {
-  background-color: var(--color-pink);
-  color: var(--color-ink);
+  background-color: var(--color-magenta-light);
+  color: var(--color-slate);
 }
 
 @media (prefers-reduced-motion: reduce) {

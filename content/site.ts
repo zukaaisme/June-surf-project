@@ -5,12 +5,12 @@ export const site = {
   name: "Surf Morocco",
   tagline: "Real Morocco, Not Tourism.",
 
-  // Hero headline — per Figma (Covered By Your Grace font, large)
-  heroHeadline: "Real Morocco, Not Tourism.",
+  // Hero headline — per Figma iter 2 (Covered By Your Grace font)
+  heroHeadline: "An adventure, not tourism.",
 
-  // Hero subhead — per Figma
+  // Hero subhead — per Figma iter 2 (longer, more atmospheric)
   heroSubhead:
-    "Seven days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time doing nothing in particular.",
+    "Six days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time living a simple life. Enjoying the smell and sound of the ocean that creates memories itself.",
 
   // SEO
   seoTitle: "Surf Morocco — Real Morocco, Not Tourism. Summer 2026",
@@ -30,9 +30,5 @@ export const site = {
   // Location chip
   location: "Tamraght, Morocco",
   mapsUrl: "https://maps.app.goo.gl/4SHVHBwwkDBUa61a9",
-
-  // Footer
-  footerBrand: "Surf Morocco",
-  footerTagline: "Send me a letter if you want to collaborate",
-  footerEmail: "zukaaisme@gmail.com",
+  locationWikiUrl: "https://en.wikipedia.org/wiki/Tamraght",
 } as const;

@@ -4,14 +4,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { site } from "@/content/site";
 
-// V3 Nav — fixed (not sticky), per Figma: white bg, Special Elite links, magenta-light CTA pill
-// Mobile: hamburger drawer, cream bg
-
 const navLinks = [
   { label: "About",    href: "#about" },
-  { label: "Program",  href: "#included" },
-  { label: "House",    href: "#gallery" },
-  { label: "People",   href: "#people" },
+  { label: "Program",  href: "#program" },
+  { label: "House",    href: "#house" },
+  { label: "Team",     href: "#team" },
   { label: "Pricing",  href: "#pricing" },
   { label: "Contacts", href: "#apply" },
 ];
@@ -37,11 +34,35 @@ export function Nav() {
         className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[rgba(50,55,64,0.08)]"
         aria-label="Main navigation"
       >
-        <div className="mx-auto max-w-7xl px-5 md:px-10 h-16 flex items-center justify-between">
-          {/* Brand */}
+        <div className="mx-auto max-w-7xl px-10 h-16 flex items-center justify-between">
+          {/* Mobile: hamburger left. Desktop: brand left. */}
+          <button
+            className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 hover-fade"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+          >
+            <span
+              className={`block h-px w-6 bg-[var(--color-slate)] transition-transform origin-center duration-200 ${
+                menuOpen ? "rotate-45 translate-y-[6px]" : ""
+              }`}
+            />
+            <span
+              className={`block h-px w-6 bg-[var(--color-slate)] transition-opacity duration-200 ${
+                menuOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`block h-px w-6 bg-[var(--color-slate)] transition-transform origin-center duration-200 ${
+                menuOpen ? "-rotate-45 -translate-y-[6px]" : ""
+              }`}
+            />
+          </button>
+
           <a
             href="#"
-            className="font-display font-bold text-[var(--color-slate)] text-label hover-fade"
+            className="hidden md:inline-block font-display font-bold text-[var(--color-slate)] text-label hover-fade"
             aria-label="Surf Morocco — back to top"
           >
             {site.name}
@@ -53,7 +74,7 @@ export function Nav() {
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="font-mono-accent text-[var(--color-slate)] hover-fade"
+                  className="inline-block font-mono-accent text-[var(--color-slate)] hover-fade"
                   style={{ fontSize: "16px", letterSpacing: "0.01em", textTransform: "none", fontFamily: "var(--font-typewriter), serif" }}
                 >
                   {link.label}
@@ -62,40 +83,10 @@ export function Nav() {
             ))}
           </ul>
 
-          <div className="flex items-center gap-3">
-            {/* Apply CTA — magenta-light pill per Figma */}
-            <a
-              href="#apply"
-              className="hidden md:inline-flex btn-nav hover-fade"
-            >
-              Apply now
-            </a>
-
-            {/* Mobile hamburger */}
-            <button
-              className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 hover-fade"
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
-              <span
-                className={`block h-px w-6 bg-[var(--color-slate)] transition-transform origin-center duration-200 ${
-                  menuOpen ? "rotate-45 translate-y-[6px]" : ""
-                }`}
-              />
-              <span
-                className={`block h-px w-6 bg-[var(--color-slate)] transition-opacity duration-200 ${
-                  menuOpen ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`block h-px w-6 bg-[var(--color-slate)] transition-transform origin-center duration-200 ${
-                  menuOpen ? "-rotate-45 -translate-y-[6px]" : ""
-                }`}
-              />
-            </button>
-          </div>
+          {/* Apply CTA — visible on every breakpoint, anchored right */}
+          <a href="#apply" className="btn-nav hover-fade">
+            Apply now
+          </a>
         </div>
       </nav>
 

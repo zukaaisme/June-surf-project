@@ -1,11 +1,5 @@
 "use client";
 
-// V3 Apply / Contact section — per Figma 07-contact
-// Left: dates heading + subtext
-// Right: 4-field form (name, email, instagram, preferred plan) + textarea + submit
-// Bottom: 4 contact chips (email, whatsapp, telegram, instagram)
-// bg: white
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,20 +7,40 @@ import { applySchema, type ApplyFormValues } from "@/lib/apply-schema";
 import { trip } from "@/content/trip";
 import { site } from "@/content/site";
 import { FadeIn } from "@/components/ui/fade-in";
+import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
+import { SECTION_PADDING_Y, captionUppercase } from "@/lib/styles";
+
+const chipLabelStyle = { ...captionUppercase, color: "rgba(0,0,0,0.5)" } as const;
+const chipValueStyle = {
+  ...captionUppercase,
+  color: "var(--color-slate)",
+  wordBreak: "break-word" as const,
+  lineHeight: 1.25,
+};
+
+const CONTACTS = [
+  { label: "Email",     getValue: () => site.email,           getHref: () => `mailto:${site.email}` },
+  { label: "WhatsApp",  getValue: () => site.phone,           getHref: () => site.whatsapp },
+  { label: "Telegram",  getValue: () => site.telegramHandle,  getHref: () => site.telegram },
+  { label: "Instagram", getValue: () => site.instagramHandle, getHref: () => site.instagram },
+] as const;
 
 const fieldStyle = {
-  backgroundColor: "rgba(50,55,64,0.05)",
+  backgroundColor: "rgba(50,55,64,0.1)",
   height: "56px",
   display: "flex",
   alignItems: "center",
   padding: "0 16px",
   fontSize: "16px",
+  lineHeight: 1.3,
   fontFamily: "var(--font-bricolage), sans-serif",
+  fontWeight: 400,
   color: "var(--color-slate)",
   border: "none",
   outline: "none",
   width: "100%",
-};
+  borderRadius: 0,
+} as const;
 
 const labelStyle = {
   fontFamily: "var(--font-typewriter), serif",
@@ -35,7 +49,7 @@ const labelStyle = {
   letterSpacing: "0.01em",
   display: "block",
   marginBottom: "8px",
-};
+} as const;
 
 export function ApplyForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -63,24 +77,31 @@ export function ApplyForm() {
   }
 
   return (
-    <section id="apply" className="bg-white py-20 md:py-28 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
+    <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
+      <div className="mx-auto max-w-7xl px-10">
 
-        {/* Two-column layout: heading left, form right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
+        <div className="mb-14 grid grid-cols-1 gap-10 lg:mb-20 lg:grid-cols-2 lg:gap-16">
 
-          {/* Left — dates heading */}
+          {/* Left — dates heading + subhead */}
           <FadeIn>
-            <div className="flex flex-col gap-7">
+            <div className="flex flex-col gap-6">
               <h2
                 className="text-[var(--color-slate)]"
-                style={{ fontSize: "clamp(1.75rem, 3.5vw, 3.5rem)", fontWeight: 600, lineHeight: 1.05, letterSpacing: "-0.02em" }}
+                style={{
+                  fontFamily: "var(--font-bricolage), sans-serif",
+                  fontSize: "clamp(1.875rem, 4.5vw, 3.5rem)",
+                  fontWeight: 600,
+                  lineHeight: 1.0,
+                  letterSpacing: "-0.02em",
+                }}
               >
                 {trip.applyHeadline}
+                <br />
+                {trip.applyHeadlineLine2}
               </h2>
               <p
                 className="text-[var(--color-slate)]"
-                style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4, maxWidth: "310px" }}
+                style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4, maxWidth: "420px" }}
               >
                 {trip.applySubhead}
               </p>
@@ -90,9 +111,9 @@ export function ApplyForm() {
           {/* Right — form */}
           <FadeIn delay={0.06}>
             {submitted ? (
-              <div className="flex items-center justify-center h-full min-h-[300px]">
+              <div className="flex min-h-[300px] items-center justify-center">
                 <p
-                  className="text-[var(--color-slate)] text-center"
+                  className="text-center text-[var(--color-slate)]"
                   style={{
                     fontFamily: "var(--font-typewriter), serif",
                     fontSize: "18px",
@@ -106,7 +127,7 @@ export function ApplyForm() {
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
 
                 {/* Row 1: Name + Email */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="name" style={labelStyle}>Name *</label>
                     <input
@@ -118,7 +139,7 @@ export function ApplyForm() {
                       aria-invalid={errors.name ? "true" : "false"}
                     />
                     {errors.name && (
-                      <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.name.message}</p>
+                      <p className="mt-1 text-red-500" style={{ fontSize: "13px" }}>{errors.name.message}</p>
                     )}
                   </div>
                   <div>
@@ -132,13 +153,13 @@ export function ApplyForm() {
                       aria-invalid={errors.contact ? "true" : "false"}
                     />
                     {errors.contact && (
-                      <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.contact.message}</p>
+                      <p className="mt-1 text-red-500" style={{ fontSize: "13px" }}>{errors.contact.message}</p>
                     )}
                   </div>
                 </div>
 
                 {/* Row 2: Instagram + Preferred Plan */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="instagram" style={labelStyle}>Instagram</label>
                     <input
@@ -152,12 +173,23 @@ export function ApplyForm() {
                     <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
                     <select
                       id="plan"
-                      style={{ ...fieldStyle, cursor: "pointer" }}
+                      style={{
+                        ...fieldStyle,
+                        cursor: "pointer",
+                        appearance: "none",
+                        WebkitAppearance: "none",
+                        MozAppearance: "none",
+                        backgroundImage: `url(${CHEVRON_DOWN_URL})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 12px center",
+                        backgroundSize: "20px",
+                        paddingRight: "44px",
+                      }}
                       {...register("plan")}
                       defaultValue=""
                     >
                       <option value="" disabled>
-                        Choose plan...
+                        Choose plan…
                       </option>
                       {trip.pricingTiers.map((t) => (
                         <option key={t.id} value={t.id}>
@@ -180,11 +212,12 @@ export function ApplyForm() {
                       resize: "none",
                       padding: "16px",
                       alignItems: "flex-start",
+                      lineHeight: 1.4,
                     }}
                     {...register("message")}
                   />
                   {errors.message && (
-                    <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.message.message}</p>
+                    <p className="mt-1 text-red-500" style={{ fontSize: "13px" }}>{errors.message.message}</p>
                   )}
                 </div>
 
@@ -192,11 +225,7 @@ export function ApplyForm() {
                   <p className="text-red-500" style={{ fontSize: "14px" }}>{error}</p>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-submit"
-                >
+                <button type="submit" disabled={isSubmitting} className="btn-submit">
                   {isSubmitting ? "Sending…" : "Send Application"}
                 </button>
               </form>
@@ -204,44 +233,25 @@ export function ApplyForm() {
           </FadeIn>
         </div>
 
-        {/* Contact chips — 4 per Figma, mist bg */}
         <FadeIn delay={0.1}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Email", value: site.email },
-              { label: "WhatsApp", value: site.phone },
-              { label: "Telegram", value: site.telegramHandle },
-              { label: "Instagram", value: site.instagramHandle },
-            ].map((contact) => (
-              <div
-                key={contact.label}
-                className="flex flex-col gap-1 px-6 py-4 hover-fade"
-                style={{ backgroundColor: "var(--color-mist)" }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-typewriter), serif",
-                    fontSize: "14px",
-                    color: "var(--color-slate)",
-                    letterSpacing: "0.07em",
-                    textTransform: "uppercase",
-                  }}
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+            {CONTACTS.map(({ label, getValue, getHref }) => {
+              const href = getHref();
+              const isExternal = href.startsWith("http");
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className="hover-fade flex flex-col gap-1 px-6 py-4"
+                  style={{ backgroundColor: "var(--color-mist)" }}
                 >
-                  {contact.label}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-typewriter), serif",
-                    fontSize: "14px",
-                    color: "var(--color-slate)",
-                    letterSpacing: "0.07em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {contact.value}
-                </span>
-              </div>
-            ))}
+                  <span style={chipLabelStyle}>{label}</span>
+                  <span style={chipValueStyle}>{getValue()}</span>
+                </a>
+              );
+            })}
           </div>
         </FadeIn>
 

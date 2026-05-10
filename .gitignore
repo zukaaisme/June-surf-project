@@ -4,9 +4,17 @@ node_modules/
 .DS_Store
 /tmp/
 
+# Operator's source assets — 44 MB, kept locally for re-export only
+website content/
+
 # design-review artifacts that are reproducible / heavy and shouldn't bloat the repo
-design-review/snaps/                  # screenshots regenerable via capture.mjs
-design-review/last-review-prev.md     # previous review iteration
-design-review/figma-v3/assets/        # 48MB raw Figma assets — duplicates of public/figma, regenerable via MCP
-design-review/figma-v3/design-context.json  # raw MCP response, regenerable
-design-review/export/                  # html-to-figma export, regenerable
+# screenshots regenerable via capture.mjs
+design-review/snaps/
+# previous review iteration
+design-review/last-review-prev.md
+# 48 MB raw Figma assets — duplicates of public/figma, regenerable via MCP
+design-review/figma-v3/assets/
+# raw MCP response, regenerable
+design-review/figma-v3/design-context.json
+# html-to-figma export, regenerable
+design-review/export/

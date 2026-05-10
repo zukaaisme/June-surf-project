@@ -13,12 +13,11 @@ const OUT_DIR = path.join(__dirname, "snaps");
 const URL = "http://localhost:3000/";
 
 const SECTIONS = [
-  "intro",
+  "hero",
   "about",
-  "lifestyle",
-  "included",
-  "people",
-  "accommodation",
+  "program",
+  "house",
+  "team",
   "pricing",
   "apply",
 ];

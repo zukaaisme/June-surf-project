@@ -1,31 +1,57 @@
-// V3 About — 4-column "Not a resort / Not a checklist" cards + location tags + photo strip
-// bg: white, per Figma 02-about_section
-
-import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
+import { GallerySlider } from "@/components/gallery-slider";
+import { SECTION_PADDING_Y, captionStyle } from "@/lib/styles";
 import { trip } from "@/content/trip";
 import { site } from "@/content/site";
 
+const cardHeadingStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "clamp(1.625rem, 2.5vw, 2rem)",
+  fontWeight: 600,
+  lineHeight: 1,
+  letterSpacing: "-0.03em",
+} as const;
+
+const cardBodyStyle = {
+  fontSize: "16px",
+  fontWeight: 500,
+  lineHeight: 1.4,
+} as const;
+
+const tagBase = {
+  ...captionStyle,
+  fontSize: "16px",
+  color: "var(--color-slate)",
+  letterSpacing: "0.01em",
+} as const;
+
+const TAGS = [
+  {
+    label: site.location,
+    href: site.locationWikiUrl,
+    bg: "var(--color-mist-2)",
+    border: "var(--color-mist-2)",
+  },
+  {
+    label: "Check on Google Maps",
+    href: site.mapsUrl,
+    bg: "var(--color-magenta-light)",
+    border: "var(--color-magenta-light)",
+  },
+] as const;
+
 export function About() {
   return (
-    <section id="about" className="bg-white py-20 md:py-28 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
-
-        {/* 4-column text cards */}
+    <section id="about" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
+      <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
-            {trip.aboutCards.map((card, i) => (
-              <div key={i} className="flex flex-col gap-4">
-                <h3
-                  className="text-[var(--color-slate)]"
-                  style={{ fontSize: "32px", fontWeight: 600, lineHeight: 1, letterSpacing: "-0.03em" }}
-                >
+          <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+            {trip.aboutCards.map((card) => (
+              <div key={card.title} className="flex flex-col gap-4 pr-0 lg:pr-5">
+                <h3 className="text-[var(--color-magenta-light)]" style={cardHeadingStyle}>
                   {card.title}
                 </h3>
-                <p
-                  className="text-[var(--color-slate)]"
-                  style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4 }}
-                >
+                <p className="text-[var(--color-slate)]" style={cardBodyStyle}>
                   {card.body}
                 </p>
               </div>
@@ -33,119 +59,31 @@ export function About() {
           </div>
         </FadeIn>
 
-        {/* Location tags */}
         <FadeIn delay={0.06}>
-          <div className="flex flex-wrap gap-2 mt-16 mb-10 justify-center">
-            <span
-              className="inline-flex items-center px-2 py-1 font-mono-accent text-white"
-              style={{ backgroundColor: "var(--color-slate)", border: "2px solid var(--color-slate)" }}
-            >
-              {site.location}
-            </span>
-            <a
-              href={site.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-2 py-1 font-mono-accent underline hover-fade"
-              style={{
-                backgroundColor: "var(--color-magenta-light)",
-                border: "2px solid var(--color-magenta-light)",
-                color: "var(--color-slate)",
-              }}
-            >
-              Check on Google Maps
-            </a>
-            <span
-              className="inline-flex items-center px-2 py-1 font-mono-accent"
-              style={{
-                backgroundColor: "rgba(255,176,255,0.5)",
-                border: "2px solid var(--color-pink)",
-                color: "var(--color-slate)",
-              }}
-            >
-              More Photos
-            </span>
+          <div className="mt-14 mb-8 flex flex-wrap justify-center gap-3 md:mt-16 md:mb-10">
+            {TAGS.map((tag) => (
+              <a
+                key={tag.label}
+                href={tag.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-3 py-2 underline hover-fade"
+                style={{
+                  ...tagBase,
+                  backgroundColor: tag.bg,
+                  border: `2px solid ${tag.border}`,
+                }}
+              >
+                {tag.label}
+              </a>
+            ))}
           </div>
         </FadeIn>
-
-        {/* Photo strip — 6 cells: 5 photos + 1 dark slate void cell (Figma contact-sheet rhythm) */}
-        <FadeIn delay={0.1}>
-          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory md:grid md:grid-cols-6 md:overflow-visible">
-            {/* Cell 0 */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
-              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
-            >
-              <Image
-                src="/figma/hero-bg.png"
-                alt="Surf camp Morocco — waves and coastline"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, 17vw"
-              />
-            </div>
-            {/* Cell 1 — dark slate void (Figma negative-space tile) */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto bg-[var(--color-slate)]"
-              style={{ width: "280px", height: "396px" }}
-              aria-hidden="true"
-            />
-            {/* Cell 2 */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
-              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
-            >
-              <Image
-                src="/figma/gallery-3.png"
-                alt="Morocco landscape near Tamraght"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, 17vw"
-              />
-            </div>
-            {/* Cell 3 */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
-              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
-            >
-              <Image
-                src="/figma/gallery-2.png"
-                alt="Atlantic shore, Tamraght"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, 17vw"
-              />
-            </div>
-            {/* Cell 4 */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
-              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
-            >
-              <Image
-                src="/figma/gallery-4.png"
-                alt="Tamraght fishing village"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, 17vw"
-              />
-            </div>
-            {/* Cell 5 */}
-            <div
-              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
-              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
-            >
-              <Image
-                src="/figma/interstitial-beach.png"
-                alt="Beach at Tamraght, Morocco"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 280px, 17vw"
-              />
-            </div>
-          </div>
-        </FadeIn>
-
       </div>
+
+      <FadeIn delay={0.1}>
+        <GallerySlider photos={trip.galleryPhotos} />
+      </FadeIn>
     </section>
   );
 }

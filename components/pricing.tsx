@@ -1,117 +1,116 @@
-// V3 Pricing — "Choose what fits you better" — 3 tier cards, bg bone (#EAEAEA)
-// Cards: white bg, photo top (gallery photos), price overlay on photo, text below
-// Per Figma 06-pricing_section: 3 cards × 416px wide, photo 280px tall
-// Photos: gallery-2 (dorm), gallery-3 (shared), gallery-4 (double)
-
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
+import { NoiseOverlay } from "@/components/ui/noise-overlay";
+import { SECTION_PADDING_Y, TEXT_SHADOW_OVER_PHOTO } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
-// Distinct accommodation photos per tier (gallery-2 = dorm, gallery-3 = shared, gallery-4 = double)
-const tierPhotos = ["/figma/gallery-2.png", "/figma/gallery-3.png", "/figma/gallery-4.png"];
+const headingStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
+  fontWeight: 600,
+  lineHeight: 1.05,
+  letterSpacing: "-0.02em",
+} as const;
+
+const priceStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+  fontWeight: 600,
+  lineHeight: 1,
+  textShadow: TEXT_SHADOW_OVER_PHOTO,
+} as const;
+
+const perUnitStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "16px",
+  fontWeight: 700,
+  lineHeight: 1.4,
+  textShadow: TEXT_SHADOW_OVER_PHOTO,
+  marginTop: "4px",
+} as const;
+
+const tierNameStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "28px",
+  fontWeight: 700,
+  lineHeight: 1.2,
+} as const;
+
+const accommodationStyle = { fontSize: "16px", fontWeight: 400, lineHeight: 1.4 } as const;
+
+const descriptionStyle = {
+  fontFamily: "var(--font-typewriter), serif",
+  fontSize: "16px",
+  lineHeight: 1.4,
+  letterSpacing: "0.01em",
+} as const;
 
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-[var(--color-bone)] py-20 md:py-28 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
-
-        {/* Heading */}
+    <section
+      id="pricing"
+      className={`relative bg-[var(--color-bone)] ${SECTION_PADDING_Y} overflow-hidden`}
+    >
+      <NoiseOverlay />
+      <div className="relative mx-auto max-w-7xl px-10">
         <FadeIn>
-          <div className="text-center mb-10 md:mb-12">
-            <h2
-              className="text-[var(--color-magenta-light)] mb-4"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em" }}
-            >
+          <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
+            <h2 className="mb-4 text-[var(--color-magenta-light)]" style={headingStyle}>
               {trip.pricingHeadline}
             </h2>
             <p
-              className="text-[var(--color-slate)] mx-auto"
-              style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "600px" }}
+              className="mx-auto text-[var(--color-slate)]"
+              style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "632px" }}
             >
               {trip.pricingSubhead}
             </p>
           </div>
         </FadeIn>
 
-        {/* 3 pricing cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4 md:items-stretch">
           {trip.pricingTiers.map((tier, i) => (
-            <FadeIn key={tier.id} delay={i * 0.06}>
-              <div className="bg-white overflow-hidden flex flex-col">
-                {/* Photo with price overlay */}
-                <div className="relative overflow-hidden" style={{ height: "280px" }}>
+            <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
+              <article className="flex h-full flex-col overflow-hidden bg-white">
+                <div
+                  className="relative overflow-hidden"
+                  style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}
+                >
                   <Image
-                    src={tierPhotos[i]}
-                    alt={tier.name}
+                    src={tier.photo}
+                    alt={`${tier.name} — accommodation`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
+                    priority={i === 0}
+                    loading={i === 0 ? undefined : "lazy"}
                   />
-                  {/* Dark overlay */}
-                  <div className="absolute inset-0 bg-black/20" />
-                  {/* Price overlay — bottom left */}
-                  <div className="absolute bottom-6 left-6 flex items-end gap-2 text-white">
-                    <span
-                      style={{
-                        fontFamily: "var(--font-bricolage), sans-serif",
-                        fontSize: "72px",
-                        fontWeight: 600,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {tier.priceDisplay}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-typewriter), serif",
-                        fontSize: "16px",
-                        lineHeight: 1.4,
-                        paddingBottom: "8px",
-                      }}
-                    >
-                      {tier.perUnit}
-                    </span>
+                  <div aria-hidden="true" className="absolute inset-0 bg-[rgba(50,55,64,0.2)]" />
+                  <div className="absolute bottom-6 left-6 flex flex-col items-start text-white">
+                    <span style={priceStyle}>{tier.priceDisplay}</span>
+                    <span style={perUnitStyle}>{tier.perUnit}</span>
                   </div>
                 </div>
 
-                {/* Card content */}
-                <div className="flex flex-col gap-7 px-9 py-8 flex-1">
-                  {/* Tier name + accommodation */}
-                  <div className="flex flex-col gap-2 text-[var(--color-slate)] text-center">
-                    <h3
-                      style={{ fontSize: "32px", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em" }}
-                    >
-                      {tier.name}
-                    </h3>
-                    <p style={{ fontSize: "18px", fontWeight: 400, lineHeight: 1.4 }}>
-                      {tier.accommodation}
-                    </p>
+                <div className="flex flex-1 flex-col gap-7 px-9 pt-9 pb-9 text-center">
+                  <div className="flex flex-col gap-2 text-[var(--color-slate)]">
+                    <h3 style={tierNameStyle}>{tier.name}</h3>
+                    <p style={accommodationStyle}>{tier.accommodation}</p>
                   </div>
 
-                  {/* Divider */}
                   <div
+                    aria-hidden="true"
                     className="w-full"
                     style={{ height: "1px", backgroundColor: "rgba(50,55,64,0.15)" }}
                   />
 
-                  {/* Description */}
-                  <p
-                    className="text-[var(--color-slate)] text-center"
-                    style={{
-                      fontFamily: "var(--font-typewriter), serif",
-                      fontSize: "16px",
-                      lineHeight: 1.5,
-                      letterSpacing: "0.01em",
-                    }}
-                  >
+                  <p className="text-[var(--color-slate)]" style={descriptionStyle}>
                     {tier.description}
                   </p>
                 </div>
-              </div>
+              </article>
             </FadeIn>
           ))}
         </div>
-
       </div>
     </section>
   );
