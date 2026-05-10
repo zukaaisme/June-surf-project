@@ -1,6 +1,6 @@
 import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
-import { EmotionalIntro } from "@/components/emotional-intro";
+import { Manifesto } from "@/components/manifesto";
 import { About } from "@/components/about";
 import { LifestyleCollage } from "@/components/lifestyle-collage";
 import { Included } from "@/components/included";
@@ -8,27 +8,25 @@ import { People } from "@/components/people";
 import { Accommodation } from "@/components/accommodation";
 import { Pricing } from "@/components/pricing";
 import { ApplyForm } from "@/components/apply-form";
-import { Footer } from "@/components/footer";
 
-// Section order:
-// 01 Nav (fixed)
-// 02 Hero
-// 03 EmotionalIntro — manifesto, dark bg
-// 04 About — what you actually do there
-// 05 LifestyleCollage — film-strip candid moments
-// 06 Included — what's in every tier
-// 07 People — who you'll meet
-// 08 Accommodation — the house
-// 09 Pricing
-// 10 ApplyForm
-// 11 Footer
+// V2 section order — 10 → 9 sections (Apply + Footer merged into one closing block)
+//
+// 01 Hero          [Open]      paper      min-h-svh, 5/7 grid, one photo
+// 02 Manifesto     [Dark]      belacan    3 centered lines, py-48
+// 03 About         [Breathing] cream      7/5 grid, one photo, no inset overlay
+// 04 Lifestyle     [Dense]     paper      full-bleed 4-col photo grid
+// 05 Included      [Dense]     paper      3×3 grid, 7+2 cells
+// 06 People        [Dominant]  belacan    4 equal cards col-span-3, py-48
+// 07 Accommodation [Dark]      ink        7/5 grid, one 3/2 photo
+// 08 Pricing       [Dense]     palm       3 tier cards, no recap list
+// 09 Apply+Footer  [Breathing] paper→ink  5/7 grid, vertical contacts, ink band tail
 
 export default function Home() {
   return (
     <main>
       <Nav />
       <Hero />
-      <EmotionalIntro />
+      <Manifesto />
       <About />
       <LifestyleCollage />
       <Included />
@@ -36,7 +34,6 @@ export default function Home() {
       <Accommodation />
       <Pricing />
       <ApplyForm />
-      <Footer />
     </main>
   );
 }

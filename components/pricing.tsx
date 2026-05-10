@@ -3,11 +3,17 @@ import { Section } from "@/components/ui/section";
 import { MonoTag } from "@/components/ui/marquee-tag";
 import { FadeIn } from "@/components/ui/fade-in";
 
+// 08 Pricing — Dense beat / palm (cardamom) bg / 4-4-4 three tier cards
+// V2 diff vs V1:
+//   - Dropped the "All tiers include" recap block (duplicated Section 05 Included)
+//   - Replaced with a single mono summary line above tier cards
+//   - Dates + meta band remains below tier cards (already in section, not standalone)
+
 export function Pricing() {
-  const { pricingTiers, pricingMeta, included, dates } = trip;
+  const { pricingTiers, pricingMeta, dates } = trip;
 
   return (
-    <Section id="pricing" bg="palm">
+    <Section id="pricing" bg="palm" beat="dense">
       <FadeIn>
         <MonoTag className="block mb-8 text-[var(--color-cream)] opacity-60">
           08 / 09 &mdash; Pricing
@@ -16,37 +22,21 @@ export function Pricing() {
 
       <FadeIn delay={0.05}>
         <h2 className="font-display text-h1 text-[var(--color-paper)] mb-6">
-          Choose your space.
+          Three ways to stay.
         </h2>
       </FadeIn>
 
-      {/* Included summary — shared across all tiers */}
+      {/* One-line summary replacing the duplicated included list */}
       <FadeIn delay={0.1}>
-        <div className="mb-12 max-w-2xl">
-          <MonoTag className="block mb-4 text-[var(--color-cream)] opacity-60">
-            All tiers include
-          </MonoTag>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1">
-            {included.map((item) => (
-              <li key={item.index} className="flex gap-2 items-baseline">
-                <MonoTag className="text-[var(--color-cream)] opacity-65 flex-shrink-0">
-                  {item.index}
-                </MonoTag>
-                <span className="font-mono-accent text-[var(--color-paper)] opacity-70 normal-case">
-                  {item.title}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <MonoTag className="block mb-12 text-[var(--color-cream)] opacity-55 normal-case">
+          The week is the same for everyone. The difference is where you sleep.
+        </MonoTag>
       </FadeIn>
 
-      <div className="h-px bg-[color-mix(in_srgb,var(--color-paper)_15%,transparent)] mb-12" />
-
-      {/* Three tier cards — all cream on palm green field. Featured gets cinnamon left accent. */}
+      {/* Three tier cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
         {pricingTiers.map((tier, i) => (
-          <FadeIn key={tier.id} delay={0.1 + i * 0.07}>
+          <FadeIn key={tier.id} delay={0.15 + i * 0.07}>
             <div
               className="card flex flex-col h-full p-8 md:p-10"
               style={{
@@ -57,7 +47,7 @@ export function Pricing() {
                   : undefined,
               }}
             >
-              {/* Featured label — sticks above card visually */}
+              {/* Featured label */}
               <div className="mb-6 h-4">
                 {tier.featured && (
                   <MonoTag className="text-[var(--color-cinnamon)] opacity-80">
@@ -89,7 +79,6 @@ export function Pricing() {
                 {tier.description}
               </p>
 
-              {/* CTA — primary coral on cream */}
               <a href="#apply" className="btn btn-primary self-start">
                 Apply
               </a>
@@ -98,7 +87,7 @@ export function Pricing() {
         ))}
       </div>
 
-      {/* Dates + meta */}
+      {/* Dates + meta — 2-col band inside section */}
       <FadeIn delay={0.35}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-xl">
           <div>
@@ -129,6 +118,7 @@ export function Pricing() {
           </div>
         </div>
       </FadeIn>
+
     </Section>
   );
 }

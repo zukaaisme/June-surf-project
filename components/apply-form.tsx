@@ -11,6 +11,14 @@ import { Section } from "@/components/ui/section";
 import { MonoTag } from "@/components/ui/marquee-tag";
 import { FadeIn } from "@/components/ui/fade-in";
 
+// 09 Apply + Footer (merged) — Breathing beat / paper → ink at bottom
+// V2 diff vs V1:
+//   - Contact cards: 4-up grid → vertical list (stacked, reads slower, correct for closing)
+//   - Layout: cols 1–5 (index + h1 + dates + vertical contact) / cols 6–12 (form)
+//   - Contact card bg: cumin → transparent (editorial, no colored chips in closing beat)
+//   - Footer merged as full-width bg-ink band BELOW the grid (no standalone Footer component)
+//   - Standalone Footer component is emptied/unused — app/page.tsx no longer imports it
+
 function FieldWrapper({
   label,
   id,
@@ -51,6 +59,7 @@ function FieldWrapper({
 const inputClass =
   "w-full bg-transparent border-b border-[color-mix(in_srgb,var(--color-cardamom)_40%,transparent)] py-3 text-[var(--color-ink)] outline-none focus:border-[var(--color-cinnamon)] transition-colors placeholder:text-[var(--color-ink)] placeholder:opacity-30";
 
+// Expected shape: { label, href, handle }
 const directLinks = [
   { label: "Email",     href: `mailto:${site.email}`, handle: site.email },
   { label: "WhatsApp",  href: site.whatsapp,           handle: "+212 600 000 000" },
@@ -90,144 +99,167 @@ export function ApplyForm() {
     }
   };
 
+  const year = new Date().getFullYear();
+
   return (
-    <Section id="apply">
-      <FadeIn>
-        <MonoTag className="block mb-8">09 / 09 &mdash; Apply</MonoTag>
-      </FadeIn>
+    <>
+      {/* ── Apply section — paper bg ── */}
+      <Section id="apply" beat="breathing">
 
-      {/* Direct contact links */}
-      <FadeIn delay={0.05}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-          {directLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group card bg-[var(--color-cumin)] text-[var(--color-ink)] border-[color-mix(in_srgb,var(--color-ink)_22%,transparent)] hover:bg-[var(--color-cinnamon)] hover:text-[var(--color-cream)] hover:border-[var(--color-cinnamon)] transition-colors"
-            >
-              <MonoTag className="block mb-1 text-[var(--color-ink)] opacity-60 group-hover:text-[var(--color-cream)] group-hover:opacity-100 transition-colors">
-                {link.label}
-              </MonoTag>
-              <p className="font-mono-accent text-[var(--color-ink)] opacity-85 group-hover:text-[var(--color-cream)] group-hover:opacity-95 transition-opacity truncate normal-case">
-                {link.handle}
-              </p>
-            </a>
-          ))}
-        </div>
-      </FadeIn>
+        {/* 12-col grid: cols 1–5 left / cols 6–12 right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
 
-      <div className="h-px bg-[color-mix(in_srgb,var(--color-cardamom)_20%,transparent)] mb-16" />
+          {/* LEFT — index, h1, dates, vertical contact list */}
+          <FadeIn className="lg:col-span-5">
+            <MonoTag className="block mb-8">09 / 09 &mdash; Apply</MonoTag>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-        {/* Left — context */}
-        <FadeIn delay={0.08}>
-          <div>
-            <h2 className="font-display text-h1 text-[var(--color-ink)] mb-6">
-              Six people per wave.
+            <h2 className="font-display text-h1 text-[var(--color-ink)] mb-8">
+              Six people per group.
               <br />
-              Three waves this season.
+              Three groups this season.
             </h2>
-            <p
-              className="text-[var(--color-ink)] opacity-60 mb-8"
-              style={{ maxWidth: "42ch" }}
-            >
-              Fill in the form or reach us directly above. We&apos;ll reply
-              within a few days to check the fit and answer questions. No
-              payment until we&apos;ve spoken.
-            </p>
-            <ul className="space-y-1">
+
+            {/* Dates list */}
+            <ul className="space-y-1 mb-12">
               {trip.dates.map((d) => (
                 <li key={d.label} className="font-mono-accent text-[var(--color-ink)] opacity-50 normal-case">
                   {d.label} &mdash; {d.range}
                 </li>
               ))}
             </ul>
-          </div>
-        </FadeIn>
 
-        {/* Right — form */}
-        <FadeIn delay={0.12}>
-          <AnimatePresence mode="wait">
-            {submitted ? (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, y: reduced ? 0 : 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-start"
-              >
-                <p className="font-mono-accent text-[var(--color-ink)] opacity-70 normal-case">
-                  Thanks. We&apos;ll be in touch.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="form"
-                onSubmit={handleSubmit(onSubmit)}
-                noValidate
-                className="flex flex-col gap-6"
-              >
-                <FieldWrapper label="Name *" id="name" error={errors.name?.message}>
-                  <input
-                    id="name"
-                    type="text"
-                    autoComplete="name"
-                    placeholder="Your name"
-                    className={inputClass}
-                    aria-required="true"
-                    {...register("name")}
-                  />
-                </FieldWrapper>
+            {/* 4 contact cards — VERTICAL list (not 4-up grid) */}
+            <ul className="space-y-4">
+              {directLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-baseline gap-4"
+                  >
+                    <MonoTag className="flex-shrink-0 text-[var(--color-anise)] opacity-50 group-hover:opacity-100 transition-opacity">
+                      {link.label}
+                    </MonoTag>
+                    <span className="font-mono-accent text-[var(--color-ink)] opacity-70 group-hover:opacity-100 transition-opacity normal-case truncate">
+                      {link.handle}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
 
-                <FieldWrapper
-                  label="How to reach you *"
-                  id="contact"
-                  error={errors.contact?.message}
+          {/* RIGHT — form, single column, fields stacked */}
+          <FadeIn delay={0.1} className="lg:col-span-7">
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, y: reduced ? 0 : 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-start pt-16"
                 >
-                  <input
-                    id="contact"
-                    type="text"
-                    autoComplete="email"
-                    placeholder="Email, phone, @handle — your choice"
-                    className={inputClass}
-                    aria-required="true"
-                    {...register("contact")}
-                  />
-                </FieldWrapper>
-
-                <FieldWrapper
-                  label="Anything to add"
-                  id="message"
-                  error={errors.message?.message}
-                >
-                  <textarea
-                    id="message"
-                    rows={4}
-                    placeholder="Surf level, questions, context..."
-                    className={`${inputClass} resize-none`}
-                    {...register("message")}
-                  />
-                </FieldWrapper>
-
-                {serverError && (
-                  <p role="alert" className="font-mono-accent text-[var(--color-sriracha)] normal-case">
-                    {serverError}
+                  <p className="font-mono-accent text-[var(--color-ink)] opacity-70 normal-case">
+                    Got it. We&apos;ll write back within a day or two.
                   </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn btn-primary w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  onSubmit={handleSubmit(onSubmit)}
+                  noValidate
+                  className="flex flex-col gap-6"
                 >
-                  {isSubmitting ? "Sending..." : "Send application"}
-                </button>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </FadeIn>
+                  <FieldWrapper label="Name *" id="name" error={errors.name?.message}>
+                    <input
+                      id="name"
+                      type="text"
+                      autoComplete="name"
+                      placeholder="Your name"
+                      className={inputClass}
+                      aria-required="true"
+                      {...register("name")}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper
+                    label="How to reach you *"
+                    id="contact"
+                    error={errors.contact?.message}
+                  >
+                    <input
+                      id="contact"
+                      type="text"
+                      autoComplete="email"
+                      placeholder="Email, phone, @handle — your choice"
+                      className={inputClass}
+                      aria-required="true"
+                      {...register("contact")}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper
+                    label="Anything to add"
+                    id="message"
+                    error={errors.message?.message}
+                  >
+                    <textarea
+                      id="message"
+                      rows={4}
+                      placeholder="Surf level, questions, context..."
+                      className={`${inputClass} resize-none`}
+                      {...register("message")}
+                    />
+                  </FieldWrapper>
+
+                  {serverError && (
+                    <p role="alert" className="font-mono-accent text-[var(--color-sriracha)] normal-case">
+                      {serverError}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn btn-primary w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Sending..." : "Send application"}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </FadeIn>
+
+        </div>
+      </Section>
+
+      {/* ── Footer band — full-width bg-ink, replaces standalone Footer component ── */}
+      <div className="bg-[var(--color-ink)] px-5 py-16 md:px-10 md:py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            {/* Brand */}
+            <p className="font-display text-h2 text-[var(--color-paper)]">
+              {site.name}
+            </p>
+
+            {/* Mono copyright */}
+            <MonoTag className="text-[var(--color-cream)] opacity-40 normal-case">
+              &copy; {year} {site.copyrightName}
+            </MonoTag>
+          </div>
+
+          {/* Closing italic line */}
+          <div
+            className="mt-8 pt-8"
+            style={{ borderTop: "1px solid color-mix(in srgb, var(--color-paper) 10%, transparent)" }}
+          >
+            <p className="font-display italic text-[var(--color-paper)] opacity-40">
+              {site.footerClosing}
+            </p>
+          </div>
+        </div>
       </div>
-    </Section>
+    </>
   );
 }

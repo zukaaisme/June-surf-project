@@ -1,81 +1,75 @@
 import Image from "next/image";
 import { images } from "@/content/images";
+import { trip } from "@/content/trip";
 import { MonoTag } from "@/components/ui/marquee-tag";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Section } from "@/components/ui/section";
 
-// Accommodation: 3-photo grid above copy.
-// Captions describe what's IN the photo, not where the photo sits in the grid.
-// Caption = what you'd write if you saw the photo alone (acceptance test per spec).
-
-const housePhotos = [
-  {
-    key: "accomBlueDoor" as const,
-    caption: "BLUE DOOR",
-    desktopSpan: "md:col-span-5",
-    aspectRatio: "4/5",
-  },
-  {
-    key: "accomTerracotta" as const,
-    caption: "TERRACOTTA",
-    desktopSpan: "md:col-span-4",
-    aspectRatio: "1/1",
-  },
-  {
-    key: "accomRooftop" as const,
-    caption: "ROOFTOP",
-    desktopSpan: "md:col-span-3",
-    aspectRatio: "3/4",
-  },
-] as const;
+// 07 Accommodation — Dark beat / ink bg / 7–5 asymmetric
+// V2 diff vs V1:
+//   - bg: cream → ink
+//   - Triptych (3 photos) → ONE photo, aspect 3/2, in cols 1–7
+//   - Text right (cols 8–12), body ≤ 50ch
+//   - The other 2 accommodation photos (accomTerracotta, accomRooftop) are not rendered here.
+//     They remain in images.ts for potential Lifestyle use.
 
 export function Accommodation() {
   return (
-    <Section id="accommodation" bg="cream">
-      <FadeIn>
-        <MonoTag className="block mb-8">07 / 09 &mdash; The House</MonoTag>
-      </FadeIn>
+    <Section id="accommodation" bg="ink" beat="breathing">
 
-      {/* 3-photo collage: col-span 5 / 4 / 3 on desktop, stacked on mobile */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mb-12">
-        {housePhotos.map((photo, i) => {
-          const img = images[photo.key];
-          return (
-            <FadeIn key={photo.key} delay={i * 0.1} className={photo.desktopSpan}>
-              {/* position:relative + aspect-ratio on same element = fill safe */}
-              <div
-                className="photo relative w-full overflow-hidden"
-                style={{ aspectRatio: photo.aspectRatio }}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 40vw, 480px"
-                  className="object-cover"
-                />
-              </div>
-              <MonoTag className="block mt-2 text-[var(--color-anise)] opacity-60">
-                {photo.caption}
-              </MonoTag>
-            </FadeIn>
-          );
-        })}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+        {/* LEFT — one photo cols 1–7, aspect 3/2 */}
+        <FadeIn className="lg:col-span-7">
+          <div
+            className="photo relative w-full overflow-hidden"
+            style={{ aspectRatio: "3/2" }}
+          >
+            <Image
+              src={images.accomBlueDoor.src}
+              alt={images.accomBlueDoor.alt}
+              fill
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="object-cover"
+            />
+          </div>
+        </FadeIn>
+
+        {/* RIGHT — index, h1, body cols 8–12 */}
+        <div className="lg:col-span-5">
+          <FadeIn delay={0.1}>
+            <MonoTag className="block mb-8 text-[var(--color-cream)] opacity-60">
+              07 / 09 &mdash; The House
+            </MonoTag>
+          </FadeIn>
+
+          <FadeIn delay={0.18}>
+            <h2 className="font-display text-h1 text-[var(--color-paper)] mb-6">
+              An old house, redone over ten years.
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.26}>
+            <p
+              className="text-[var(--color-paper)] opacity-70 leading-relaxed"
+              style={{ maxWidth: "50ch" }}
+            >
+              Whitewashed walls, blue doors, terracotta floors. Six rooms, two
+              terraces, a rooftop. In the evenings, everyone seems to end up
+              there without planning to.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.34}>
+            <MonoTag className="block mt-8 text-[var(--color-paper)] opacity-50">
+              {trip.house.rooms} ROOMS &middot; {trip.house.terraces} TERRACES &middot;{" "}
+              {trip.house.features.map((f) => f.toUpperCase()).join(" · ")}
+            </MonoTag>
+          </FadeIn>
+        </div>
+
       </div>
 
-      {/* Copy */}
-      <FadeIn delay={0.25}>
-        <div className="max-w-xl">
-          <h2 className="font-display text-h1 text-[var(--color-ink)] mb-6">
-            An old house, redone slowly.
-          </h2>
-          <p className="text-[var(--color-ink)] opacity-70 leading-relaxed">
-            Whitewashed walls, blue doors, terracotta floors. A rooftop where
-            everyone ends up at sundown. Nothing was built for Instagram.
-            Everything was built to be comfortable.
-          </p>
-        </div>
-      </FadeIn>
     </Section>
   );
 }

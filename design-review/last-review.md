@@ -1,85 +1,95 @@
-# Design review — 2026-05-09 (pass 3)
+# Design review — V2 pass 2 — 2026-05-09
 
 ## Summary
 
-All five pass-2 cleanup items landed cleanly. No regressions. The page is ship-ready: section rhythm holds (paper → belacan → cream → cumin → paper → belacan → cream → palm → paper → ink), index sequence is intact, hierarchy ladders correctly, mono opacity discipline is consistent, photo content matches captions across all sections including Accommodation. Pricing now reads as a deliberate composition — three cream tiles on palm green, `MOST CHOSEN` mono caption visually grouped with the cinnamon top stripe sitting directly under it, padding generous enough for the six-element stack inside each card to breathe.
+V2 pass 2 lands clean. All four polish fixes verified in screenshots and code. Hero now reads 5/7 (photo column visibly taller than text — asymmetry restored). Included grid closes on a typographic display note (cell 8 promoted, cell 9 dropped — no more redundant mono blocks). Accommodation right column fills properly to the photo's bottom edge via the mono detail strip. Pricing summary copy now reads as a sentence, not internal numbering. Manifesto migrated to `<Section>` primitive — codebase consistency complete.
 
-No P0. No P1. Two P2 polish items remain (Hero photo C at narrow desktop, Hero bottom mono bar slightly bright) and both were explicitly deferred by operator in pass 2. Nothing new has drifted in.
+People decision (4 equal cards) is respected and **not** re-flagged. The operator chose flat-equal reading of the four collaborators over a 2/2 hierarchy. Lifestyle remains the heaviest visual moment of the page; that is now the operator's intended hierarchy, not drift.
 
----
-
-## Resolved since last review
-
-1. **`accomRooftop` photo swap.** ✓ RESOLVED. Slot 3 now shows an outdoor terrace — cushioned bench, geometric rug pattern, open sky/sea on the right. Caption-from-image test passes: "ROOFTOP" reads from the photo alone. Pairs cleanly with slot 1 (BLUE DOOR exterior) and slot 2 (TERRACOTTA zellige close-up). The triptych now reads as exterior → detail → exterior.
-2. **Pricing featured-tier accent moved from `border-left` to `border-top`.** ✓ RESOLVED. `components/pricing.tsx:55-57` confirms `borderTop: "4px solid var(--color-cinnamon)"`. Visually the cinnamon stripe sits directly under the `MOST CHOSEN` mono caption — they read as one typographic unit. Featured-tier hierarchy is now obvious from across the room without competing with the cream-on-palm contrast.
-3. **Pricing tier card padding `p-6` → `p-8 md:p-10`.** ✓ RESOLVED. `components/pricing.tsx:51` confirms `p-8 md:p-10`. The six-element vertical stack (price h1 / per-person mono / tier h2 / accommodation mono / description body / CTA) now has air. Cards no longer feel packed.
-4. **Pricing "All tiers include" indices opacity 50 → 65.** ✓ RESOLVED. `components/pricing.tsx:32` confirms `opacity-65`. The `01..08` numerals are now legible against the `opacity-70` item text without dominating. Index/item hierarchy reads correctly.
-5. **Apply contact cards mono opacity 70 → 85.** ✓ RESOLVED. Mono on cumin now lifts to legible territory in the screenshot. The contact email/phone reads cleanly against the cumin field.
-
-**Net: 5/5 fully resolved.**
+**No P0. No P1. No new P2.** V2 is ship-ready.
 
 ---
 
-## Top issues (priority order)
+## Resolved since pass 1
 
-### P0
-None.
+Pass-1 list had 5 items. Operator rejected #1 (People dominance — kept 4 equal). Remaining 4 verified:
 
-### P1
-None.
+### 1. Hero asymmetry: photo aspect 4/5 → 3/4 — RESOLVED ✓
+**File:** `components/hero.tsx:73`
+Photo is now `aspectRatio: "3/4"` at `lg:col-span-7`. Screenshot confirms: the photo column extends visibly past the bottom of the text column, restoring the felt 5/7 split. The empty paper region beside the photo is gone — text bottoms out, then bottom mono bar closes both columns at the same baseline.
 
-### P2 (deferred from pass 2 — no new drift)
-- **Hero photo C (FILM 200) busyness at 1024–1180px.** Operator deferred. Hold.
-- **Hero bottom mono bar `opacity-70` brighter than other monos.** Operator deferred. Hold.
+### 2. Included grid: cell 8 promoted, cell 9 dropped — RESOLVED ✓
+**File:** `components/included.tsx:97, 136–152`
+Grid now contains 8 cells (7 trip items + 1 display close). Final cell renders `font-display text-h2` with "Still off-season. / Still quiet." instead of two redundant mono blocks. Hairline-border-top continues the 3-col rhythm; the cell sits with `flex items-end` so the typographic close anchors to the bottom — feels like a period at the end of a paragraph, not a stray label. Screenshot shows the 3+3+2 layout reading as "7 things and a quiet final note." Correct.
 
-No new issues found in pass 3.
+### 3. Accommodation detail strip — RESOLVED ✓
+**File:** `components/accommodation.tsx:63–68`
+Below the 50ch body, a mono line: `6 ROOMS · 2 TERRACES · ROOFTOP · KITCHEN · SALON` at `opacity-50 text-[var(--color-paper)]`. The right column now closes flush with the photo's bottom edge — no more empty ink area. Skeleton parity restored: index → heading → body → media → **detail** all present.
 
----
-
-## Section-by-section
-
-- **Hero** — no change. Composition holds. P2 photo C and bottom-bar opacity unchanged.
-- **EmotionalIntro** — clean, no change.
-- **About** — clean, no change.
-- **LifestyleCollage** — clean, no change.
-- **Included** — clean, no change.
-- **People** — clean, no change.
-- **Accommodation** — fully resolved. Triptych BLUE DOOR / TERRACOTTA / ROOFTOP all match captions. The strongest content-driven set of photos on the page.
-- **Pricing** — fully resolved. Top-border accent + generous card padding + readable index numbers. Three cream tiles on palm green with `MOST CHOSEN` cinnamon-stripe pairing on the middle tier. Reads deliberate, not improvised.
-- **Apply** — fully resolved. Contact mono now WCAG-comfortable on cumin.
-- **Footer** — clean, no change.
+### 4. Polish batch — RESOLVED ✓
+- **Hero bottom mono bar opacity 70 → 60.** Verified `components/hero.tsx:114, 117`. Sits in the same opacity register as other light-bg monos. ✓
+- **Pricing summary copy.** `components/pricing.tsx:32` now reads "Same week, three places to sleep — everything else is included above." No more "section 05" internal numbering. The em-dash structure matches the page's voice. ✓
+- **Manifesto → `<Section>` primitive.** `components/manifesto.tsx:23` uses `<Section bg="belacan" beat="dominant" className="overflow-hidden">`. No more inline `<section>` opt-out. Codebase is now 100% Section-driven. ✓
 
 ---
 
-## What's working — preserve specifically
+## Drift check — anything new break?
 
-All items from pass 2 still apply. Adding pass-3 specifics:
+Walked the full screenshot stack (`desktop-FULL.png`, all section-level desktop and mobile crops). No new drift introduced by pass 2:
 
-- **Pricing featured-tier cinnamon `border-top` + `MOST CHOSEN` caption pairing.** The horizontal stripe under the mono label is the single best small move on the page. Don't refactor it back to a left border or to a different surface color.
-- **Pricing card `p-8 md:p-10`.** Don't tighten this back. The cards earn the extra padding because of the dense six-element stack inside.
-- **Pricing "All tiers include" indices at `opacity-65`.** This is the right spot — visible without dominating. Don't drift either direction.
-- **Accommodation triptych content.** All three photos earn their captions. Don't re-randomize.
-- **Apply contact mono `opacity-85`.** WCAG-comfortable. Don't reduce.
+- Bg rhythm unchanged: paper → belacan → cream → paper → paper → belacan → ink → palm → paper→ink. ✓
+- All sections still using `Section` primitive vertical padding tokens. ✓
+- Mono opacity discipline still in 50/55/60 band on light, 50/55/60 on dark. ✓
+- Photo treatment unified — `.photo` wrapper everywhere. ✓
+- Section indices `NN / 09 — Title` consistent. ✓
+- No hidden third grid. No new card variant. No rotation/parallax/slab-color regressions. ✓
 
----
-
-## Cross-section consistency
-
-- **Spacing rhythm**: `Section py-[7.5rem] md:py-40` rule still enforced everywhere except deliberate exceptions (Intro `py-40 md:py-48`, Footer half-height). ✓
-- **Heading→body**: display once → h1 every section opener → h2 for tier names + footer brand → body 17px. ✓
-- **Mono opacity**: 50/55/60 band on dark bgs, 60-65 on light bgs, 65-70 for high-priority lists (pricing index now 65). Coherent. ✓
-- **Card behavior**: `.card` + cream override + cinnamon top-border on featured tier reads consistently with the `.card` + paper bg pattern elsewhere. No drift.
-- **Section index format**: `NN / 09 — Title`, em-dash, sequential. ✓
-- **Bg alternation**: paper → belacan → cream → cumin → paper → belacan → cream → palm → paper → ink. True alternation, no warm-light stacking. ✓
+The Included grid going from 9 → 8 cells does NOT break the 3×3 promise visually — the empty bottom-right slot reads as deliberate negative space, not as a missing tile, because the typographic close sits in cell 8 and the hairline border-top doesn't extend into the empty ninth slot. This is the cleanest of the three fix options proposed in pass 1.
 
 ---
 
-## Next priorities
+## Section-by-section (pass 2 deltas only)
 
-For fullstack-dev: **none blocking.** The page is ship-ready.
+- **Hero** — photo column now tall enough to anchor right zone. Bottom mono bar opacity 60 reads quieter. Single CTA accepted as V2.1 simplification (spec was stale, not the implementation).
+- **Manifesto** — primitive migration is invisible in screenshots (intended) but now consistent in code.
+- **About** — unchanged, still correct.
+- **Lifestyle** — unchanged, still the strongest visual moment.
+- **Included** — closing cell 8 is the right move. The display "Still off-season. / Still quiet." feels like signing off the section in voice rather than meta-tagging it.
+- **People** — kept 4-equal per operator decision. Respected.
+- **Accommodation** — detail strip closes the right column. Best-balanced section on the page now.
+- **Pricing** — summary line is human language now. Dates band still bottom-left orphaned (pass-1 #7, P2, deferred — not in pass-2 scope).
+- **Apply + Footer** — unchanged, still cohesive.
 
-If operator wants optional polish later, the two deferred P2 items remain:
-1. Hero photo C narrow-desktop overlap (1024–1180px window).
-2. Hero bottom mono bar opacity 70 → 60.
+---
 
-Both are taste-level. Neither blocks shipping.
+## Open items (deferred from pass 1, NOT blocking ship)
+
+These were P2 in pass 1 and remain P2. Not required for V2 ship; revisit in V2.1 polish:
+
+- Pricing dates band orphaned bottom-left (pass 1 #7).
+- Lifestyle mobile h-scroll vs grid-cols-2 (pass 1 #8).
+- People dominance — explicitly rejected by operator. Not a future item.
+
+---
+
+## What's working — preserve
+
+1. The 4-slot skeleton is now visible AND complete in every section (Accommodation was the last holdout — fixed).
+2. The display close in Included cell 8 is a tiny but architecturally-significant move: it shows the system can use heading-scale type as a *closing voice*, not just a section opener. Worth remembering for future sections.
+3. Pricing summary copy now matches the page's "second-person, plain-spoken" register (Hero "Live Morocco, not tourism." / Manifesto "Some places aren't on the map."). Keep this voice.
+4. Hero photo aspect 3/4 + col-span-7 is now the canonical "single contained editorial photo" recipe — same shape used by Accommodation logic (3/2 there, 3/4 here, both fill their column). Don't unify them; the difference is correct.
+
+---
+
+## Verdict
+
+**V2 is ship-ready.** All four planned fixes landed. No new drift. People dominance question is closed by operator decision, not unresolved.
+
+Recommend committing on branch `v2`:
+
+```
+git add -A
+git commit -m "v2 pass 2: hero asymmetry, included close, accommodation detail, polish batch"
+```
+
+Then merge `v2` → `main` when the operator is ready. No further design-review pass needed before merge.

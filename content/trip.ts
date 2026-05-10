@@ -20,7 +20,7 @@ export const trip = {
       accommodation: "Bunk in a shared house room (4–6 people)",
       price: 890,
       currency: "EUR",
-      description: "For travelers who like company and don't mind sharing space.",
+      description: "Good if you want company. Four to six people in the room.",
       featured: false,
     },
     {
@@ -29,7 +29,7 @@ export const trip = {
       accommodation: "Your own room in the house, shared bathroom",
       price: 1290,
       currency: "EUR",
-      description: "A door you can close. Quiet mornings before surf.",
+      description: "Your own room. Shared bathroom, but you'll rarely queue.",
       featured: true,
     },
     {
@@ -38,7 +38,7 @@ export const trip = {
       accommodation: "Private room with ensuite + sea view",
       price: 1690,
       currency: "EUR",
-      description: "A little more space. A little more sky.",
+      description: "Private bathroom, sea view. More space if you need it.",
       featured: false,
     },
   ],
@@ -54,37 +54,37 @@ export const trip = {
     {
       index: "01",
       title: "Seven nights",
-      body: "Shared house or private room depending on your tier — both are real places.",
+      body: "Shared house or private room, depending on your tier. Both have the same view of the street.",
     },
     {
       index: "02",
       title: "Daily meals",
-      body: "Breakfast at the house, lunch at the port, dinner wherever the day leads.",
+      body: "Breakfast at the house at eight. Lunch at the port — usually sardines, sometimes tagine. Dinner wherever the day leads.",
     },
     {
       index: "03",
       title: "Five surf sessions",
-      body: "Guided, with a local instructor who knows every break from Anchor Point down.",
+      body: "With Yassine, who has surfed this coast since he was twelve. He knows every break from Anchor Point south.",
     },
     {
       index: "04",
       title: "Local transport",
-      body: "Airport pickup, daily rides to the beach, one inland day trip to the mountains.",
+      body: "Airport pickup from Agadir, daily rides to the beach, one day into the mountains — the Anti-Atlas, about an hour inland.",
     },
     {
       index: "05",
       title: "Hidden places",
-      body: "A few spots we don't post online — a particular cafe, a particular viewpoint.",
+      body: "A cafe near the main square that doesn't have a sign. A viewpoint above the village that takes about twenty minutes to reach.",
     },
     {
       index: "06",
       title: "Community",
-      body: "Six people who came alone, a few dinners together, no enforced social schedule.",
+      body: "Six people, usually traveling alone. A few dinners happen naturally. Nothing is mandatory.",
     },
     {
       index: "07",
       title: "Off-season calm",
-      body: "January and February. No tour buses, cheaper everything, real weather.",
+      body: "January and February. The beaches are quiet, prices are lower, and some mornings you'll want a jacket.",
     },
   ],
 
@@ -94,44 +94,51 @@ export const trip = {
       id: "hassan",
       name: "Hassan",
       role: "The Cook",
-      bio: "Cooks for everyone. Knows every spice in the souk.",
-      quote: "Food is how you understand a place.",
+      bio: "Has been cooking here since the house opened. Goes to the souk most mornings.",
+      quote: "The best part of the job is watching people try harira for the first time.",
     },
     {
       id: "yassine",
       name: "Yassine",
       role: "Surf Instructor",
-      bio: "Reads the swell better than the forecast app.",
-      quote: "The best wave is always the next one.",
+      bio: "Has surfed this coast since he was twelve. Checks the swell at five in the morning.",
+      quote: "Some weeks the swell is perfect. Some weeks we find other things to do.",
     },
     {
       id: "karim",
       name: "Karim",
       role: "House Owner",
-      bio: "Built the place with his brothers ten years ago.",
-      quote: "Every corner of this house has a story.",
+      bio: "Built this house with his brothers. Has lived in Tamraght his whole life.",
+      quote: "We didn't plan most of it. It grew.",
     },
     {
       id: "lina",
       name: "Lina",
       role: "Logistics & Organizer",
-      bio: "Handles airport runs, bookings, and the WhatsApp chaos.",
-      quote: "If it can go wrong, I've already fixed it.",
+      bio: "Handles everything before and after you arrive — airport, bookings, the WhatsApp thread.",
+      quote: "I'd rather sort something at midnight than have someone start their trip badly.",
     },
   ],
 
+  // House details — rendered in Accommodation section detail strip
+  house: {
+    rooms: 6,
+    terraces: 2,
+    features: ["rooftop", "kitchen", "salon"],
+  },
+
   // Manifesto lines — rendered staggered in About section
   manifesto: [
-    "Not a camp.",
-    "Not a resort.",
-    "Not a checklist.",
+    "A house in a fishing village.",
+    "A small group.",
+    "Seven days.",
   ],
 
   // Short version of activities — trimmed for the revised about section
   activities: [
-    "Surf the same break three days in a row until it makes sense",
-    "Walk to the point at dawn before anyone else arrives",
-    "Eat lunch at the same port stall four days running",
-    "Read a book start to finish for the first time in years",
+    "Surf the same break three days until it starts to make sense",
+    "Walk out to the point before the fishing boats come back",
+    "Eat at the same port stall enough times that they stop handing you a menu",
+    "Finish a book",
   ],
 } as const;
