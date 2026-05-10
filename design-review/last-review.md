@@ -1,95 +1,49 @@
-# Design review — V2 pass 2 — 2026-05-09
+# Design review — 2026-05-10 (V3 pass 2 — resolution check)
 
 ## Summary
-
-V2 pass 2 lands clean. All four polish fixes verified in screenshots and code. Hero now reads 5/7 (photo column visibly taller than text — asymmetry restored). Included grid closes on a typographic display note (cell 8 promoted, cell 9 dropped — no more redundant mono blocks). Accommodation right column fills properly to the photo's bottom edge via the mono detail strip. Pricing summary copy now reads as a sentence, not internal numbering. Manifesto migrated to `<Section>` primitive — codebase consistency complete.
-
-People decision (4 equal cards) is respected and **not** re-flagged. The operator chose flat-equal reading of the four collaborators over a 2/2 hierarchy. Lifestyle remains the heaviest visual moment of the page; that is now the operator's intended hierarchy, not drift.
-
-**No P0. No P1. No new P2.** V2 is ship-ready.
-
----
+Pass 1 produced 9 fix items (3 P0 + 2 P1 + 4 P2 hover/select micro-fixes). All 9 landed cleanly and are verifiable from the fresh `desktop-*.png` snaps and the source on branch `v3`. No regressions introduced. Branch is ship-ready.
 
 ## Resolved since pass 1
 
-Pass-1 list had 5 items. Operator rejected #1 (People dominance — kept 4 equal). Remaining 4 verified:
+1. **P0 Pricing prices €800/€960/€1400** — ✓
+   Verified in `content/trip.ts:21,33,43` (price + priceDisplay both updated). Live snap `desktop-07-pricing.png` shows €800 / €960 / €1400 on the three tier cards. Apply form `<select>` now derives from `trip.pricingTiers` so prices stay in sync.
 
-### 1. Hero asymmetry: photo aspect 4/5 → 3/4 — RESOLVED ✓
-**File:** `components/hero.tsx:73`
-Photo is now `aspectRatio: "3/4"` at `lg:col-span-7`. Screenshot confirms: the photo column extends visibly past the bottom of the text column, restoring the felt 5/7 split. The empty paper region beside the photo is gone — text bottoms out, then bottom mono bar closes both columns at the same baseline.
+2. **P0 People photos** — ✓
+   `content/trip.ts:100,108,116,124` adds `photoKey` per person (`hassan` / `yassine` / `karim` / `lina` for Zuka). `desktop-05-people.png` confirms four real photos: tagine bowl, surfboards lined up, blue door, hand drawing/letter. No more transparent checker.
 
-### 2. Included grid: cell 8 promoted, cell 9 dropped — RESOLVED ✓
-**File:** `components/included.tsx:97, 136–152`
-Grid now contains 8 cells (7 trip items + 1 display close). Final cell renders `font-display text-h2` with "Still off-season. / Still quiet." instead of two redundant mono blocks. Hairline-border-top continues the 3-col rhythm; the cell sits with `flex items-end` so the typographic close anchors to the bottom — feels like a period at the end of a paragraph, not a stray label. Screenshot shows the 3+3+2 layout reading as "7 things and a quiet final note." Correct.
+3. **P0 Pricing photos** — ✓
+   `desktop-07-pricing.png` shows three distinct photos (gallery-2 surfers / gallery-3 group eating / gallery-4 morning surfer) above each €-block. Placeholder `/figma/people-card-photo.png` is gone from `components/pricing.tsx`.
 
-### 3. Accommodation detail strip — RESOLVED ✓
-**File:** `components/accommodation.tsx:63–68`
-Below the 50ch body, a mono line: `6 ROOMS · 2 TERRACES · ROOFTOP · KITCHEN · SALON` at `opacity-50 text-[var(--color-paper)]`. The right column now closes flush with the photo's bottom edge — no more empty ink area. Skeleton parity restored: index → heading → body → media → **detail** all present.
+4. **P0 Shared Room copy swap** — ✓
+   `content/trip.ts:31,36`: accommodation now reads "A door you can close. Quiet mornings before surf.", description "Your own room in the house, shared bathroom.". Confirmed in pricing snap — middle card top line is the "door you can close" copy, typewriter line below the divider is the room description.
 
-### 4. Polish batch — RESOLVED ✓
-- **Hero bottom mono bar opacity 70 → 60.** Verified `components/hero.tsx:114, 117`. Sits in the same opacity register as other light-bg monos. ✓
-- **Pricing summary copy.** `components/pricing.tsx:32` now reads "Same week, three places to sleep — everything else is included above." No more "section 05" internal numbering. The em-dash structure matches the page's voice. ✓
-- **Manifesto → `<Section>` primitive.** `components/manifesto.tsx:23` uses `<Section bg="belacan" beat="dominant" className="overflow-hidden">`. No more inline `<section>` opt-out. Codebase is now 100% Section-driven. ✓
+5. **P0 Tier 3 description** — ✓
+   `content/trip.ts:47`: "Private double room. The most space, the quietest setup." — no longer the contradicting "don't mind sharing space" sentence. Visible in snap.
 
----
+6. **P1 About strip 4→6** — ✓
+   `desktop-02-about.png` shows 6-cell row at desktop: leftmost is dark slate void cell, then 5 photos (cliff, surfer-back, beach group, tagine spread, beach walker). Reads as a contact sheet, not a generic gallery — exactly the rhythm Figma calls for.
 
-## Drift check — anything new break?
+7. **P1 Hero overlay** — ✓
+   `components/hero.tsx:27` is `bg-black/25` (with explicit comment "bumped from /10"). `desktop-00-hero.png` — subhead body text under the handwritten headline is legible against the surf photo.
 
-Walked the full screenshot stack (`desktop-FULL.png`, all section-level desktop and mobile crops). No new drift introduced by pass 2:
+8. **P2 Apply form select** — ✓
+   `components/apply-form.tsx:162-166` maps options from `trip.pricingTiers`. `lib/apply-schema.ts:13` includes `plan` in the zod schema. Default disabled option "Choose plan..." renders correctly in `desktop-08-apply.png`.
 
-- Bg rhythm unchanged: paper → belacan → cream → paper → paper → belacan → ink → palm → paper→ink. ✓
-- All sections still using `Section` primitive vertical padding tokens. ✓
-- Mono opacity discipline still in 50/55/60 band on light, 50/55/60 on dark. ✓
-- Photo treatment unified — `.photo` wrapper everywhere. ✓
-- Section indices `NN / 09 — Title` consistent. ✓
-- No hidden third grid. No new card variant. No rotation/parallax/slab-color regressions. ✓
+9. **P2 Hover audit (hamburger + contact chips)** — ✓
+   `components/nav.tsx:76` hamburger button has `hover-fade`. `components/apply-form.tsx:218` contact chips have `hover-fade`. Mobile menu links and Apply button already had it. No color-shift hovers detected.
 
-The Included grid going from 9 → 8 cells does NOT break the 3×3 promise visually — the empty bottom-right slot reads as deliberate negative space, not as a missing tile, because the typographic close sits in cell 8 and the hairline border-top doesn't extend into the empty ninth slot. This is the cleanest of the three fix options proposed in pass 1.
+## New issues
+None blocking. Two minor observations (not asks):
 
----
+- **About cards copy** — three of four cards still say "Not a checklist" with identical body text. Faithful to Figma (placeholder copy on Figma's side), pass 1 already cleared this as not-a-bug. Operator can vary copy later — copywriter task, not design drift.
+- **Footer** — magenta-on-magenta "Surf Morocco" wordmark intentional per pass 1; right side reads "SEND ME A LETTER IF YOU WANT TO COLLABORATE / ZUKAAISME@GMAIL.COM" — matches Figma.
 
-## Section-by-section (pass 2 deltas only)
+## Cross-section consistency (delta vs pass 1)
+- Section bg rhythm preserved: white → white → mist → photo → white → bone → white → magenta. No regressions.
+- Spacing rhythm unchanged (still inline `style={...}` per section — pass 1's P2 token-system follow-up is still open, but explicitly out of scope for this pass).
+- Hover states now consistent: opacity-only fade across nav, hamburger, mobile menu links, Apply button, contact chips. No lifts, no color shifts. Pricing cards remain hover-less by design.
 
-- **Hero** — photo column now tall enough to anchor right zone. Bottom mono bar opacity 60 reads quieter. Single CTA accepted as V2.1 simplification (spec was stale, not the implementation).
-- **Manifesto** — primitive migration is invisible in screenshots (intended) but now consistent in code.
-- **About** — unchanged, still correct.
-- **Lifestyle** — unchanged, still the strongest visual moment.
-- **Included** — closing cell 8 is the right move. The display "Still off-season. / Still quiet." feels like signing off the section in voice rather than meta-tagging it.
-- **People** — kept 4-equal per operator decision. Respected.
-- **Accommodation** — detail strip closes the right column. Best-balanced section on the page now.
-- **Pricing** — summary line is human language now. Dates band still bottom-left orphaned (pass-1 #7, P2, deferred — not in pass-2 scope).
-- **Apply + Footer** — unchanged, still cohesive.
+## V3 final verdict
+**Ship-ready.** All 9 fix items from pass 1 resolved cleanly and verifiable from screenshots + source. No new layout bugs, no regressions, no fresh visual drift. The remaining open item (replace inline `style={{...}}` with design-token classes) is a P2 hygiene task that does not block ship.
 
----
-
-## Open items (deferred from pass 1, NOT blocking ship)
-
-These were P2 in pass 1 and remain P2. Not required for V2 ship; revisit in V2.1 polish:
-
-- Pricing dates band orphaned bottom-left (pass 1 #7).
-- Lifestyle mobile h-scroll vs grid-cols-2 (pass 1 #8).
-- People dominance — explicitly rejected by operator. Not a future item.
-
----
-
-## What's working — preserve
-
-1. The 4-slot skeleton is now visible AND complete in every section (Accommodation was the last holdout — fixed).
-2. The display close in Included cell 8 is a tiny but architecturally-significant move: it shows the system can use heading-scale type as a *closing voice*, not just a section opener. Worth remembering for future sections.
-3. Pricing summary copy now matches the page's "second-person, plain-spoken" register (Hero "Live Morocco, not tourism." / Manifesto "Some places aren't on the map."). Keep this voice.
-4. Hero photo aspect 3/4 + col-span-7 is now the canonical "single contained editorial photo" recipe — same shape used by Accommodation logic (3/2 there, 3/4 here, both fill their column). Don't unify them; the difference is correct.
-
----
-
-## Verdict
-
-**V2 is ship-ready.** All four planned fixes landed. No new drift. People dominance question is closed by operator decision, not unresolved.
-
-Recommend committing on branch `v2`:
-
-```
-git add -A
-git commit -m "v2 pass 2: hero asymmetry, included close, accommodation detail, polish batch"
-```
-
-Then merge `v2` → `main` when the operator is ready. No further design-review pass needed before merge.
+Operator can commit this branch and merge to main with confidence.

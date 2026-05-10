@@ -1,144 +1,157 @@
-// All trip-specific content: dates, pricing, included items, people bios.
-// Edit this file to update season details, prices, or team.
+// All trip-specific content: dates, pricing, included items, people bios — V3
+// Prices and dates updated per Figma/operator spec.
 
 export const trip = {
-  season: "Winter 2026",
+  season: "Summer 2026",
   location: "Tamraght, Morocco",
-  duration: "7 nights",
+  duration: "7 days",
 
+  // Nearest dates — per Figma apply section
+  nearestDates: "24 June – 1 July",
   dates: [
-    { label: "Wave 1", range: "Jan 18 – Jan 25, 2026" },
-    { label: "Wave 2", range: "Feb 1 – Feb 8, 2026" },
-    { label: "Wave 3", range: "Feb 15 – Feb 22, 2026" },
+    { label: "Wave 1", range: "24 June – 1 July, 2026" },
   ],
 
-  // Three pricing tiers. All include the same experience — only accommodation differs.
+  // Pricing tiers — prices per Figma: €800 / €960 / €1400
   pricingTiers: [
+    {
+      id: "dorm",
+      name: "Dorm Room",
+      accommodation: "Bunk in a shared house room (4–6 people)",
+      price: 800,
+      priceDisplay: "€800",
+      perUnit: "/per person",
+      currency: "EUR",
+      description: "For travelers who like company and don't mind sharing space.",
+      featured: false,
+    },
     {
       id: "shared",
       name: "Shared Room",
-      accommodation: "Bunk in a shared house room (4–6 people)",
-      price: 890,
+      accommodation: "A door you can close. Quiet mornings before surf.",
+      price: 960,
+      priceDisplay: "€960",
+      perUnit: "/per person",
       currency: "EUR",
-      description: "Good if you want company. Four to six people in the room.",
-      featured: false,
-    },
-    {
-      id: "private",
-      name: "Private Room",
-      accommodation: "Your own room in the house, shared bathroom",
-      price: 1290,
-      currency: "EUR",
-      description: "Your own room. Shared bathroom, but you'll rarely queue.",
+      description: "Your own room in the house, shared bathroom.",
       featured: true,
     },
     {
-      id: "premium",
-      name: "Premium Stay",
-      accommodation: "Private room with ensuite + sea view",
-      price: 1690,
+      id: "double",
+      name: "Double Bed",
+      accommodation: "Private room with double bed",
+      price: 1400,
+      priceDisplay: "€1400",
+      perUnit: "/per couple",
       currency: "EUR",
-      description: "Private bathroom, sea view. More space if you need it.",
+      description: "Private double room. The most space, the quietest setup.",
       featured: false,
     },
   ],
 
-  // Shared across all tiers
-  pricingMeta: {
-    deposit: "300 EUR deposit to hold your spot",
-    spots: "6 people maximum per wave",
-    deposit_note: "Balance due 30 days before arrival.",
-  },
-
+  // Included — 7 items per Figma icon grid
   included: [
     {
-      index: "01",
-      title: "Seven nights",
-      body: "Shared house or private room, depending on your tier. Both have the same view of the street.",
+      icon: "seven_days" as const,
+      title: "Seven days",
+      body: "Shared house or private room depending on your tier — both are real places.",
     },
     {
-      index: "02",
-      title: "Daily meals",
-      body: "Breakfast at the house at eight. Lunch at the port — usually sardines, sometimes tagine. Dinner wherever the day leads.",
+      icon: "food" as const,
+      title: "Food",
+      body: "Breakfast at the house, lunch at the port, dinner wherever the day leads.",
     },
     {
-      index: "03",
-      title: "Five surf sessions",
-      body: "With Yassine, who has surfed this coast since he was twelve. He knows every break from Anchor Point south.",
+      icon: "surf" as const,
+      title: "Surf sessions",
+      body: "Guided, with a local instructor who knows every break from Anchor Point down.",
     },
     {
-      index: "04",
-      title: "Local transport",
-      body: "Airport pickup from Agadir, daily rides to the beach, one day into the mountains — the Anti-Atlas, about an hour inland.",
+      icon: "transfer" as const,
+      title: "Transfer",
+      body: "Airport pickup, daily rides to the beach, one inland day trip to the mountains.",
     },
     {
-      index: "05",
-      title: "Hidden places",
-      body: "A cafe near the main square that doesn't have a sign. A viewpoint above the village that takes about twenty minutes to reach.",
+      icon: "place_to_stay" as const,
+      title: "Place to stay",
+      body: "Shared house or private room depending on your tier — both are real places.",
     },
     {
-      index: "06",
+      icon: "community" as const,
       title: "Community",
-      body: "Six people, usually traveling alone. A few dinners happen naturally. Nothing is mandatory.",
+      body: "Breakfast at the house, lunch at the port, dinner wherever the day leads.",
     },
     {
-      index: "07",
+      icon: "season" as const,
       title: "Off-season calm",
-      body: "January and February. The beaches are quiet, prices are lower, and some mornings you'll want a jacket.",
+      body: "Guided, with a local instructor who knows every break from Anchor Point down.",
     },
   ],
 
-  // The people who run and inhabit this place
+  // People — per Figma cards
+  // photoKey maps to content/images.ts keys for per-person photos
   people: [
     {
       id: "hassan",
       name: "Hassan",
       role: "The Cook",
-      bio: "Has been cooking here since the house opened. Goes to the souk most mornings.",
-      quote: "The best part of the job is watching people try harira for the first time.",
+      bio: "Cooks for everyone. Knows every spice in the souk.",
+      quote: "Food is how you understand a place.",
+      photoKey: "hassan" as const,
     },
     {
       id: "yassine",
       name: "Yassine",
-      role: "Surf Instructor",
-      bio: "Has surfed this coast since he was twelve. Checks the swell at five in the morning.",
-      quote: "Some weeks the swell is perfect. Some weeks we find other things to do.",
+      role: "The Instructor",
+      bio: "Reads the swell better than the forecast app.",
+      quote: "The best wave is always the next one.",
+      photoKey: "yassine" as const,
     },
     {
       id: "karim",
       name: "Karim",
-      role: "House Owner",
-      bio: "Built this house with his brothers. Has lived in Tamraght his whole life.",
-      quote: "We didn't plan most of it. It grew.",
+      role: "The Host",
+      bio: "Built the place with his brothers ten years ago.",
+      quote: "Food is how you understand a place.",
+      photoKey: "karim" as const,
     },
     {
-      id: "lina",
-      name: "Lina",
-      role: "Logistics & Organizer",
-      bio: "Handles everything before and after you arrive — airport, bookings, the WhatsApp thread.",
-      quote: "I'd rather sort something at midnight than have someone start their trip badly.",
+      id: "zuka",
+      name: "Zuka",
+      role: "The Fixer",
+      bio: "Handles airport runs, bookings, and the WhatsApp chaos.",
+      quote: "If it can go wrong, I've already fixed it.",
+      photoKey: "lina" as const,
     },
   ],
 
-  // House details — rendered in Accommodation section detail strip
-  house: {
-    rooms: 6,
-    terraces: 2,
-    features: ["rooftop", "kitchen", "salon"],
-  },
-
-  // Manifesto lines — rendered staggered in About section
-  manifesto: [
-    "A house in a fishing village.",
-    "A small group.",
-    "Seven days.",
+  // About section — 3-column cards
+  aboutCards: [
+    {
+      title: "Not a resort",
+      body: "Seven days in a fishing village that hasn't been packaged yet. Small group, real house, local food. Off-season so the beaches are empty and the prices are honest.",
+    },
+    {
+      title: "Not a checklist",
+      body: "Surf the same break three days in a row until it makes sense. Read a book start to finish for the first time in years.",
+    },
+    {
+      title: "Not a checklist",
+      body: "Surf the same break three days in a row until it makes sense. Read a book start to finish for the first time in years.",
+    },
+    {
+      title: "Not a checklist",
+      body: "Surf the same break three days in a row until it makes sense. Read a book start to finish for the first time in years.",
+    },
   ],
 
-  // Short version of activities — trimmed for the revised about section
-  activities: [
-    "Surf the same break three days until it starts to make sense",
-    "Walk out to the point before the fishing boats come back",
-    "Eat at the same port stall enough times that they stop handing you a menu",
-    "Finish a book",
-  ],
+  // Pricing section copy
+  pricingHeadline: "Choose what fits you better",
+  pricingSubhead: "All tiers include accommodation, daily meals, five surf sessions with local instructors, transport around the region, hidden spots, and the full slow-living Morocco experience. The only difference between the tiers is the type of room and living setup you choose.",
+
+  // Apply section
+  applyHeadline: "Nearest dates: 24 June – 1 July",
+  applySubhead: "We handle the logistics. The rest is you, the Atlantic, and however much of Morocco you want to absorb.",
 } as const;
+
+export type IncludedIcon = "seven_days" | "food" | "surf" | "transfer" | "place_to_stay" | "community" | "season";

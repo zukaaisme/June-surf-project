@@ -1,105 +1,151 @@
-"use client";
+// V3 About — 4-column "Not a resort / Not a checklist" cards + location tags + photo strip
+// bg: white, per Figma 02-about_section
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import { trip } from "@/content/trip";
-import { images } from "@/content/images";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Section } from "@/components/ui/section";
-import { MonoTag } from "@/components/ui/marquee-tag";
-
-// 03 About — Breathing beat / cream bg / 7–5 asymmetric
-// V2 diff vs V1:
-//   - Dropped inset overlay photo (the absolute bottom-[-2rem] polaroid-style element)
-//   - One photo only, right column (cols 8–12), aspect 4/5, sticky-top alignment
-//   - bg stays cream
-//   - 12-col grid via grid-cols-12 (was md:grid-cols-2)
-//   - Activity list uses no translateY stagger (already removed in V1, kept)
+import { trip } from "@/content/trip";
+import { site } from "@/content/site";
 
 export function About() {
-  const reduced = useReducedMotion();
-
   return (
-    <Section id="about" bg="cream" beat="breathing">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+    <section id="about" className="bg-white py-20 md:py-28 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
 
-        {/* LEFT — text block cols 1–7 */}
-        <div className="lg:col-span-7">
-          <FadeIn>
-            <MonoTag className="block mb-6">03 / 09 &mdash; About the trip</MonoTag>
-          </FadeIn>
+        {/* 4-column text cards */}
+        <FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8">
+            {trip.aboutCards.map((card, i) => (
+              <div key={i} className="flex flex-col gap-4">
+                <h3
+                  className="text-[var(--color-slate)]"
+                  style={{ fontSize: "32px", fontWeight: 600, lineHeight: 1, letterSpacing: "-0.03em" }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  className="text-[var(--color-slate)]"
+                  style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4 }}
+                >
+                  {card.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
 
-          <FadeIn delay={0.08}>
-            <h2 className="font-display text-h1 text-[var(--color-ink)] mb-8">
-              A house in a fishing village.
-              <br />
-              A small group.
-              <br />
-              Seven days.
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.16}>
-            <p
-              className="text-[var(--color-ink)] opacity-70 mb-6"
-              style={{ maxWidth: "55ch" }}
+        {/* Location tags */}
+        <FadeIn delay={0.06}>
+          <div className="flex flex-wrap gap-2 mt-16 mb-10 justify-center">
+            <span
+              className="inline-flex items-center px-2 py-1 font-mono-accent text-white"
+              style={{ backgroundColor: "var(--color-slate)", border: "2px solid var(--color-slate)" }}
             >
-              Seven days in Tamraght. Small group, real house &mdash; breakfast at
-              the table, lunch at the port, dinner somewhere different each time.
-              January and February: no crowds, no tour buses, cold mornings that
-              warm up by ten.
-            </p>
-            <p
-              className="text-[var(--color-ink)] opacity-70 mb-8"
-              style={{ maxWidth: "55ch" }}
+              {site.location}
+            </span>
+            <a
+              href={site.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-2 py-1 font-mono-accent underline hover-fade"
+              style={{
+                backgroundColor: "var(--color-magenta-light)",
+                border: "2px solid var(--color-magenta-light)",
+                color: "var(--color-slate)",
+              }}
             >
-              We handle the logistics. The rest depends on the day &mdash; some
-              days you&apos;re in the water by eight, some days you read half a
-              book and walk to the point at dusk.
-            </p>
-          </FadeIn>
+              Check on Google Maps
+            </a>
+            <span
+              className="inline-flex items-center px-2 py-1 font-mono-accent"
+              style={{
+                backgroundColor: "rgba(255,176,255,0.5)",
+                border: "2px solid var(--color-pink)",
+                color: "var(--color-slate)",
+              }}
+            >
+              More Photos
+            </span>
+          </div>
+        </FadeIn>
 
-          {/* Activities — numbered list, no stagger animation */}
-          <FadeIn delay={0.22}>
-            <ul className="space-y-3">
-              {trip.activities.map((activity, i) => (
-                <li key={activity} className="flex gap-3 items-baseline">
-                  <MonoTag className="flex-shrink-0 text-[var(--color-anise)] opacity-50">
-                    {String(i + 1).padStart(2, "0")}
-                  </MonoTag>
-                  <span className="text-[var(--color-ink)] opacity-65">
-                    {activity}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
-        </div>
-
-        {/* RIGHT — single photo cols 8–12, aspect 4/5, sticky top */}
-        <div className="lg:col-span-5 lg:sticky lg:top-24">
-          <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : 0.15, ease: "easeOut" }}
-          >
+        {/* Photo strip — 6 cells: 5 photos + 1 dark slate void cell (Figma contact-sheet rhythm) */}
+        <FadeIn delay={0.1}>
+          <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory md:grid md:grid-cols-6 md:overflow-visible">
+            {/* Cell 0 */}
             <div
-              className="photo relative w-full overflow-hidden"
-              style={{ aspectRatio: "4/5" }}
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
+              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
             >
               <Image
-                src={images.aboutSide.src}
-                alt={images.aboutSide.alt}
+                src="/figma/hero-bg.png"
+                alt="Surf camp Morocco — waves and coastline"
                 fill
-                sizes="(max-width: 1024px) 100vw, 38vw"
                 className="object-cover"
+                sizes="(max-width: 768px) 280px, 17vw"
               />
             </div>
-          </motion.div>
-        </div>
+            {/* Cell 1 — dark slate void (Figma negative-space tile) */}
+            <div
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto bg-[var(--color-slate)]"
+              style={{ width: "280px", height: "396px" }}
+              aria-hidden="true"
+            />
+            {/* Cell 2 */}
+            <div
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
+              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
+            >
+              <Image
+                src="/figma/gallery-3.png"
+                alt="Morocco landscape near Tamraght"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 280px, 17vw"
+              />
+            </div>
+            {/* Cell 3 */}
+            <div
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
+              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
+            >
+              <Image
+                src="/figma/gallery-2.png"
+                alt="Atlantic shore, Tamraght"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 280px, 17vw"
+              />
+            </div>
+            {/* Cell 4 */}
+            <div
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
+              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
+            >
+              <Image
+                src="/figma/gallery-4.png"
+                alt="Tamraght fishing village"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 280px, 17vw"
+              />
+            </div>
+            {/* Cell 5 */}
+            <div
+              className="relative shrink-0 snap-start overflow-hidden md:w-auto"
+              style={{ width: "280px", height: "396px", border: "0.74px solid rgba(50,55,64,0.1)" }}
+            >
+              <Image
+                src="/figma/interstitial-beach.png"
+                alt="Beach at Tamraght, Morocco"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 280px, 17vw"
+              />
+            </div>
+          </div>
+        </FadeIn>
 
       </div>
-    </Section>
+    </section>
   );
 }

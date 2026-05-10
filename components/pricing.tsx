@@ -1,124 +1,118 @@
-import { trip } from "@/content/trip";
-import { Section } from "@/components/ui/section";
-import { MonoTag } from "@/components/ui/marquee-tag";
-import { FadeIn } from "@/components/ui/fade-in";
+// V3 Pricing — "Choose what fits you better" — 3 tier cards, bg bone (#EAEAEA)
+// Cards: white bg, photo top (gallery photos), price overlay on photo, text below
+// Per Figma 06-pricing_section: 3 cards × 416px wide, photo 280px tall
+// Photos: gallery-2 (dorm), gallery-3 (shared), gallery-4 (double)
 
-// 08 Pricing — Dense beat / palm (cardamom) bg / 4-4-4 three tier cards
-// V2 diff vs V1:
-//   - Dropped the "All tiers include" recap block (duplicated Section 05 Included)
-//   - Replaced with a single mono summary line above tier cards
-//   - Dates + meta band remains below tier cards (already in section, not standalone)
+import Image from "next/image";
+import { FadeIn } from "@/components/ui/fade-in";
+import { trip } from "@/content/trip";
+
+// Distinct accommodation photos per tier (gallery-2 = dorm, gallery-3 = shared, gallery-4 = double)
+const tierPhotos = ["/figma/gallery-2.png", "/figma/gallery-3.png", "/figma/gallery-4.png"];
 
 export function Pricing() {
-  const { pricingTiers, pricingMeta, dates } = trip;
-
   return (
-    <Section id="pricing" bg="palm" beat="dense">
-      <FadeIn>
-        <MonoTag className="block mb-8 text-[var(--color-cream)] opacity-60">
-          08 / 09 &mdash; Pricing
-        </MonoTag>
-      </FadeIn>
+    <section id="pricing" className="bg-[var(--color-bone)] py-20 md:py-28 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
 
-      <FadeIn delay={0.05}>
-        <h2 className="font-display text-h1 text-[var(--color-paper)] mb-6">
-          Three ways to stay.
-        </h2>
-      </FadeIn>
-
-      {/* One-line summary replacing the duplicated included list */}
-      <FadeIn delay={0.1}>
-        <MonoTag className="block mb-12 text-[var(--color-cream)] opacity-55 normal-case">
-          The week is the same for everyone. The difference is where you sleep.
-        </MonoTag>
-      </FadeIn>
-
-      {/* Three tier cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
-        {pricingTiers.map((tier, i) => (
-          <FadeIn key={tier.id} delay={0.15 + i * 0.07}>
-            <div
-              className="card flex flex-col h-full p-8 md:p-10"
-              style={{
-                background: "var(--color-cream)",
-                borderColor: "color-mix(in srgb, var(--color-ink) 20%, transparent)",
-                borderTop: tier.featured
-                  ? "4px solid var(--color-cinnamon)"
-                  : undefined,
-              }}
+        {/* Heading */}
+        <FadeIn>
+          <div className="text-center mb-10 md:mb-12">
+            <h2
+              className="text-[var(--color-magenta-light)] mb-4"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em" }}
             >
-              {/* Featured label */}
-              <div className="mb-6 h-4">
-                {tier.featured && (
-                  <MonoTag className="text-[var(--color-cinnamon)] opacity-80">
-                    most chosen
-                  </MonoTag>
-                )}
+              {trip.pricingHeadline}
+            </h2>
+            <p
+              className="text-[var(--color-slate)] mx-auto"
+              style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "600px" }}
+            >
+              {trip.pricingSubhead}
+            </p>
+          </div>
+        </FadeIn>
+
+        {/* 3 pricing cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {trip.pricingTiers.map((tier, i) => (
+            <FadeIn key={tier.id} delay={i * 0.06}>
+              <div className="bg-white overflow-hidden flex flex-col">
+                {/* Photo with price overlay */}
+                <div className="relative overflow-hidden" style={{ height: "280px" }}>
+                  <Image
+                    src={tierPhotos[i]}
+                    alt={tier.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0 bg-black/20" />
+                  {/* Price overlay — bottom left */}
+                  <div className="absolute bottom-6 left-6 flex items-end gap-2 text-white">
+                    <span
+                      style={{
+                        fontFamily: "var(--font-bricolage), sans-serif",
+                        fontSize: "72px",
+                        fontWeight: 600,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {tier.priceDisplay}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-typewriter), serif",
+                        fontSize: "16px",
+                        lineHeight: 1.4,
+                        paddingBottom: "8px",
+                      }}
+                    >
+                      {tier.perUnit}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Card content */}
+                <div className="flex flex-col gap-7 px-9 py-8 flex-1">
+                  {/* Tier name + accommodation */}
+                  <div className="flex flex-col gap-2 text-[var(--color-slate)] text-center">
+                    <h3
+                      style={{ fontSize: "32px", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em" }}
+                    >
+                      {tier.name}
+                    </h3>
+                    <p style={{ fontSize: "18px", fontWeight: 400, lineHeight: 1.4 }}>
+                      {tier.accommodation}
+                    </p>
+                  </div>
+
+                  {/* Divider */}
+                  <div
+                    className="w-full"
+                    style={{ height: "1px", backgroundColor: "rgba(50,55,64,0.15)" }}
+                  />
+
+                  {/* Description */}
+                  <p
+                    className="text-[var(--color-slate)] text-center"
+                    style={{
+                      fontFamily: "var(--font-typewriter), serif",
+                      fontSize: "16px",
+                      lineHeight: 1.5,
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    {tier.description}
+                  </p>
+                </div>
               </div>
-
-              {/* Price */}
-              <p className="font-display text-h1 text-[var(--color-ink)] leading-none mb-2">
-                &euro;{tier.price.toLocaleString("en-US")}
-              </p>
-              <MonoTag className="block mb-8 text-[var(--color-ink)] opacity-55">
-                per person
-              </MonoTag>
-
-              {/* Tier name */}
-              <p className="font-display text-h2 text-[var(--color-ink)] mb-3">
-                {tier.name}
-              </p>
-
-              {/* Accommodation */}
-              <p className="font-mono-accent text-[var(--color-ink)] opacity-65 mb-6 normal-case">
-                {tier.accommodation}
-              </p>
-
-              {/* Description */}
-              <p className="text-[var(--color-ink)] opacity-75 mb-10 flex-1">
-                {tier.description}
-              </p>
-
-              <a href="#apply" className="btn btn-primary self-start">
-                Apply
-              </a>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
-
-      {/* Dates + meta — 2-col band inside section */}
-      <FadeIn delay={0.35}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-xl">
-          <div>
-            <MonoTag className="block mb-3 text-[var(--color-cream)] opacity-60">
-              Available waves
-            </MonoTag>
-            <ul className="space-y-1">
-              {dates.map((d) => (
-                <li
-                  key={d.label}
-                  className="font-mono-accent text-[var(--color-paper)] opacity-65 normal-case"
-                >
-                  {d.label} &mdash; {d.range}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="space-y-1">
-            <p className="font-mono-accent text-[var(--color-cream)] opacity-55 normal-case">
-              {pricingMeta.spots}
-            </p>
-            <p className="font-mono-accent text-[var(--color-cream)] opacity-55 normal-case">
-              {pricingMeta.deposit}
-            </p>
-            <p className="font-mono-accent text-[var(--color-cream)] opacity-45 normal-case">
-              {pricingMeta.deposit_note}
-            </p>
-          </div>
+            </FadeIn>
+          ))}
         </div>
-      </FadeIn>
 
-    </Section>
+      </div>
+    </section>
   );
 }

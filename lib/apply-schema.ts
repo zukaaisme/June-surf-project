@@ -10,6 +10,10 @@ export const applySchema = z.object({
     .string()
     .min(2, "Tell us how to reach you — email, phone, or @handle")
     .describe("Email, phone, Instagram, Telegram, WhatsApp — whatever works for you"),
+  plan: z
+    .string()
+    .optional()
+    .describe("Preferred pricing tier id: dorm | shared | double"),
   message: z
     .string()
     .max(800, "Keep it under 800 characters")

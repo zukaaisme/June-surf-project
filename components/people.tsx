@@ -1,129 +1,102 @@
-"use client";
+// V3 People — "Who you'll meet" — 4 portrait cards, mist bg
+// Per Figma 05-team_section: bg white, cards bg-mist, 308×570px each
+// Photos: per-person from content/images.ts via person.photoKey
 
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { FadeIn } from "@/components/ui/fade-in";
 import { trip } from "@/content/trip";
 import { images } from "@/content/images";
-import { Section } from "@/components/ui/section";
-import { MonoTag } from "@/components/ui/marquee-tag";
-import { FadeIn } from "@/components/ui/fade-in";
-import type { ImageKey } from "@/content/images";
-
-// 06 People — DOMINANT section / Breathing beat / belacan bg
-// V2 diff vs V1:
-//   - beat=dominant → py-48 top and bottom (the long pause earns dominance)
-//   - Two-row layout:
-//       Row A: index + h1 + intro line, cols 1–7 (left 7 of 12)
-//       Row B: 4 cards, each col-span-3 (4-up equal), 2-up tablet, 1-up mobile
-//   - Dropped per-card rotation (was -2, 1, -1, 2 degrees)
-//   - Dropped box-shadow on cards
-//   - Dropped palm corner Texture
-//   - Photo aspect ratio: 4/5 for all 4 cards (uniform per spec)
-//   - Cards use .card--polaroid (cream bg on belacan field) — no shadow
-
-const roleLabels: Record<string, string> = {
-  hassan:  "THE COOK",
-  yassine: "THE INSTRUCTOR",
-  karim:   "THE HOST",
-  lina:    "THE FIXER",
-};
 
 export function People() {
-  const reduced = useReducedMotion();
-
   return (
-    <Section id="people" bg="belacan" beat="dominant">
+    <section id="people" className="bg-white py-20 md:py-28 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
 
-      {/* Row A: index + h1 + intro, constrained to left 7/12 on large screens */}
-      <div className="mb-16 lg:mb-24">
+        {/* Heading */}
         <FadeIn>
-          <MonoTag className="block mb-8 text-[var(--color-cream)] opacity-60">
-            06 / 09 &mdash; The People
-          </MonoTag>
-        </FadeIn>
-
-        <FadeIn delay={0.05}>
           <h2
-            className="font-display text-h1 text-[var(--color-paper)] mb-6"
-            style={{ maxWidth: "22ch" }}
+            className="text-[var(--color-slate)] mb-12 md:mb-16"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", fontWeight: 700, lineHeight: 0.95, letterSpacing: "-0.02em" }}
           >
-            Who you&apos;ll meet.
+            {`Who you'll meet`}
           </h2>
         </FadeIn>
 
-        <FadeIn delay={0.1}>
-          <p
-            className="text-[var(--color-paper)] opacity-60"
-            style={{ maxWidth: "50ch" }}
-          >
-            Four people you&apos;ll spend time with during the week.
-          </p>
-        </FadeIn>
-      </div>
-
-      {/* Row B: 4 equal cards, col-span-3 each on desktop */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {trip.people.map((person, i) => {
-          const imgKey = person.id as ImageKey;
-          const img = images[imgKey];
-          const roleLabel = roleLabels[person.id] ?? person.role.toUpperCase();
-
-          return (
-            <motion.div
-              key={person.id}
-              className="card--polaroid"
-              initial={{ opacity: 0, y: reduced ? 0 : 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: reduced ? 0 : 0.6,
-                delay: reduced ? 0 : i * 0.08,
-                ease: "easeOut",
-              }}
-            >
-              {/* Photo — aspect 4/5, no rotation */}
+        {/* 4 cards grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {trip.people.map((person, i) => (
+            <FadeIn key={person.id} delay={i * 0.06}>
               <div
-                className="photo relative mb-4 overflow-hidden bg-[var(--color-cream)]"
-                style={{ aspectRatio: "4/5" }}
+                className="flex flex-col overflow-hidden"
+                style={{ backgroundColor: "var(--color-mist)" }}
               >
-                {img && (
+                {/* Photo — 308×308 equivalent, aspect square */}
+                <div className="relative w-full overflow-hidden" style={{ aspectRatio: "1/1" }}>
                   <Image
-                    src={img.src}
-                    alt={img.alt}
+                    src={images[person.photoKey].src}
+                    alt={images[person.photoKey].alt}
                     fill
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 46vw, 22vw"
                     className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
-                )}
+                  {/* Dark overlay per Figma */}
+                  <div className="absolute inset-0 bg-black/20" />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col gap-7 px-5 py-7">
+                  {/* Role + Name + Bio */}
+                  <div className="flex flex-col gap-3 text-center">
+                    <p
+                      className="text-[rgba(50,55,64,0.5)]"
+                      style={{
+                        fontFamily: "var(--font-typewriter), serif",
+                        fontSize: "16px",
+                        letterSpacing: "0.01em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {person.role}
+                    </p>
+                    <h3
+                      className="text-[var(--color-slate)]"
+                      style={{ fontSize: "28px", fontWeight: 700, lineHeight: 1.2 }}
+                    >
+                      {person.name}
+                    </h3>
+                    <p
+                      className="text-[var(--color-slate)]"
+                      style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4 }}
+                    >
+                      {person.bio}
+                    </p>
+                  </div>
+
+                  {/* Divider line */}
+                  <div
+                    className="w-full"
+                    style={{ height: "1px", backgroundColor: "rgba(50,55,64,0.15)" }}
+                  />
+
+                  {/* Quote */}
+                  <p
+                    className="text-[var(--color-slate)] text-center"
+                    style={{
+                      fontFamily: "var(--font-typewriter), serif",
+                      fontSize: "16px",
+                      lineHeight: 1.4,
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    &ldquo;{person.quote}&rdquo;
+                  </p>
+                </div>
               </div>
+            </FadeIn>
+          ))}
+        </div>
 
-              {/* Mono role */}
-              <MonoTag className="block mb-2 text-[var(--color-anise)] opacity-60">
-                {roleLabel}
-              </MonoTag>
-
-              {/* Name */}
-              <p className="font-display text-h2 font-bold text-[var(--color-ink)] mb-2">
-                {person.name}
-              </p>
-
-              {/* Bio */}
-              <p className="text-[var(--color-ink)] opacity-65 mb-4">
-                {person.bio}
-              </p>
-
-              {/* Quote — italic mono */}
-              <p
-                className="font-mono-accent text-[var(--color-belacan)] opacity-80 leading-snug italic"
-                style={{ letterSpacing: "0.02em", textTransform: "none" }}
-              >
-                &ldquo;{person.quote}&rdquo;
-              </p>
-            </motion.div>
-          );
-        })}
       </div>
-
-    </Section>
+    </section>
   );
 }

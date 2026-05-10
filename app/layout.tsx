@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Special_Elite } from "next/font/google";
+import { Bricolage_Grotesque, Special_Elite, Covered_By_Your_Grace } from "next/font/google";
 import "./globals.css";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
 import { site } from "@/content/site";
@@ -15,6 +15,13 @@ const specialElite = Special_Elite({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-typewriter",
+  display: "swap",
+});
+
+const coveredByYourGrace = Covered_By_Your_Grace({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-handwritten",
   display: "swap",
 });
 
@@ -49,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${specialElite.variable}`}
+      className={`${bricolage.variable} ${specialElite.variable} ${coveredByYourGrace.variable}`}
     >
       <body>
         <GrainOverlay />

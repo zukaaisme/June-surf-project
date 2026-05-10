@@ -1,35 +1,32 @@
 import type { ReactNode } from "react";
 
-// Vertical rhythm beats (per v2-system.md):
-//   open      — min-h-svh (Hero only, handled inline)
-//   breathing — py-40   (default)
-//   dense     — py-28
-//   dominant  — py-48
-// Container: max-w-7xl (1280) — upgraded from max-w-6xl in v2.
+// V3 Section primitive
+// bg variants map to V3 palette tokens
+// beat controls vertical padding rhythm
 
 interface SectionProps {
   id?: string;
   children: ReactNode;
   className?: string;
-  // Section background variants
-  bg?: "paper" | "cream" | "palm" | "belacan" | "ink" | "turquoise";
-  // Vertical rhythm beat — controls py-* applied to the section element
+  bg?: "paper" | "white" | "mist" | "bone" | "magenta-light" | "ink" | "slate";
   beat?: "breathing" | "dense" | "dominant";
+  fullWidth?: boolean; // escape container for full-bleed children
 }
 
-const bgMap = {
-  paper:    "bg-[var(--color-paper)]",
-  cream:    "bg-[var(--color-cream)]",
-  palm:     "bg-[var(--color-cardamom)] text-[var(--color-cream)]",
-  turquoise:"bg-[var(--color-cumin)] text-[var(--color-ink)]",
-  belacan:  "bg-[var(--color-belacan)] text-[var(--color-cream)]",
-  ink:      "bg-[var(--color-ink)] text-[var(--color-cream)]",
+const bgMap: Record<string, string> = {
+  paper:          "bg-[var(--color-paper)]",
+  white:          "bg-white",
+  mist:           "bg-[var(--color-mist)]",
+  bone:           "bg-[var(--color-bone)]",
+  "magenta-light":"bg-[var(--color-magenta-light)]",
+  ink:            "bg-[var(--color-ink)] text-white",
+  slate:          "bg-[var(--color-slate)] text-white",
 };
 
-const beatMap = {
-  breathing: "py-28 md:py-40",
-  dense:     "py-20 md:py-28",
-  dominant:  "py-32 md:py-48",
+const beatMap: Record<string, string> = {
+  breathing: "py-20 md:py-32",
+  dense:     "py-14 md:py-20",
+  dominant:  "py-28 md:py-40",
 };
 
 export function Section({
@@ -38,13 +35,18 @@ export function Section({
   className = "",
   bg = "paper",
   beat = "breathing",
+  fullWidth = false,
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={`${bgMap[bg]} ${beatMap[beat]} px-5 md:px-10 ${className}`}
+      className={`${bgMap[bg] ?? bgMap.paper} ${beatMap[beat]} ${className}`}
     >
-      <div className="mx-auto max-w-7xl">{children}</div>
+      {fullWidth ? (
+        children
+      ) : (
+        <div className="mx-auto max-w-7xl px-5 md:px-10">{children}</div>
+      )}
     </section>
   );
 }

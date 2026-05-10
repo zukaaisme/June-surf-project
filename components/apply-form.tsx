@@ -1,265 +1,251 @@
 "use client";
 
+// V3 Apply / Contact section — per Figma 07-contact
+// Left: dates heading + subtext
+// Right: 4-field form (name, email, instagram, preferred plan) + textarea + submit
+// Bottom: 4 contact chips (email, whatsapp, telegram, instagram)
+// bg: white
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { applySchema, type ApplyFormValues } from "@/lib/apply-schema";
 import { trip } from "@/content/trip";
 import { site } from "@/content/site";
-import { Section } from "@/components/ui/section";
-import { MonoTag } from "@/components/ui/marquee-tag";
 import { FadeIn } from "@/components/ui/fade-in";
 
-// 09 Apply + Footer (merged) — Breathing beat / paper → ink at bottom
-// V2 diff vs V1:
-//   - Contact cards: 4-up grid → vertical list (stacked, reads slower, correct for closing)
-//   - Layout: cols 1–5 (index + h1 + dates + vertical contact) / cols 6–12 (form)
-//   - Contact card bg: cumin → transparent (editorial, no colored chips in closing beat)
-//   - Footer merged as full-width bg-ink band BELOW the grid (no standalone Footer component)
-//   - Standalone Footer component is emptied/unused — app/page.tsx no longer imports it
+const fieldStyle = {
+  backgroundColor: "rgba(50,55,64,0.05)",
+  height: "56px",
+  display: "flex",
+  alignItems: "center",
+  padding: "0 16px",
+  fontSize: "16px",
+  fontFamily: "var(--font-bricolage), sans-serif",
+  color: "var(--color-slate)",
+  border: "none",
+  outline: "none",
+  width: "100%",
+};
 
-function FieldWrapper({
-  label,
-  id,
-  error,
-  children,
-}: {
-  label: string;
-  id: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <label
-        htmlFor={id}
-        className="font-mono-accent text-[var(--color-ink)] opacity-60"
-      >
-        {label}
-      </label>
-      {children}
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            role="alert"
-            className="font-mono-accent text-[var(--color-sriracha)] mt-1"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-          >
-            {error}
-          </motion.p>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-const inputClass =
-  "w-full bg-transparent border-b border-[color-mix(in_srgb,var(--color-cardamom)_40%,transparent)] py-3 text-[var(--color-ink)] outline-none focus:border-[var(--color-cinnamon)] transition-colors placeholder:text-[var(--color-ink)] placeholder:opacity-30";
-
-// Expected shape: { label, href, handle }
-const directLinks = [
-  { label: "Email",     href: `mailto:${site.email}`, handle: site.email },
-  { label: "WhatsApp",  href: site.whatsapp,           handle: "+212 600 000 000" },
-  { label: "Telegram",  href: site.telegram,           handle: "@surfmorocco" },
-  { label: "Instagram", href: site.instagram,          handle: "@surfmorocco" },
-] as const;
+const labelStyle = {
+  fontFamily: "var(--font-typewriter), serif",
+  fontSize: "16px",
+  color: "var(--color-slate)",
+  letterSpacing: "0.01em",
+  display: "block",
+  marginBottom: "8px",
+};
 
 export function ApplyForm() {
   const [submitted, setSubmitted] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
-  const reduced = useReducedMotion();
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ApplyFormValues>({
-    resolver: zodResolver(applySchema),
-  });
+  } = useForm<ApplyFormValues>({ resolver: zodResolver(applySchema) });
 
-  const onSubmit = async (data: ApplyFormValues) => {
-    setServerError(null);
+  async function onSubmit(data: ApplyFormValues) {
+    setError(null);
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!res.ok) {
-        const json = (await res.json()) as { error?: string };
-        setServerError(json.error ?? "Something went wrong. Please try again.");
-        return;
-      }
+      if (!res.ok) throw new Error("Server error");
       setSubmitted(true);
     } catch {
-      setServerError("Network error. Please check your connection and try again.");
+      setError("Something went wrong. Try again or write us directly.");
     }
-  };
-
-  const year = new Date().getFullYear();
+  }
 
   return (
-    <>
-      {/* ── Apply section — paper bg ── */}
-      <Section id="apply" beat="breathing">
+    <section id="apply" className="bg-white py-20 md:py-28 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-5 md:px-10">
 
-        {/* 12-col grid: cols 1–5 left / cols 6–12 right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+        {/* Two-column layout: heading left, form right */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
 
-          {/* LEFT — index, h1, dates, vertical contact list */}
-          <FadeIn className="lg:col-span-5">
-            <MonoTag className="block mb-8">09 / 09 &mdash; Apply</MonoTag>
-
-            <h2 className="font-display text-h1 text-[var(--color-ink)] mb-8">
-              Six people per group.
-              <br />
-              Three groups this season.
-            </h2>
-
-            {/* Dates list */}
-            <ul className="space-y-1 mb-12">
-              {trip.dates.map((d) => (
-                <li key={d.label} className="font-mono-accent text-[var(--color-ink)] opacity-50 normal-case">
-                  {d.label} &mdash; {d.range}
-                </li>
-              ))}
-            </ul>
-
-            {/* 4 contact cards — VERTICAL list (not 4-up grid) */}
-            <ul className="space-y-4">
-              {directLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-baseline gap-4"
-                  >
-                    <MonoTag className="flex-shrink-0 text-[var(--color-anise)] opacity-50 group-hover:opacity-100 transition-opacity">
-                      {link.label}
-                    </MonoTag>
-                    <span className="font-mono-accent text-[var(--color-ink)] opacity-70 group-hover:opacity-100 transition-opacity normal-case truncate">
-                      {link.handle}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Left — dates heading */}
+          <FadeIn>
+            <div className="flex flex-col gap-7">
+              <h2
+                className="text-[var(--color-slate)]"
+                style={{ fontSize: "clamp(1.75rem, 3.5vw, 3.5rem)", fontWeight: 600, lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                {trip.applyHeadline}
+              </h2>
+              <p
+                className="text-[var(--color-slate)]"
+                style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4, maxWidth: "310px" }}
+              >
+                {trip.applySubhead}
+              </p>
+            </div>
           </FadeIn>
 
-          {/* RIGHT — form, single column, fields stacked */}
-          <FadeIn delay={0.1} className="lg:col-span-7">
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, y: reduced ? 0 : 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-start pt-16"
+          {/* Right — form */}
+          <FadeIn delay={0.06}>
+            {submitted ? (
+              <div className="flex items-center justify-center h-full min-h-[300px]">
+                <p
+                  className="text-[var(--color-slate)] text-center"
+                  style={{
+                    fontFamily: "var(--font-typewriter), serif",
+                    fontSize: "18px",
+                    lineHeight: 1.5,
+                  }}
                 >
-                  <p className="font-mono-accent text-[var(--color-ink)] opacity-70 normal-case">
-                    Got it. We&apos;ll write back within a day or two.
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  onSubmit={handleSubmit(onSubmit)}
-                  noValidate
-                  className="flex flex-col gap-6"
-                >
-                  <FieldWrapper label="Name *" id="name" error={errors.name?.message}>
+                  Your application is on its way. We&apos;ll be in touch soon.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+
+                {/* Row 1: Name + Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" style={labelStyle}>Name *</label>
                     <input
                       id="name"
                       type="text"
-                      autoComplete="name"
                       placeholder="Your name"
-                      className={inputClass}
-                      aria-required="true"
+                      style={fieldStyle}
                       {...register("name")}
+                      aria-invalid={errors.name ? "true" : "false"}
                     />
-                  </FieldWrapper>
-
-                  <FieldWrapper
-                    label="How to reach you *"
-                    id="contact"
-                    error={errors.contact?.message}
-                  >
+                    {errors.name && (
+                      <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.name.message}</p>
+                    )}
+                  </div>
+                  <div>
+                    <label htmlFor="email" style={labelStyle}>Email *</label>
                     <input
-                      id="contact"
-                      type="text"
-                      autoComplete="email"
-                      placeholder="Email, phone, @handle — your choice"
-                      className={inputClass}
-                      aria-required="true"
+                      id="email"
+                      type="email"
+                      placeholder="example@surfcamp.com"
+                      style={fieldStyle}
                       {...register("contact")}
+                      aria-invalid={errors.contact ? "true" : "false"}
                     />
-                  </FieldWrapper>
+                    {errors.contact && (
+                      <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.contact.message}</p>
+                    )}
+                  </div>
+                </div>
 
-                  <FieldWrapper
-                    label="Anything to add"
+                {/* Row 2: Instagram + Preferred Plan */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="instagram" style={labelStyle}>Instagram</label>
+                    <input
+                      id="instagram"
+                      type="text"
+                      placeholder="Link to profile"
+                      style={fieldStyle}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
+                    <select
+                      id="plan"
+                      style={{ ...fieldStyle, cursor: "pointer" }}
+                      {...register("plan")}
+                      defaultValue=""
+                    >
+                      <option value="" disabled>
+                        Choose plan...
+                      </option>
+                      {trip.pricingTiers.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name} — {t.priceDisplay}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Additional info textarea */}
+                <div>
+                  <label htmlFor="message" style={labelStyle}>Additional Info</label>
+                  <textarea
                     id="message"
-                    error={errors.message?.message}
-                  >
-                    <textarea
-                      id="message"
-                      rows={4}
-                      placeholder="Surf level, questions, context..."
-                      className={`${inputClass} resize-none`}
-                      {...register("message")}
-                    />
-                  </FieldWrapper>
-
-                  {serverError && (
-                    <p role="alert" className="font-mono-accent text-[var(--color-sriracha)] normal-case">
-                      {serverError}
-                    </p>
+                    placeholder="Questions, do you go alone or with friends or partner, expectations or suggestions"
+                    style={{
+                      ...fieldStyle,
+                      height: "112px",
+                      resize: "none",
+                      padding: "16px",
+                      alignItems: "flex-start",
+                    }}
+                    {...register("message")}
+                  />
+                  {errors.message && (
+                    <p className="text-red-500 mt-1" style={{ fontSize: "13px" }}>{errors.message.message}</p>
                   )}
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-primary w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Sending..." : "Send application"}
-                  </button>
-                </motion.form>
-              )}
-            </AnimatePresence>
+                {error && (
+                  <p className="text-red-500" style={{ fontSize: "14px" }}>{error}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-submit"
+                >
+                  {isSubmitting ? "Sending…" : "Send Application"}
+                </button>
+              </form>
+            )}
           </FadeIn>
-
         </div>
-      </Section>
 
-      {/* ── Footer band — full-width bg-ink, replaces standalone Footer component ── */}
-      <div className="bg-[var(--color-ink)] px-5 py-16 md:px-10 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            {/* Brand */}
-            <p className="font-display text-h2 text-[var(--color-paper)]">
-              {site.name}
-            </p>
-
-            {/* Mono copyright */}
-            <MonoTag className="text-[var(--color-cream)] opacity-40 normal-case">
-              &copy; {year} {site.copyrightName}
-            </MonoTag>
+        {/* Contact chips — 4 per Figma, mist bg */}
+        <FadeIn delay={0.1}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Email", value: site.email },
+              { label: "WhatsApp", value: site.phone },
+              { label: "Telegram", value: site.telegramHandle },
+              { label: "Instagram", value: site.instagramHandle },
+            ].map((contact) => (
+              <div
+                key={contact.label}
+                className="flex flex-col gap-1 px-6 py-4 hover-fade"
+                style={{ backgroundColor: "var(--color-mist)" }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-typewriter), serif",
+                    fontSize: "14px",
+                    color: "var(--color-slate)",
+                    letterSpacing: "0.07em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {contact.label}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-typewriter), serif",
+                    fontSize: "14px",
+                    color: "var(--color-slate)",
+                    letterSpacing: "0.07em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {contact.value}
+                </span>
+              </div>
+            ))}
           </div>
+        </FadeIn>
 
-          {/* Closing italic line */}
-          <div
-            className="mt-8 pt-8"
-            style={{ borderTop: "1px solid color-mix(in srgb, var(--color-paper) 10%, transparent)" }}
-          >
-            <p className="font-display italic text-[var(--color-paper)] opacity-40">
-              {site.footerClosing}
-            </p>
-          </div>
-        </div>
       </div>
-    </>
+    </section>
   );
 }

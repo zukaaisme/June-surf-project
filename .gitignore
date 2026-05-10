@@ -3,5 +3,10 @@ node_modules/
 .env*.local
 .DS_Store
 /tmp/
-design-review/snaps/
-design-review/last-review-prev.md
+
+# design-review artifacts that are reproducible / heavy and shouldn't bloat the repo
+design-review/snaps/                  # screenshots regenerable via capture.mjs
+design-review/last-review-prev.md     # previous review iteration
+design-review/figma-v3/assets/        # 48MB raw Figma assets — duplicates of public/figma, regenerable via MCP
+design-review/figma-v3/design-context.json  # raw MCP response, regenerable
+design-review/export/                  # html-to-figma export, regenerable
