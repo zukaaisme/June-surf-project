@@ -104,13 +104,13 @@ export function Nav() {
             ))}
           </ul>
 
-          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer has its own Apply) */}
-          <a
-            href="#apply"
-            className={`btn-nav hover-fade ${menuOpen ? "hidden md:inline-flex" : ""}`}
-          >
-            Apply now
-          </a>
+          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer has its own Apply).
+              Wrapped in span because .btn-nav defines its own display outside @layer and beats the .hidden utility. */}
+          <span className={menuOpen ? "hidden md:block" : "block"}>
+            <a href="#apply" className="btn-nav hover-fade">
+              Apply now
+            </a>
+          </span>
         </div>
       </nav>
 
