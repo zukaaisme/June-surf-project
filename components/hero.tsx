@@ -56,7 +56,7 @@ export function Hero() {
             src="/figma/header-desktop.svg"
             alt=""
             aria-hidden="true"
-            className="mx-auto hidden w-full max-w-[1200px] md:block"
+            className="mx-auto hidden w-full max-w-[1000px] md:block"
             style={{ filter: `drop-shadow(${TEXT_SHADOW_HERO})` }}
           />
         </FadeIn>
