@@ -104,7 +104,7 @@ export function Nav() {
         {menuOpen && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-[var(--color-mist)] px-10 pt-16"
+            className="fixed inset-0 z-40 flex flex-col items-center bg-[var(--color-mist)] px-10 pt-16 pb-14"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -113,38 +113,41 @@ export function Nav() {
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            <ul className="flex flex-col items-center gap-6 text-center" role="list">
-              {navLinks.map((link, i) => (
-                <motion.li
-                  key={link.label}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: reduced ? 0 : i * 0.06, duration: reduced ? 0 : 0.35 }}
-                >
-                  <a
-                    href={link.href}
-                    onClick={closeMenu}
-                    className="font-display text-h1 font-bold text-[var(--color-slate)] hover-fade block"
+            {/* Top + middle area — links and Apply CTA centred in the space between nav and socials */}
+            <div className="flex w-full max-w-[420px] flex-1 flex-col items-center justify-center gap-8">
+              <ul className="flex flex-col items-center gap-6 text-center" role="list">
+                {navLinks.map((link, i) => (
+                  <motion.li
+                    key={link.label}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: reduced ? 0 : i * 0.06, duration: reduced ? 0 : 0.35 }}
                   >
-                    {link.label}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
+                    <a
+                      href={link.href}
+                      onClick={closeMenu}
+                      className="font-display text-h1 font-bold text-[var(--color-slate)] hover-fade block"
+                    >
+                      {link.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
 
-            {/* Apply CTA — full width, same shape as Send Application */}
-            <motion.a
-              href="#apply"
-              onClick={closeMenu}
-              className="btn-submit hover-fade w-full max-w-[420px]"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: reduced ? 0 : navLinks.length * 0.06, duration: reduced ? 0 : 0.35 }}
-            >
-              Apply now
-            </motion.a>
+              {/* Apply CTA — full width, same shape as Send Application */}
+              <motion.a
+                href="#apply"
+                onClick={closeMenu}
+                className="btn-submit hover-fade w-full"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: reduced ? 0 : navLinks.length * 0.06, duration: reduced ? 0 : 0.35 }}
+              >
+                Apply now
+              </motion.a>
+            </div>
 
-            {/* Social chips — same shape as contact chips, centred */}
+            {/* Social chips — pinned to the bottom, 56px from screen edge via pb-14 on the outer */}
             <motion.div
               className="flex w-full max-w-[420px] flex-col gap-3"
               initial={{ opacity: 0, y: 12 }}
