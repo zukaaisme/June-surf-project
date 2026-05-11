@@ -102,7 +102,12 @@ body {
   transition: transform 160ms ease, opacity 160ms ease;
   transform-origin: center;
 }
-.hover-fade:hover,
+@media (hover: hover) and (pointer: fine) {
+  .hover-fade:hover {
+    transform: scale(0.95);
+    opacity: 0.95;
+  }
+}
 .hover-fade:focus-visible {
   transform: scale(0.95);
   opacity: 0.95;
@@ -111,10 +116,15 @@ body {
   .hover-fade {
     transition: opacity 120ms ease;
   }
-  .hover-fade:hover,
   .hover-fade:focus-visible {
     transform: none;
     opacity: 0.95;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hover-fade:hover {
+      transform: none;
+      opacity: 0.95;
+    }
   }
 }
 
@@ -140,14 +150,22 @@ body {
   transition: transform 160ms ease, opacity 160ms ease;
   transform-origin: center;
 }
-.btn-nav:hover,
+@media (hover: hover) and (pointer: fine) {
+  .btn-nav:hover {
+    transform: scale(0.95);
+    opacity: 0.95;
+  }
+}
 .btn-nav:focus-visible {
   transform: scale(0.95);
   opacity: 0.95;
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-nav { transition: opacity 120ms ease; }
-  .btn-nav:hover, .btn-nav:focus-visible { transform: none; opacity: 0.95; }
+  .btn-nav:focus-visible { transform: none; opacity: 0.95; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-nav:hover { transform: none; opacity: 0.95; }
+  }
 }
 
 /* ─────────────────────────────────────────
@@ -171,14 +189,22 @@ body {
   transition: transform 160ms ease, opacity 160ms ease;
   transform-origin: center;
 }
-.btn-submit:hover,
+@media (hover: hover) and (pointer: fine) {
+  .btn-submit:hover {
+    transform: scale(0.95);
+    opacity: 0.95;
+  }
+}
 .btn-submit:focus-visible {
   transform: scale(0.95);
   opacity: 0.95;
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-submit { transition: opacity 120ms ease; }
-  .btn-submit:hover, .btn-submit:focus-visible { transform: none; opacity: 0.95; }
+  .btn-submit:focus-visible { transform: none; opacity: 0.95; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-submit:hover { transform: none; opacity: 0.95; }
+  }
 }
 
 /* ─────────────────────────────────────────
