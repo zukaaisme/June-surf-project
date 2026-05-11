@@ -12,7 +12,11 @@ import {
 import { useIsDesktop } from "@/lib/use-is-desktop";
 
 type Photo = { src: string; alt: string };
-type Props = { photos: readonly Photo[] };
+type Props = {
+  photos: readonly Photo[];
+  /** DOM id for the slider container — make it unique if rendering more than one slider on the page */
+  id?: string;
+};
 
 const GAP = 16;
 const PHOTO_WIDTH_CLAMP = "clamp(240px, 22vw, 340px)";
@@ -23,7 +27,7 @@ const TRACK_DESKTOP_CLASS = "relative w-full overflow-hidden";
 const TRACK_MOBILE_CLASS =
   "relative w-full overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
-export function GallerySlider({ photos }: Props) {
+export function GallerySlider({ photos, id = "gallery" }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const animEnabled = useIsDesktop();
@@ -94,7 +98,7 @@ export function GallerySlider({ photos }: Props) {
     <>
       <div
         ref={sectionRef}
-        id="gallery"
+        id={id}
         className={animEnabled ? TRACK_DESKTOP_CLASS : TRACK_MOBILE_CLASS}
         style={{ paddingTop: "8px", paddingBottom: "8px" }}
       >

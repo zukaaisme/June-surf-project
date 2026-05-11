@@ -21,9 +21,9 @@ export default function Home() {
       <Team />
       <Pricing />
       <ApplyForm />
-      {/* Repeated gallery — same bottom spacing as ApplyForm so the gap to Footer matches the gap from form to photos */}
+      {/* Slider 2 — second photo cluster after the form. Same bottom spacing as ApplyForm so the gap to Footer matches the gap from form to photos. Uses its own data array (trip.slider2Photos) so the photos can diverge later. */}
       <section className="bg-white pb-16 md:pb-20 lg:pb-24">
-        <GallerySlider photos={trip.galleryPhotos} />
+        <GallerySlider id="slider-2" photos={trip.slider2Photos} />
       </section>
       <Footer />
     </main>

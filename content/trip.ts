@@ -149,8 +149,20 @@ export const trip = {
     },
   ],
 
-  // Gallery — 7 photos per Figma slider.photos_1
+  // Gallery slider 1 — first cluster (after About section)
   galleryPhotos: [
+    { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
+    { src: "/figma/gallery/photo-2.png", alt: "Surf session on the Atlantic" },
+    { src: "/figma/gallery/photo-3.png", alt: "Village street in Tamraght" },
+    { src: "/figma/gallery/photo-4.png", alt: "House rooftop with ocean view" },
+    { src: "/figma/gallery/photo-5.png", alt: "Local food at the port" },
+    { src: "/figma/gallery/photo-6.png", alt: "Surfboards leaning on a wall" },
+    { src: "/figma/gallery/photo-7.png", alt: "Atlantic horizon from the cliffs" },
+  ],
+
+  // Gallery slider 2 — second cluster (after Apply form). Different photos go in later;
+  // for now mirrors slider 1.
+  slider2Photos: [
     { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
     { src: "/figma/gallery/photo-2.png", alt: "Surf session on the Atlantic" },
     { src: "/figma/gallery/photo-3.png", alt: "Village street in Tamraght" },
