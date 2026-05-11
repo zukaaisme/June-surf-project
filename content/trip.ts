@@ -45,7 +45,7 @@ export const trip = {
       priceDisplay: "€800",
       perUnit: "/per couple",
       currency: "EUR",
-      description: "Private double room. The most space, the quietest setup.",
+      description: "For travelers who like company and don't mind sharing space.",
       featured: false,
       photo: "/figma/pricing/tier-03.png",
     },

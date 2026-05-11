@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { FadeIn } from "@/components/ui/fade-in";
 import { GallerySlider } from "@/components/gallery-slider";
 import { SECTION_PADDING_Y, captionStyle } from "@/lib/styles";
@@ -39,21 +42,32 @@ const TAGS = [
 ] as const;
 
 export function About() {
+  const reduced = useReducedMotion();
+
   return (
     <section id="about" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
           <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {trip.aboutCards.map((card) => (
-              <div key={card.title} className="not-a-card group flex flex-col gap-4 pr-0 lg:pr-5">
-                {/* Fixed-height wrapper absorbs rotation so the body below doesn't reflow when the heading straightens on hover. */}
+            {trip.aboutCards.map((card, i) => (
+              <div key={card.title} className="flex flex-col gap-4 pr-0 lg:pr-5">
+                {/* Fixed-height wrapper absorbs rotation — body below doesn't reflow when the heading straightens. */}
                 <div className="flex h-[46px] items-center">
-                  <h3
-                    className="origin-left text-black transition-transform duration-300 ease-out group-hover:rotate-0"
-                    style={{ ...cardHeadingStyle, transform: `rotate(${card.rotate}deg)` }}
+                  <motion.h3
+                    className="origin-left text-black"
+                    style={cardHeadingStyle}
+                    initial={{ rotate: reduced ? 0 : card.rotate }}
+                    whileInView={{ rotate: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{
+                      delay: reduced ? 0 : 0.1 + i * 0.1,
+                      type: "spring",
+                      stiffness: 140,
+                      damping: 14,
+                    }}
                   >
                     {card.title}
-                  </h3>
+                  </motion.h3>
                 </div>
                 <p className="text-[var(--color-slate)]" style={cardBodyStyle}>
                   {card.body}

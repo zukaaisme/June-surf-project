@@ -73,11 +73,11 @@ export function ApplyForm() {
     <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
 
-        <div className="mb-14 grid grid-cols-1 gap-10 lg:mb-20 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
 
-          {/* Left — dates heading + subhead */}
-          <FadeIn>
-            <div className="flex flex-col gap-6">
+          {/* Left — dates heading + subhead + chips pinned to bottom on desktop */}
+          <FadeIn className="flex h-full flex-col">
+            <div className="flex h-full flex-col gap-6">
               <h2
                 className="text-[var(--color-slate)]"
                 style={{
@@ -98,6 +98,11 @@ export function ApplyForm() {
               >
                 {trip.applySubhead}
               </p>
+
+              {/* Contact chips — desktop: pinned to bottom of left column so they align with the form's Send button. Mobile: rendered below the form (see <ContactChips /> at the end). */}
+              <div className="mt-auto hidden lg:block">
+                <ContactChips />
+              </div>
             </div>
           </FadeIn>
 
@@ -227,29 +232,38 @@ export function ApplyForm() {
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.1}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-            {CONTACTS.map(({ label, getValue, getHref }) => {
-              const href = getHref();
-              const isExternal = href.startsWith("http");
-              return (
-                <a
-                  key={label}
-                  href={href}
-                  target={isExternal ? "_blank" : undefined}
-                  rel={isExternal ? "noopener noreferrer" : undefined}
-                  className="hover-fade flex h-14 items-center justify-center gap-3 sm:w-[308px]"
-                  style={{ backgroundColor: "var(--color-mist)" }}
-                >
-                  <span style={chipLabelStyle}>{label}</span>
-                  <span style={chipValueStyle}>{getValue()}</span>
-                </a>
-              );
-            })}
-          </div>
-        </FadeIn>
+        {/* Mobile-only — desktop renders chips inside the left column */}
+        <div className="mt-8 lg:hidden">
+          <FadeIn delay={0.1}>
+            <ContactChips />
+          </FadeIn>
+        </div>
 
       </div>
     </section>
+  );
+}
+
+function ContactChips() {
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+      {CONTACTS.map(({ label, getValue, getHref }) => {
+        const href = getHref();
+        const isExternal = href.startsWith("http");
+        return (
+          <a
+            key={label}
+            href={href}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            className="hover-fade flex h-14 items-center justify-center gap-3 sm:w-[308px]"
+            style={{ backgroundColor: "var(--color-mist)" }}
+          >
+            <span style={chipLabelStyle}>{label}</span>
+            <span style={chipValueStyle}>{getValue()}</span>
+          </a>
+        );
+      })}
+    </div>
   );
 }
