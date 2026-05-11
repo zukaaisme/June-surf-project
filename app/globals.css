@@ -98,14 +98,33 @@ body {
    (Operator constraint, Figma comment iter 2)
 ───────────────────────────────────────── */
 
-.hover-fade {
+.hover-fade,
+.field-fade {
   transition: transform 160ms ease, opacity 160ms ease;
   transform-origin: center;
 }
+/* Form fields: hover only (no focus-visible) so the input doesn't stay scaled while typing */
+@media (hover: hover) and (pointer: fine) {
+  .field-fade:hover:not(:focus) {
+    transform: scale(0.975);
+    opacity: 0.975;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .field-fade {
+    transition: opacity 120ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .field-fade:hover:not(:focus) {
+      transform: none;
+      opacity: 0.975;
+    }
+  }
+}
 @media (hover: hover) and (pointer: fine) {
   .hover-fade:hover {
-    transform: scale(0.95);
-    opacity: 0.95;
+    transform: scale(0.975);
+    opacity: 0.975;
   }
 }
 .hover-fade:focus-visible {
@@ -152,8 +171,8 @@ body {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-nav:hover {
-    transform: scale(0.95);
-    opacity: 0.95;
+    transform: scale(0.975);
+    opacity: 0.975;
   }
 }
 .btn-nav:focus-visible {
@@ -191,8 +210,8 @@ body {
 }
 @media (hover: hover) and (pointer: fine) {
   .btn-submit:hover {
-    transform: scale(0.95);
-    opacity: 0.95;
+    transform: scale(0.975);
+    opacity: 0.975;
   }
 }
 .btn-submit:focus-visible {

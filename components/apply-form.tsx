@@ -8,14 +8,20 @@ import { trip } from "@/content/trip";
 import { site } from "@/content/site";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
+import { TelegramIcon, InstagramIcon } from "@/components/ui/social-icons";
 import { SECTION_PADDING_Y, captionUppercase } from "@/lib/styles";
 
 const chipLabelStyle = { ...captionUppercase, color: "rgba(50,55,64,0.5)", lineHeight: 1.2 } as const;
 const chipValueStyle = { ...captionUppercase, color: "var(--color-slate)", lineHeight: 1.2 } as const;
 
-const CONTACTS = [
+const CONTACTS_DESKTOP = [
   { label: "Telegram",  getValue: () => site.telegramHandle,  getHref: () => site.telegram },
   { label: "Instagram", getValue: () => site.instagramHandle, getHref: () => site.instagram },
+] as const;
+
+const CONTACTS_MOBILE = [
+  { label: "Telegram",  href: site.telegram,  Icon: TelegramIcon },
+  { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
 ] as const;
 
 const fieldStyle = {
@@ -132,6 +138,7 @@ export function ApplyForm() {
                       id="name"
                       type="text"
                       placeholder="Your name"
+                      className="field-fade"
                       style={fieldStyle}
                       {...register("name")}
                       aria-invalid={errors.name ? "true" : "false"}
@@ -146,6 +153,7 @@ export function ApplyForm() {
                       id="email"
                       type="email"
                       placeholder="example@surfcamp.com"
+                      className="field-fade"
                       style={fieldStyle}
                       {...register("contact")}
                       aria-invalid={errors.contact ? "true" : "false"}
@@ -164,6 +172,7 @@ export function ApplyForm() {
                       id="instagram"
                       type="text"
                       placeholder="Link to profile"
+                      className="field-fade"
                       style={fieldStyle}
                       {...register("instagram")}
                     />
@@ -172,6 +181,7 @@ export function ApplyForm() {
                     <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
                     <select
                       id="plan"
+                      className="field-fade"
                       style={{
                         ...fieldStyle,
                         cursor: "pointer",
@@ -205,6 +215,7 @@ export function ApplyForm() {
                   <textarea
                     id="message"
                     placeholder="Questions, do you go alone or with friends or partner, expectations or suggestions"
+                    className="field-fade"
                     style={{
                       ...fieldStyle,
                       height: "112px",
@@ -232,10 +243,10 @@ export function ApplyForm() {
           </FadeIn>
         </div>
 
-        {/* Mobile-only — desktop renders chips inside the left column */}
-        <div className="mt-8 lg:hidden">
+        {/* Mobile-only — icon-only buttons matching the drawer's social style. Desktop renders pill chips inside the left column. */}
+        <div className="mt-6 flex justify-center gap-3 lg:hidden">
           <FadeIn delay={0.1}>
-            <ContactChips />
+            <MobileContactButtons />
           </FadeIn>
         </div>
 
@@ -244,10 +255,30 @@ export function ApplyForm() {
   );
 }
 
+function MobileContactButtons() {
+  return (
+    <div className="flex gap-3">
+      {CONTACTS_MOBILE.map(({ label, href, Icon }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={label}
+          className="hover-fade flex h-14 w-14 items-center justify-center rounded-full text-[var(--color-slate)]"
+          style={{ backgroundColor: "var(--color-mist)" }}
+        >
+          <Icon className="h-6 w-6" />
+        </a>
+      ))}
+    </div>
+  );
+}
+
 function ContactChips() {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-      {CONTACTS.map(({ label, getValue, getHref }) => {
+      {CONTACTS_DESKTOP.map(({ label, getValue, getHref }) => {
         const href = getHref();
         const isExternal = href.startsWith("http");
         return (
