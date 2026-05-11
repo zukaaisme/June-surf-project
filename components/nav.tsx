@@ -8,7 +8,6 @@ import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
 const navLinks = [
   { label: "About",    href: "#about" },
   { label: "Program",  href: "#program" },
-  { label: "House",    href: "#house" },
   { label: "Team",     href: "#team" },
   { label: "Pricing",  href: "#pricing" },
   { label: "Contacts", href: "#apply" },
