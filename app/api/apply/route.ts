@@ -127,12 +127,12 @@ async function appendToSheet(data: ApplyFormValues): Promise<{ ok: boolean }> {
     console.warn("[apply] GOOGLE_SCRIPT_URL missing — sheet skipped");
     return { ok: false };
   }
+  // Apps Script web apps reply with a 302 redirect, and Node fetch turns POST into GET on
+  // 302 — losing the body. We sidestep this by sending GET with the payload URL-encoded
+  // in a `data` query param; the Apps Script side has a matching `doGet` handler.
   try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const target = `${url}?data=${encodeURIComponent(JSON.stringify(data))}`;
+    const res = await fetch(target, { method: "GET" });
     if (!res.ok) {
       console.error("[apply] Sheet webhook responded", res.status);
       return { ok: false };
