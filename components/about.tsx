@@ -50,7 +50,7 @@ export function About() {
         <FadeIn>
           <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
             {trip.aboutCards.map((card, i) => (
-              <div key={card.title} className="flex flex-col gap-4 pr-0 lg:pr-5">
+              <div key={card.title} className="flex flex-col gap-3 pr-0 md:gap-4 lg:pr-5">
                 {/* Fixed-height wrapper absorbs rotation — body below doesn't reflow when the heading straightens. */}
                 <div className="flex h-[46px] items-center">
                   <motion.h3
@@ -78,7 +78,7 @@ export function About() {
         </FadeIn>
 
         <FadeIn delay={0.06}>
-          <div className="mt-14 mb-8 flex flex-wrap justify-center gap-3 md:mt-16 md:mb-10">
+          <div className="mt-16 mb-10 flex flex-wrap justify-center gap-3">
             {TAGS.map((tag) => (
               <a
                 key={tag.label}

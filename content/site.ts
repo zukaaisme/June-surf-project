@@ -27,8 +27,9 @@ export const site = {
   instagramHandle: "@surfmorocco",
   phone: "+212 600 000 000",
 
-  // Location chip
-  location: "Tamraght, Morocco",
+  // Location chip — name matches the Maps pin (Tazuri Surf House, in Tamraght village).
+  // Wikipedia article for Tazuri specifically doesn't exist; linking to Tamraght (the village it sits in).
+  location: "Tazuri Surf House",
   mapsUrl: "https://maps.app.goo.gl/4SHVHBwwkDBUa61a9",
   locationWikiUrl: "https://en.wikipedia.org/wiki/Tamraght",
 } as const;

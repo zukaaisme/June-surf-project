@@ -67,11 +67,11 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
+        <div className="grid auto-rows-fr grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
           {trip.pricingTiers.map((tier, i) => (
-            <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)}>
+            <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
               {/* Auto-layout per Figma: gap-[48px] between photo / top text / bottom group; bottom group has its own gap-[28px] between divider and description */}
-              <article className="flex flex-col gap-12 bg-white pb-9">
+              <article className="flex h-full flex-col gap-12 bg-white pb-9">
                 <div
                   className="relative overflow-hidden"
                   style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}

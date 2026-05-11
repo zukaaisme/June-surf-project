@@ -57,14 +57,10 @@ export function Team() {
           </div>
         </FadeIn>
 
-        <div
-          className="-mx-10 flex gap-3 overflow-x-auto px-10 pb-2 md:mx-0 md:grid md:grid-cols-2 md:items-stretch md:gap-4 md:overflow-visible md:px-0 lg:grid-cols-4
-                     [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
-          style={{ scrollPaddingLeft: "2.5rem" }}
-        >
+        <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {trip.people.map((person, i) => (
-            <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="md:h-full">
-              <article className="flex w-[78vw] max-w-[340px] shrink-0 snap-start flex-col bg-[var(--color-bone)] pb-7 transition-colors duration-300 hover:bg-[var(--color-mist)] md:h-full md:w-auto md:max-w-none">
+            <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="h-full">
+              <article className="flex h-full flex-col bg-[var(--color-mist)] pb-7 transition-transform duration-300 ease-out hover:-translate-y-3">
                 <div
                   className="relative w-full overflow-hidden"
                   style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.1)" }}
