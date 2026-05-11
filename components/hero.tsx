@@ -16,7 +16,7 @@ export function Hero() {
       <Parallax range="20%" className="absolute inset-x-0 top-0 -bottom-[10%]">
         <video
           src="/figma/hero-video.mp4"
-          poster="/figma/gallery/photo-1.png"
+          poster="/figma/hero-poster.jpg"
           autoPlay
           muted
           loop
