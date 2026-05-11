@@ -71,7 +71,7 @@ export function Pricing() {
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
               {/* Photo (fixed) — middle (name + accommodation, centered in remaining space) — bottom (divider + description, pinned to bottom) */}
-              <article className="flex h-full flex-col bg-white pb-9">
+              <article className="flex h-full flex-col bg-white pb-9 transition-transform duration-300 ease-out [@media(hover:hover)]:hover:-translate-y-3">
                 <div
                   className="relative overflow-hidden"
                   style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}
