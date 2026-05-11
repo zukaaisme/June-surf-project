@@ -126,7 +126,7 @@ export function Nav() {
             aria-label="Navigation menu"
           >
             {/* Top + middle area — links and Apply CTA centred in the space between nav and socials */}
-            <div className="flex w-full max-w-[420px] flex-1 flex-col items-center justify-center gap-8">
+            <div className="flex w-full max-w-[420px] flex-1 flex-col items-center justify-center gap-16">
               <ul className="flex flex-col items-center gap-6 text-center" role="list">
                 {navLinks.map((link, i) => (
                   <motion.li
