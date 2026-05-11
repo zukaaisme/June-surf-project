@@ -23,6 +23,17 @@ export function GallerySlider({ photos }: Props) {
   const reduced = useReducedMotion();
 
   const [bounds, setBounds] = useState({ start: 0, end: 0 });
+  // Scroll-tied auto-scroll only on desktop. Mobile uses native horizontal touch-scroll
+  // because useScroll/useTransform on every scroll frame is the main source of jank on phones.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px) and (hover: hover)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     if (!trackRef.current) return;
@@ -47,10 +58,11 @@ export function GallerySlider({ photos }: Props) {
     offset: ["start end", "end start"],
   });
 
+  const animEnabled = isDesktop && !reduced;
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? [0, 0] : [bounds.start, bounds.end],
+    animEnabled ? [bounds.start, bounds.end] : [0, 0],
   );
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -90,13 +102,13 @@ export function GallerySlider({ photos }: Props) {
       <div
         ref={sectionRef}
         id="gallery"
-        className="relative w-full overflow-hidden"
+        className={`relative w-full ${animEnabled ? "overflow-hidden" : "overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"}`}
         style={{ paddingTop: "8px", paddingBottom: "8px" }}
       >
         <motion.div
           ref={trackRef}
-          className="flex shrink-0 will-change-transform"
-          style={{ x, gap: `${GAP}px` }}
+          className="flex shrink-0"
+          style={{ x: animEnabled ? x : 0, gap: `${GAP}px`, willChange: animEnabled ? "transform" : "auto" }}
         >
           {photos.map((photo, i) => (
             <button

@@ -1,9 +1,10 @@
 "use client";
 
-// Light parallax wrapper — child drifts within ±range relative to the parent's scroll progress
-// Use sparingly for cinematic motion. Honors prefers-reduced-motion.
+// Light parallax wrapper — child drifts within ±range relative to the parent's scroll progress.
+// Disabled on mobile (touch devices below md) where scroll-tied transforms are the biggest source of jank.
+// Honors prefers-reduced-motion.
 
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 
 type ParallaxProps = {
@@ -16,18 +17,28 @@ type ParallaxProps = {
 export function Parallax({ children, range = "12%", className }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px) and (hover: hover)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  // Convert "12%" → ["-6%", "6%"]
   const num = parseFloat(range);
   const half = num / 2;
+  const enabled = isDesktop && !reduced;
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? ["0%", "0%"] : [`-${half}%`, `${half}%`],
+    enabled ? [`-${half}%`, `${half}%`] : ["0%", "0%"],
   );
 
   return (

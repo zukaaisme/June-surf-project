@@ -16,10 +16,12 @@ export function Hero() {
       <Parallax range="20%" className="absolute inset-x-0 top-0 -bottom-[10%]">
         <video
           src="/figma/hero-video.mp4"
+          poster="/figma/gallery/photo-1.png"
           autoPlay
           muted
           loop
           playsInline
+          preload="metadata"
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
         />
