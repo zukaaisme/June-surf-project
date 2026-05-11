@@ -3,9 +3,9 @@ import { Resend } from "resend";
 import { applySchema, type ApplyFormValues } from "@/lib/apply-schema";
 import { trip } from "@/content/trip";
 
-// While the domain isn't verified in Resend, all mail is sent from this sandbox sender.
+// Sender on the verified domain (Resend DKIM/SPF set up via Vercel DNS).
 // Reply-To is set to the applicant's contact, so hitting "Reply" in Gmail goes to them.
-const FROM = "Surf Morocco <onboarding@resend.dev>";
+const FROM = "Surf Morocco <applications@zukaaisme.com>";
 
 function planLabel(planId: string | undefined): string | undefined {
   if (!planId) return undefined;
