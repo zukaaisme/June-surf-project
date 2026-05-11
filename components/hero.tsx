@@ -44,18 +44,21 @@ export function Hero() {
 
       <div className="relative z-10 flex h-full flex-col items-center px-10 pt-[120px] pb-14 text-center">
         <FadeIn delay={0.1}>
-          <h1
-            className="text-white"
-            style={{
-              fontFamily: "var(--font-handwritten), 'Covered By Your Grace', cursive",
-              fontSize: "clamp(2.75rem, 9vw, 6rem)",
-              fontWeight: 400,
-              lineHeight: 0.9,
-              textShadow: TEXT_SHADOW_HERO,
-            }}
-          >
-            {site.heroHeadline}
-          </h1>
+          <h1 className="sr-only">{site.heroHeadline}</h1>
+          <img
+            src="/figma/header-mobile.svg"
+            alt=""
+            aria-hidden="true"
+            className="block w-full max-w-[420px] md:hidden"
+            style={{ filter: `drop-shadow(${TEXT_SHADOW_HERO})` }}
+          />
+          <img
+            src="/figma/header-desktop.svg"
+            alt=""
+            aria-hidden="true"
+            className="hidden w-full max-w-[900px] md:block"
+            style={{ filter: `drop-shadow(${TEXT_SHADOW_HERO})` }}
+          />
         </FadeIn>
 
         <div aria-hidden="true" className="flex-1" />
