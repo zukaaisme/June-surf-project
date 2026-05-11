@@ -256,7 +256,7 @@ function ContactChips() {
             href={href}
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener noreferrer" : undefined}
-            className="hover-fade flex h-14 items-center justify-center gap-3 sm:w-[308px]"
+            className="hover-fade flex h-14 items-center justify-center gap-3 rounded-full sm:w-[308px]"
             style={{ backgroundColor: "var(--color-mist)" }}
           >
             <span style={chipLabelStyle}>{label}</span>

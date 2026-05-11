@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { site } from "@/content/site";
+import { captionUppercase } from "@/lib/styles";
 
 const navLinks = [
   { label: "About",    href: "#about" },
@@ -12,6 +13,14 @@ const navLinks = [
   { label: "Pricing",  href: "#pricing" },
   { label: "Contacts", href: "#apply" },
 ];
+
+const drawerSocials = [
+  { label: "Telegram",  value: site.telegramHandle,  href: site.telegram },
+  { label: "Instagram", value: site.instagramHandle, href: site.instagram },
+] as const;
+
+const chipLabelStyle = { ...captionUppercase, color: "rgba(50,55,64,0.5)", lineHeight: 1.2 } as const;
+const chipValueStyle = { ...captionUppercase, color: "var(--color-slate)", lineHeight: 1.2 } as const;
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -95,7 +104,7 @@ export function Nav() {
         {menuOpen && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 bg-[var(--color-paper)] flex flex-col justify-center px-8 pt-16"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-[var(--color-mist)] px-10 pt-16"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -104,7 +113,7 @@ export function Nav() {
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            <ul className="flex flex-col gap-8" role="list">
+            <ul className="flex flex-col items-center gap-6 text-center" role="list">
               {navLinks.map((link, i) => (
                 <motion.li
                   key={link.label}
@@ -121,20 +130,41 @@ export function Nav() {
                   </a>
                 </motion.li>
               ))}
-              <motion.li
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: reduced ? 0 : navLinks.length * 0.06, duration: reduced ? 0 : 0.35 }}
-              >
-                <a
-                  href="#apply"
-                  onClick={closeMenu}
-                  className="btn-nav inline-flex hover-fade"
-                >
-                  Apply now
-                </a>
-              </motion.li>
             </ul>
+
+            {/* Apply CTA — full width, same shape as Send Application */}
+            <motion.a
+              href="#apply"
+              onClick={closeMenu}
+              className="btn-submit hover-fade w-full max-w-[420px]"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reduced ? 0 : navLinks.length * 0.06, duration: reduced ? 0 : 0.35 }}
+            >
+              Apply now
+            </motion.a>
+
+            {/* Social chips — same shape as contact chips, centred */}
+            <motion.div
+              className="flex w-full max-w-[420px] flex-col gap-3"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reduced ? 0 : (navLinks.length + 1) * 0.06, duration: reduced ? 0 : 0.35 }}
+            >
+              {drawerSocials.map(({ label, value, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                  className="hover-fade flex h-14 items-center justify-center gap-3 rounded-full bg-white"
+                >
+                  <span style={chipLabelStyle}>{label}</span>
+                  <span style={chipValueStyle}>{value}</span>
+                </a>
+              ))}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
