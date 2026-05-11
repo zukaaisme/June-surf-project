@@ -97,7 +97,8 @@ export function Pricing() {
                   <p style={accommodationStyle}>{tier.accommodation}</p>
                 </div>
 
-                <div className="flex flex-col gap-7">
+                {/* min-h reserves room for the longest description in the set, so the divider sits at the same Y on every card across breakpoints */}
+                <div className="flex min-h-[100px] flex-col gap-7">
                   <div
                     aria-hidden="true"
                     className="w-full"
