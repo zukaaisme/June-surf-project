@@ -1,7 +1,6 @@
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icon } from "@/components/ui/icons";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
-import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
 const headingStyle = {
@@ -26,7 +25,7 @@ export function Program() {
   return (
     <section
       id="program"
-      className={`relative overflow-hidden bg-[var(--color-mist)] ${SECTION_PADDING_Y}`}
+      className="relative overflow-hidden bg-[var(--color-mist)] pt-[52px] pb-16 md:pt-[68px] md:pb-20 lg:pt-[84px] lg:pb-24"
     >
       <NoiseOverlay />
 
