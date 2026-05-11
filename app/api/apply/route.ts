@@ -91,6 +91,59 @@ function renderEmail(data: ApplyFormValues): { subject: string; text: string; ht
   };
 }
 
+async function sendEmail(data: ApplyFormValues): Promise<{ ok: boolean }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const to = process.env.RESEND_TO;
+  if (!apiKey || !to) {
+    console.warn("[apply] RESEND env missing — email skipped");
+    return { ok: false };
+  }
+  const { subject, text, html } = renderEmail(data);
+  const replyTo = looksLikeEmail(data.contact) ? data.contact : undefined;
+  try {
+    const resend = new Resend(apiKey);
+    const result = await resend.emails.send({
+      from: FROM,
+      to,
+      subject,
+      text,
+      html,
+      ...(replyTo ? { replyTo } : {}),
+    });
+    if (result.error) {
+      console.error("[apply] Resend error:", result.error);
+      return { ok: false };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error("[apply] Resend exception:", err);
+    return { ok: false };
+  }
+}
+
+async function appendToSheet(data: ApplyFormValues): Promise<{ ok: boolean }> {
+  const url = process.env.GOOGLE_SCRIPT_URL;
+  if (!url) {
+    console.warn("[apply] GOOGLE_SCRIPT_URL missing — sheet skipped");
+    return { ok: false };
+  }
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      console.error("[apply] Sheet webhook responded", res.status);
+      return { ok: false };
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error("[apply] Sheet webhook exception:", err);
+    return { ok: false };
+  }
+}
+
 export async function POST(req: NextRequest) {
   let body: unknown;
   try {
@@ -107,44 +160,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.RESEND_TO;
+  // Email + Sheet in parallel — Sheet is a "nice-to-have" archive; even if it fails the user
+  // is still considered submitted as long as email made it through.
+  const [emailResult, sheetResult] = await Promise.all([
+    sendEmail(parsed.data),
+    appendToSheet(parsed.data),
+  ]);
 
-  if (!apiKey || !to) {
-    // Env not wired yet — log the application server-side so nothing is lost,
-    // and respond OK so the visitor doesn't see an error on their end.
-    console.warn("[apply] RESEND_API_KEY/RESEND_TO missing — application logged only", parsed.data);
-    return NextResponse.json({ ok: true, warning: "delivery-not-configured" });
-  }
-
-  const { subject, text, html } = renderEmail(parsed.data);
-  const replyTo = looksLikeEmail(parsed.data.contact) ? parsed.data.contact : undefined;
-
-  try {
-    const resend = new Resend(apiKey);
-    const result = await resend.emails.send({
-      from: FROM,
-      to,
-      subject,
-      text,
-      html,
-      ...(replyTo ? { replyTo } : {}),
-    });
-
-    if (result.error) {
-      console.error("[apply] Resend error:", result.error);
-      return NextResponse.json(
-        { error: "Delivery failed, please try again or write us directly." },
-        { status: 502 },
-      );
-    }
-
-    return NextResponse.json({ ok: true });
-  } catch (err) {
-    console.error("[apply] Resend exception:", err);
+  if (!emailResult.ok) {
     return NextResponse.json(
       { error: "Delivery failed, please try again or write us directly." },
       { status: 502 },
     );
   }
+
+  return NextResponse.json({ ok: true, sheet: sheetResult.ok });
 }
