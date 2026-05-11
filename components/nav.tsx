@@ -104,8 +104,11 @@ export function Nav() {
             ))}
           </ul>
 
-          {/* Apply CTA — visible on every breakpoint, anchored right */}
-          <a href="#apply" className="btn-nav hover-fade">
+          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer has its own Apply) */}
+          <a
+            href="#apply"
+            className={`btn-nav hover-fade ${menuOpen ? "hidden md:inline-flex" : ""}`}
+          >
             Apply now
           </a>
         </div>
