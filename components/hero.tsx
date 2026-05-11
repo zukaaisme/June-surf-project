@@ -1,9 +1,17 @@
+"use client";
+
+import { useRef, useState } from "react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Parallax } from "@/components/ui/parallax";
 import { TEXT_SHADOW_HERO, TEXT_SHADOW_HERO_SUB } from "@/lib/styles";
 import { site } from "@/content/site";
 
 export function Hero() {
+  // Poster image overlays the video and fades out once playback actually starts.
+  // Avoids the instant "snap" when the browser swaps the poster for the first decoded frame.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [posterVisible, setPosterVisible] = useState(true);
+
   return (
     <section
       id="hero"
@@ -15,6 +23,7 @@ export function Hero() {
     >
       <Parallax range="20%" className="absolute inset-x-0 top-0 -bottom-[10%]">
         <video
+          ref={videoRef}
           src="/figma/hero-video.mp4"
           poster="/figma/hero-poster.jpg"
           autoPlay
@@ -24,6 +33,13 @@ export function Hero() {
           preload="metadata"
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
+          onPlaying={() => setPosterVisible(false)}
+        />
+        <img
+          src="/figma/hero-poster.jpg"
+          alt=""
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${posterVisible ? "opacity-100" : "opacity-0"}`}
         />
         <div aria-hidden="true" className="absolute inset-0 bg-[rgba(50,55,64,0.1)]" />
       </Parallax>

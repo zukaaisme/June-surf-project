@@ -9,17 +9,9 @@ import { site } from "@/content/site";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { TelegramIcon, InstagramIcon } from "@/components/ui/social-icons";
-import { SECTION_PADDING_Y, captionUppercase } from "@/lib/styles";
+import { SECTION_PADDING_Y } from "@/lib/styles";
 
-const chipLabelStyle = { ...captionUppercase, color: "rgba(50,55,64,0.5)", lineHeight: 1.2 } as const;
-const chipValueStyle = { ...captionUppercase, color: "var(--color-slate)", lineHeight: 1.2 } as const;
-
-const CONTACTS_DESKTOP = [
-  { label: "Telegram",  getValue: () => site.telegramHandle,  getHref: () => site.telegram },
-  { label: "Instagram", getValue: () => site.instagramHandle, getHref: () => site.instagram },
-] as const;
-
-const CONTACTS_MOBILE = [
+const CONTACTS = [
   { label: "Telegram",  href: site.telegram,  Icon: TelegramIcon },
   { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
 ] as const;
@@ -105,9 +97,9 @@ export function ApplyForm() {
                 {trip.applySubhead}
               </p>
 
-              {/* Contact chips — desktop: pinned to bottom of left column so they align with the form's Send button. Mobile: rendered below the form (see <ContactChips /> at the end). */}
+              {/* Contact icon buttons — desktop: pinned to bottom of left column so they align with the form's Send button. Mobile: rendered below the form. */}
               <div className="mt-auto hidden lg:block">
-                <ContactChips />
+                <ContactButtons />
               </div>
             </div>
           </FadeIn>
@@ -243,10 +235,10 @@ export function ApplyForm() {
           </FadeIn>
         </div>
 
-        {/* Mobile-only — icon-only buttons matching the drawer's social style. Desktop renders pill chips inside the left column. */}
-        <div className="mt-6 flex justify-center gap-3 lg:hidden">
+        {/* Mobile-only — desktop renders the same buttons inside the left column */}
+        <div className="mt-6 flex justify-center lg:hidden">
           <FadeIn delay={0.1}>
-            <MobileContactButtons />
+            <ContactButtons />
           </FadeIn>
         </div>
 
@@ -255,10 +247,10 @@ export function ApplyForm() {
   );
 }
 
-function MobileContactButtons() {
+function ContactButtons() {
   return (
     <div className="flex gap-3">
-      {CONTACTS_MOBILE.map(({ label, href, Icon }) => (
+      {CONTACTS.map(({ label, href, Icon }) => (
         <a
           key={label}
           href={href}
@@ -275,26 +267,3 @@ function MobileContactButtons() {
   );
 }
 
-function ContactChips() {
-  return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-      {CONTACTS_DESKTOP.map(({ label, getValue, getHref }) => {
-        const href = getHref();
-        const isExternal = href.startsWith("http");
-        return (
-          <a
-            key={label}
-            href={href}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
-            className="hover-fade flex h-14 items-center justify-center gap-3 rounded-full sm:w-[308px]"
-            style={{ backgroundColor: "var(--color-mist)" }}
-          >
-            <span style={chipLabelStyle}>{label}</span>
-            <span style={chipValueStyle}>{getValue()}</span>
-          </a>
-        );
-      })}
-    </div>
-  );
-}
