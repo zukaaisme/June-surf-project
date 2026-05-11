@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { site } from "@/content/site";
-import { TelegramIcon, InstagramIcon } from "@/components/ui/social-icons";
+import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
 
 const navLinks = [
   { label: "About",    href: "#about" },
@@ -13,11 +13,6 @@ const navLinks = [
   { label: "Pricing",  href: "#pricing" },
   { label: "Contacts", href: "#apply" },
 ];
-
-const drawerSocials = [
-  { label: "Telegram",  href: site.telegram,  Icon: TelegramIcon },
-  { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
-] as const;
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,7 +36,6 @@ export function Nav() {
         aria-label="Main navigation"
       >
         <div className="mx-auto max-w-7xl px-10 h-16 flex items-center justify-between">
-          {/* Mobile: hamburger left. Desktop: brand left. */}
           <button
             className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 hover-fade"
             onClick={() => setMenuOpen((v) => !v)}
@@ -74,7 +68,6 @@ export function Nav() {
             {site.name}
           </a>
 
-          {/* Desktop links — Special Elite font per Figma */}
           <ul className="hidden md:flex items-center gap-6" role="list">
             {navLinks.map((link) => (
               <li key={link.label}>
@@ -89,17 +82,16 @@ export function Nav() {
             ))}
           </ul>
 
-          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer has its own Apply).
-              Wrapped in span because .btn-nav defines its own display outside @layer and beats the .hidden utility. */}
-          <span className={menuOpen ? "hidden md:block" : "block"}>
-            <a href="#apply" className="btn-nav hover-fade">
-              Apply now
-            </a>
-          </span>
+          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer carries its own Apply) */}
+          <a
+            href="#apply"
+            className={`btn-nav hover-fade ${menuOpen ? "hidden md:inline-flex" : ""}`}
+          >
+            Apply now
+          </a>
         </div>
       </nav>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -113,7 +105,6 @@ export function Nav() {
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            {/* Top + middle area — links and Apply CTA centred in the space between nav and socials */}
             <div className="flex w-full max-w-[420px] flex-1 flex-col items-center justify-center gap-16">
               <ul className="flex flex-col items-center gap-6 text-center" role="list">
                 {navLinks.map((link, i) => (
@@ -134,7 +125,6 @@ export function Nav() {
                 ))}
               </ul>
 
-              {/* Apply CTA — full width, same shape as Send Application */}
               <motion.a
                 href="#apply"
                 onClick={closeMenu}
@@ -147,25 +137,14 @@ export function Nav() {
               </motion.a>
             </div>
 
-            {/* Social icon buttons — pinned to the bottom, side by side, 1:1 ratio */}
             <motion.div
               className="flex gap-3"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: reduced ? 0 : (navLinks.length + 1) * 0.06, duration: reduced ? 0 : 0.35 }}
             >
-              {drawerSocials.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={closeMenu}
-                  aria-label={label}
-                  className="hover-fade flex h-14 w-14 items-center justify-center rounded-full bg-white text-[var(--color-slate)]"
-                >
-                  <Icon className="h-6 w-6" />
-                </a>
+              {SOCIALS.map((s) => (
+                <SocialButton key={s.label} social={s} bg="white" onClick={closeMenu} />
               ))}
             </motion.div>
           </motion.div>

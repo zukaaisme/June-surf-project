@@ -60,7 +60,7 @@ export function Team() {
         <div className="grid auto-rows-fr grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {trip.people.map((person, i) => (
             <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="h-full">
-              <article className="flex h-full flex-col bg-[var(--color-mist)] pb-7 transition-transform duration-300 ease-out [@media(hover:hover)]:hover:-translate-y-3">
+              <article className="card-lift flex h-full flex-col bg-[var(--color-mist)] pb-7">
                 <div
                   className="relative w-full overflow-hidden"
                   style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.1)" }}
@@ -71,8 +71,7 @@ export function Team() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 78vw, (max-width: 1024px) 50vw, 25vw"
-                    priority={i === 0}
-                    loading={i === 0 ? undefined : "lazy"}
+                    loading="lazy"
                   />
                 </div>
 

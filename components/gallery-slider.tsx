@@ -5,11 +5,11 @@ import Image from "next/image";
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type PanInfo,
 } from "framer-motion";
+import { useIsDesktop } from "@/lib/use-is-desktop";
 
 type Photo = { src: string; alt: string };
 type Props = { photos: readonly Photo[] };
@@ -17,48 +17,41 @@ type Props = { photos: readonly Photo[] };
 const GAP = 16;
 const PHOTO_WIDTH_CLAMP = "clamp(240px, 22vw, 340px)";
 
+// On mobile the track is a native horizontal scroller — no scroll-tied transform,
+// no framer-motion overhead.
+const TRACK_DESKTOP_CLASS = "relative w-full overflow-hidden";
+const TRACK_MOBILE_CLASS =
+  "relative w-full overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+
 export function GallerySlider({ photos }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
+  const animEnabled = useIsDesktop();
 
   const [bounds, setBounds] = useState({ start: 0, end: 0 });
-  // Scroll-tied auto-scroll only on desktop. Mobile uses native horizontal touch-scroll
-  // because useScroll/useTransform on every scroll frame is the main source of jank on phones.
-  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px) and (hover: hover)");
-    const update = () => setIsDesktop(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    if (!trackRef.current) return;
+    if (!animEnabled || !trackRef.current) return;
     const update = () => {
       if (!trackRef.current) return;
       const track = trackRef.current.scrollWidth;
       const viewport = window.innerWidth;
       const startOffset = Math.max(viewport * 0.08, 48);
       const overflow = Math.max(0, track - viewport + startOffset * 2);
-      const next = { start: startOffset, end: -(overflow + startOffset) };
+      const nextBounds = { start: startOffset, end: -(overflow + startOffset) };
       setBounds((prev) =>
-        prev.start === next.start && prev.end === next.end ? prev : next,
+        prev.start === nextBounds.start && prev.end === nextBounds.end ? prev : nextBounds,
       );
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [photos.length]);
+  }, [animEnabled, photos.length]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-
-  const animEnabled = isDesktop && !reduced;
   const x = useTransform(
     scrollYProgress,
     [0, 1],
@@ -102,13 +95,17 @@ export function GallerySlider({ photos }: Props) {
       <div
         ref={sectionRef}
         id="gallery"
-        className={`relative w-full ${animEnabled ? "overflow-hidden" : "overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"}`}
+        className={animEnabled ? TRACK_DESKTOP_CLASS : TRACK_MOBILE_CLASS}
         style={{ paddingTop: "8px", paddingBottom: "8px" }}
       >
         <motion.div
           ref={trackRef}
           className="flex shrink-0"
-          style={{ x: animEnabled ? x : 0, gap: `${GAP}px`, willChange: animEnabled ? "transform" : "auto" }}
+          style={{
+            x: animEnabled ? x : 0,
+            gap: `${GAP}px`,
+            willChange: animEnabled ? "transform" : "auto",
+          }}
         >
           {photos.map((photo, i) => (
             <button
@@ -130,8 +127,7 @@ export function GallerySlider({ photos }: Props) {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 240px, 340px"
-                priority={i === 0}
-                loading={i === 0 ? undefined : "lazy"}
+                loading="lazy"
               />
             </button>
           ))}

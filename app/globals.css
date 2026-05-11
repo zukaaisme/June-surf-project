@@ -94,64 +94,53 @@ body {
 }
 
 /* ─────────────────────────────────────────
-   HOVER — scale 0.8 + opacity 0.7 on all clickable elements
-   (Operator constraint, Figma comment iter 2)
+   Press feedback — every clickable shares the same transition.
+   Hover gated to real pointers so it doesn't stick after a tap on touch.
+   .hover-fade also reacts to :focus-visible (keyboard nav).
+   Form fields use .hover-fade too, but the input-specific :focus override below
+   cancels the scale so the field doesn't stay shrunk while typing.
 ───────────────────────────────────────── */
 
-.hover-fade,
-.field-fade {
+:where(.hover-fade, .btn-nav, .btn-submit) {
   transition: transform 160ms ease, opacity 160ms ease;
   transform-origin: center;
 }
-/* Form fields: hover only (no focus-visible) so the input doesn't stay scaled while typing */
+
 @media (hover: hover) and (pointer: fine) {
-  .field-fade:hover:not(:focus) {
+  :where(.hover-fade, .btn-nav, .btn-submit):hover {
     transform: scale(0.975);
     opacity: 0.975;
   }
 }
+
+:where(.hover-fade, .btn-nav, .btn-submit):focus-visible {
+  transform: scale(0.975);
+  opacity: 0.975;
+}
+
+/* Form fields: when focused (i.e. user is typing), cancel any hover scale */
+:where(input, textarea, select).hover-fade:focus {
+  transform: none;
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .field-fade {
+  :where(.hover-fade, .btn-nav, .btn-submit) {
     transition: opacity 120ms ease;
   }
-  @media (hover: hover) and (pointer: fine) {
-    .field-fade:hover:not(:focus) {
-      transform: none;
-      opacity: 0.975;
-    }
-  }
-}
-@media (hover: hover) and (pointer: fine) {
-  .hover-fade:hover {
-    transform: scale(0.975);
-    opacity: 0.975;
-  }
-}
-.hover-fade:focus-visible {
-  transform: scale(0.95);
-  opacity: 0.95;
-}
-@media (prefers-reduced-motion: reduce) {
-  .hover-fade {
-    transition: opacity 120ms ease;
-  }
-  .hover-fade:focus-visible {
+  :where(.hover-fade, .btn-nav, .btn-submit):focus-visible,
+  :where(.hover-fade, .btn-nav, .btn-submit):hover {
     transform: none;
-    opacity: 0.95;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .hover-fade:hover {
-      transform: none;
-      opacity: 0.95;
-    }
+    opacity: 0.975;
   }
 }
 
 /* ─────────────────────────────────────────
-   NAV CTA BUTTON
+   Pill buttons — :where() keeps specificity at 0,0,0 so Tailwind utilities
+   (e.g. `hidden`, `inline-flex`) can override `display` without a wrapper.
 ───────────────────────────────────────── */
 
-.btn-nav {
+:where(.btn-nav) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -166,32 +155,9 @@ body {
   color: var(--color-slate);
   text-decoration: none;
   cursor: pointer;
-  transition: transform 160ms ease, opacity 160ms ease;
-  transform-origin: center;
-}
-@media (hover: hover) and (pointer: fine) {
-  .btn-nav:hover {
-    transform: scale(0.975);
-    opacity: 0.975;
-  }
-}
-.btn-nav:focus-visible {
-  transform: scale(0.95);
-  opacity: 0.95;
-}
-@media (prefers-reduced-motion: reduce) {
-  .btn-nav { transition: opacity 120ms ease; }
-  .btn-nav:focus-visible { transform: none; opacity: 0.95; }
-  @media (hover: hover) and (pointer: fine) {
-    .btn-nav:hover { transform: none; opacity: 0.95; }
-  }
 }
 
-/* ─────────────────────────────────────────
-   FORM SUBMIT BUTTON
-───────────────────────────────────────── */
-
-.btn-submit {
+:where(.btn-submit) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,25 +171,24 @@ body {
   font-weight: 500;
   color: var(--color-slate);
   cursor: pointer;
-  transition: transform 160ms ease, opacity 160ms ease;
-  transform-origin: center;
+}
+
+/* ─────────────────────────────────────────
+   Card lift — pricing + team cards rise 12px on hover (real pointers only)
+───────────────────────────────────────── */
+
+.card-lift {
+  transition: transform 300ms ease-out;
+  will-change: transform;
 }
 @media (hover: hover) and (pointer: fine) {
-  .btn-submit:hover {
-    transform: scale(0.975);
-    opacity: 0.975;
+  .card-lift:hover {
+    transform: translateY(-12px);
   }
-}
-.btn-submit:focus-visible {
-  transform: scale(0.95);
-  opacity: 0.95;
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn-submit { transition: opacity 120ms ease; }
-  .btn-submit:focus-visible { transform: none; opacity: 0.95; }
-  @media (hover: hover) and (pointer: fine) {
-    .btn-submit:hover { transform: none; opacity: 0.95; }
-  }
+  .card-lift { transition: none; }
+  .card-lift:hover { transform: none; }
 }
 
 /* ─────────────────────────────────────────

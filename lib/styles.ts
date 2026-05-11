@@ -9,14 +9,6 @@ export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.25)";
 export const TEXT_SHADOW_HERO_SUB = "0 1px 16px rgba(0,0,0,0.25)";
 export const TEXT_SHADOW_OVER_PHOTO = "0 1px 8px rgba(0,0,0,0.1)";
 
-// Bricolage Grotesque — display family used for every section heading.
-export const headingStyle = {
-  fontFamily: "var(--font-bricolage), sans-serif",
-  fontWeight: 600,
-  lineHeight: 1.05,
-  letterSpacing: "-0.02em",
-} as const satisfies CSSProperties;
-
 // Special Elite — typewriter family used for captions, labels, tag chips.
 export const captionStyle = {
   fontFamily: "var(--font-typewriter), serif",

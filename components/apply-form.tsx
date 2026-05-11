@@ -5,16 +5,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { applySchema, type ApplyFormValues } from "@/lib/apply-schema";
 import { trip } from "@/content/trip";
-import { site } from "@/content/site";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
-import { TelegramIcon, InstagramIcon } from "@/components/ui/social-icons";
+import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
 import { SECTION_PADDING_Y } from "@/lib/styles";
-
-const CONTACTS = [
-  { label: "Telegram",  href: site.telegram,  Icon: TelegramIcon },
-  { label: "Instagram", href: site.instagram, Icon: InstagramIcon },
-] as const;
 
 const fieldStyle = {
   backgroundColor: "rgba(50,55,64,0.1)",
@@ -97,7 +91,6 @@ export function ApplyForm() {
                 {trip.applySubhead}
               </p>
 
-              {/* Contact icon buttons — desktop: pinned to bottom of left column so they align with the form's Send button. Mobile: rendered below the form. */}
               <div className="mt-auto hidden lg:block">
                 <ContactButtons />
               </div>
@@ -130,7 +123,7 @@ export function ApplyForm() {
                       id="name"
                       type="text"
                       placeholder="Your name"
-                      className="field-fade"
+                      className="hover-fade"
                       style={fieldStyle}
                       {...register("name")}
                       aria-invalid={errors.name ? "true" : "false"}
@@ -145,7 +138,7 @@ export function ApplyForm() {
                       id="email"
                       type="email"
                       placeholder="example@surfcamp.com"
-                      className="field-fade"
+                      className="hover-fade"
                       style={fieldStyle}
                       {...register("contact")}
                       aria-invalid={errors.contact ? "true" : "false"}
@@ -164,7 +157,7 @@ export function ApplyForm() {
                       id="instagram"
                       type="text"
                       placeholder="Link to profile"
-                      className="field-fade"
+                      className="hover-fade"
                       style={fieldStyle}
                       {...register("instagram")}
                     />
@@ -173,7 +166,7 @@ export function ApplyForm() {
                     <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
                     <select
                       id="plan"
-                      className="field-fade"
+                      className="hover-fade"
                       style={{
                         ...fieldStyle,
                         cursor: "pointer",
@@ -207,7 +200,7 @@ export function ApplyForm() {
                   <textarea
                     id="message"
                     placeholder="Questions, do you go alone or with friends or partner, expectations or suggestions"
-                    className="field-fade"
+                    className="hover-fade"
                     style={{
                       ...fieldStyle,
                       height: "112px",
@@ -235,7 +228,6 @@ export function ApplyForm() {
           </FadeIn>
         </div>
 
-        {/* Mobile-only — desktop renders the same buttons inside the left column */}
         <div className="mt-6 flex justify-center lg:hidden">
           <FadeIn delay={0.1}>
             <ContactButtons />
@@ -250,18 +242,8 @@ export function ApplyForm() {
 function ContactButtons() {
   return (
     <div className="flex gap-3">
-      {CONTACTS.map(({ label, href, Icon }) => (
-        <a
-          key={label}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={label}
-          className="hover-fade flex h-14 w-14 items-center justify-center rounded-full text-[var(--color-slate)]"
-          style={{ backgroundColor: "var(--color-mist)" }}
-        >
-          <Icon className="h-6 w-6" />
-        </a>
+      {SOCIALS.map((s) => (
+        <SocialButton key={s.label} social={s} />
       ))}
     </div>
   );

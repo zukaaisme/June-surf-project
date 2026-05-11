@@ -21,11 +21,6 @@ export const site = {
   // Contact — per Figma
   instagram: "https://instagram.com/surfmorocco",
   telegram: "https://t.me/surfmorocco",
-  whatsapp: "https://wa.me/212600000000",
-  email: "hello@surfmorocco.com",
-  telegramHandle: "@surfmorocco",
-  instagramHandle: "@surfmorocco",
-  phone: "+212 600 000 000",
 
   // Location chip — name matches the Maps pin (Tazuri Surf House, in Tamraght village).
   // Wikipedia article for Tazuri specifically doesn't exist; linking to Tamraght (the village it sits in).

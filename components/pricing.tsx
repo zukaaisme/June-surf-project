@@ -70,8 +70,7 @@ export function Pricing() {
         <div className="grid auto-rows-fr grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
-              {/* Photo (fixed) — middle (name + accommodation, centered in remaining space) — bottom (divider + description, pinned to bottom) */}
-              <article className="flex h-full flex-col bg-white pb-9 transition-transform duration-300 ease-out [@media(hover:hover)]:hover:-translate-y-3">
+              <article className="card-lift flex h-full flex-col bg-white pb-9">
                 <div
                   className="relative overflow-hidden"
                   style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}
@@ -82,8 +81,7 @@ export function Pricing() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    priority={i === 0}
-                    loading={i === 0 ? undefined : "lazy"}
+                    loading="lazy"
                   />
                   <div aria-hidden="true" className="absolute inset-0 bg-[rgba(50,55,64,0.2)]" />
                   <div className="absolute bottom-6 left-6 flex flex-col items-start text-white">
