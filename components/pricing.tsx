@@ -70,7 +70,8 @@ export function Pricing() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4 md:items-stretch">
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
-              <article className="flex h-full flex-col overflow-hidden bg-white">
+              {/* Auto-layout per Figma: gap-[48px] between photo / top text / bottom group; bottom group has its own gap-[28px] between divider and description */}
+              <article className="flex h-full flex-col gap-12 bg-white pb-9">
                 <div
                   className="relative overflow-hidden"
                   style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}
@@ -91,19 +92,18 @@ export function Pricing() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col gap-7 px-9 pt-9 pb-9 text-center">
-                  <div className="flex flex-col gap-2 text-[var(--color-slate)]">
-                    <h3 style={tierNameStyle}>{tier.name}</h3>
-                    <p style={accommodationStyle}>{tier.accommodation}</p>
-                  </div>
+                <div className="flex flex-col gap-2 px-9 text-center text-[var(--color-slate)]">
+                  <h3 style={tierNameStyle}>{tier.name}</h3>
+                  <p style={accommodationStyle}>{tier.accommodation}</p>
+                </div>
 
+                <div className="flex flex-1 flex-col gap-7">
                   <div
                     aria-hidden="true"
                     className="w-full"
                     style={{ height: "1px", backgroundColor: "rgba(50,55,64,0.15)" }}
                   />
-
-                  <p className="text-[var(--color-slate)]" style={descriptionStyle}>
+                  <p className="px-9 text-[var(--color-slate)]" style={descriptionStyle}>
                     {tier.description}
                   </p>
                 </div>

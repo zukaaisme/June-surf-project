@@ -86,7 +86,7 @@ export const trip = {
     },
     {
       icon: "season" as const,
-      title: "Off-season calm",
+      title: "Off season",
       body: "Locals say that this year, thanks to the rains, there will still be waves for beginners and fewer tourists as a bonus.",
     },
     {
@@ -129,17 +129,22 @@ export const trip = {
     },
   ],
 
+  // Headings are tilted per Figma. Hover on the card straightens the heading
+  // back to 0° via CSS transform — container height is fixed to prevent layout shift.
   aboutCards: [
     {
       title: "Not a marathon",
+      rotate: -2,
       body: "Start the day with a delicious breakfast and surf to set the energy for the day, then have the rest of the afternoon for yourself. Join the group activities or use your own initiative.",
     },
     {
       title: "Not a resort",
+      rotate: 1,
       body: "A 3-story house in Tamraght, Morocco, with an Atlantic ocean-view rooftop. Near surf spots, the beach, and the local skatepark.",
     },
     {
       title: "Not a checklist",
+      rotate: -2,
       body: "Only group surf is on a schedule. For the rest, trust the process. We want to live a life, be spontaneous, and let things unfold.",
     },
   ],

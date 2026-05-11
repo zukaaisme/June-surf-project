@@ -2,7 +2,7 @@ import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Program } from "@/components/program";
-import { PhotoSection } from "@/components/photo-section";
+// import { PhotoSection } from "@/components/photo-section"; // hidden — see BACKLOG.md (2026-05-11)
 import { Team } from "@/components/team";
 import { Pricing } from "@/components/pricing";
 import { ApplyForm } from "@/components/apply-form";
@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <About />
       <Program />
-      <PhotoSection />
+      {/* <PhotoSection /> */}
       <Team />
       <Pricing />
       <ApplyForm />

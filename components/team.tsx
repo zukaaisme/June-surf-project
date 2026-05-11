@@ -64,7 +64,7 @@ export function Team() {
         >
           {trip.people.map((person, i) => (
             <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="md:h-full">
-              <article className="flex w-[78vw] max-w-[340px] shrink-0 snap-start flex-col bg-[var(--color-mist)] pb-7 md:h-full md:w-auto md:max-w-none">
+              <article className="flex w-[78vw] max-w-[340px] shrink-0 snap-start flex-col bg-[var(--color-bone)] pb-7 transition-colors duration-300 hover:bg-[var(--color-mist)] md:h-full md:w-auto md:max-w-none">
                 <div
                   className="relative w-full overflow-hidden"
                   style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.1)" }}

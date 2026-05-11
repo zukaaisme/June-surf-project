@@ -10,17 +10,10 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { SECTION_PADDING_Y, captionUppercase } from "@/lib/styles";
 
-const chipLabelStyle = { ...captionUppercase, color: "rgba(0,0,0,0.5)" } as const;
-const chipValueStyle = {
-  ...captionUppercase,
-  color: "var(--color-slate)",
-  wordBreak: "break-word" as const,
-  lineHeight: 1.25,
-};
+const chipLabelStyle = { ...captionUppercase, color: "rgba(50,55,64,0.5)", lineHeight: 1.2 } as const;
+const chipValueStyle = { ...captionUppercase, color: "var(--color-slate)", lineHeight: 1.2 } as const;
 
 const CONTACTS = [
-  { label: "Email",     getValue: () => site.email,           getHref: () => `mailto:${site.email}` },
-  { label: "WhatsApp",  getValue: () => site.phone,           getHref: () => site.whatsapp },
   { label: "Telegram",  getValue: () => site.telegramHandle,  getHref: () => site.telegram },
   { label: "Instagram", getValue: () => site.instagramHandle, getHref: () => site.instagram },
 ] as const;
@@ -167,6 +160,7 @@ export function ApplyForm() {
                       type="text"
                       placeholder="Link to profile"
                       style={fieldStyle}
+                      {...register("instagram")}
                     />
                   </div>
                   <div>
@@ -234,7 +228,7 @@ export function ApplyForm() {
         </div>
 
         <FadeIn delay={0.1}>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             {CONTACTS.map(({ label, getValue, getHref }) => {
               const href = getHref();
               const isExternal = href.startsWith("http");
@@ -244,7 +238,7 @@ export function ApplyForm() {
                   href={href}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
-                  className="hover-fade flex flex-col gap-1 px-6 py-4"
+                  className="hover-fade flex h-14 items-center justify-center gap-3 sm:w-[308px]"
                   style={{ backgroundColor: "var(--color-mist)" }}
                 >
                   <span style={chipLabelStyle}>{label}</span>

@@ -29,14 +29,12 @@ const TAGS = [
   {
     label: site.location,
     href: site.locationWikiUrl,
-    bg: "var(--color-mist-2)",
-    border: "var(--color-mist-2)",
+    bg: "var(--color-mist)",
   },
   {
     label: "Check on Google Maps",
     href: site.mapsUrl,
     bg: "var(--color-magenta-light)",
-    border: "var(--color-magenta-light)",
   },
 ] as const;
 
@@ -47,10 +45,16 @@ export function About() {
         <FadeIn>
           <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
             {trip.aboutCards.map((card) => (
-              <div key={card.title} className="flex flex-col gap-4 pr-0 lg:pr-5">
-                <h3 className="text-[var(--color-magenta-light)]" style={cardHeadingStyle}>
-                  {card.title}
-                </h3>
+              <div key={card.title} className="not-a-card group flex flex-col gap-4 pr-0 lg:pr-5">
+                {/* Fixed-height wrapper absorbs rotation so the body below doesn't reflow when the heading straightens on hover. */}
+                <div className="flex h-[46px] items-center">
+                  <h3
+                    className="origin-left text-black transition-transform duration-300 ease-out group-hover:rotate-0"
+                    style={{ ...cardHeadingStyle, transform: `rotate(${card.rotate}deg)` }}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
                 <p className="text-[var(--color-slate)]" style={cardBodyStyle}>
                   {card.body}
                 </p>
@@ -68,11 +72,7 @@ export function About() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-3 py-2 underline hover-fade"
-                style={{
-                  ...tagBase,
-                  backgroundColor: tag.bg,
-                  border: `2px solid ${tag.border}`,
-                }}
+                style={{ ...tagBase, backgroundColor: tag.bg }}
               >
                 {tag.label}
               </a>
