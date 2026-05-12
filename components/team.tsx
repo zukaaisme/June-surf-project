@@ -57,9 +57,9 @@ export function Team() {
           </div>
         </FadeIn>
 
-        <div className="grid auto-rows-fr grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+        <div className="-mx-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:auto-rows-fr sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 lg:grid-cols-4">
           {trip.people.map((person, i) => (
-            <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="h-full">
+            <FadeIn key={person.id} delay={Math.min(i * 0.05, 0.15)} className="h-full w-[78vw] max-w-[340px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink">
               <article className="card-lift flex h-full flex-col bg-[var(--color-mist)] pb-7">
                 <div
                   className="relative w-full overflow-hidden"
