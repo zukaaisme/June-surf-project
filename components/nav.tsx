@@ -116,7 +116,7 @@ export function Nav() {
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="font-display text-h1 font-bold text-[var(--color-slate)] hover-fade block"
+                      className="font-display text-h1 font-medium text-[var(--color-slate)] hover-fade block"
                     >
                       {link.label}
                     </a>
