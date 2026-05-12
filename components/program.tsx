@@ -20,7 +20,7 @@ const itemTitleStyle = {
   letterSpacing: "-0.01em",
 } as const;
 
-const itemBodyStyle = { fontSize: "16px", fontWeight: 400, lineHeight: 1.4 } as const;
+const itemBodyStyle = { fontSize: "16px", fontWeight: 400, lineHeight: 1.2 } as const;
 
 export function Program() {
   return (

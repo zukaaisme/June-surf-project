@@ -42,7 +42,7 @@ export function Hero() {
         <div aria-hidden="true" className="absolute inset-0 bg-[rgba(50,55,64,0.1)]" />
       </Parallax>
 
-      <div className="relative z-10 flex h-full flex-col items-center px-10 pt-[92px] pb-14 text-center">
+      <div className="relative z-10 flex h-full flex-col items-center px-10 pt-[100px] pb-14 text-center">
         <FadeIn delay={0.1} className="w-full">
           <h1 className="sr-only">{site.heroHeadline}</h1>
           <img
@@ -56,7 +56,7 @@ export function Hero() {
             src="/figma/header-desktop.svg"
             alt=""
             aria-hidden="true"
-            className="mx-auto hidden w-full max-w-[1100px] md:block"
+            className="mx-auto hidden w-full max-w-[1000px] md:block"
             style={{ filter: `drop-shadow(${TEXT_SHADOW_HERO})` }}
           />
         </FadeIn>
@@ -69,7 +69,7 @@ export function Hero() {
             style={{
               fontFamily: "var(--font-bricolage), sans-serif",
               fontWeight: 500,
-              lineHeight: 1.4,
+              lineHeight: 1.2,
               maxWidth: "634px",
               textShadow: TEXT_SHADOW_HERO_SUB,
             }}

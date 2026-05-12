@@ -65,7 +65,7 @@ export function ApplyForm() {
     <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-[124px]">
 
           {/* Left — dates heading + subhead + chips pinned to bottom on desktop */}
           <FadeIn className="flex h-full flex-col">
