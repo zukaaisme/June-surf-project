@@ -25,17 +25,11 @@ const tagBase = {
   letterSpacing: "0.01em",
 } as const;
 
+// All three chips share the same mist (light blue) background per the v3 mockup.
 const TAGS = [
-  {
-    label: site.location,
-    href: site.locationWikiUrl,
-    bg: "var(--color-mist)",
-  },
-  {
-    label: "Check on Google Maps",
-    href: site.mapsUrl,
-    bg: "var(--color-magenta-light)",
-  },
+  { label: "Tamraght, Morocco", href: site.locationWikiUrl },
+  { label: "Check on Google Maps", href: site.mapsUrl },
+  { label: "House Instagram", href: site.instagram },
 ] as const;
 
 export function About() {
@@ -73,8 +67,8 @@ export function About() {
               href={tag.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-3 py-2 underline hover-fade"
-              style={{ ...tagBase, backgroundColor: tag.bg }}
+              className="inline-flex items-center bg-[var(--color-mist)] px-3 py-2 underline hover-fade"
+              style={tagBase}
             >
               {tag.label}
             </a>

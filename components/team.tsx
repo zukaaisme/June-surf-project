@@ -78,12 +78,12 @@ export function Team() {
                 </div>
 
                 {/* Figma: pt-6 (24), px-6 (24), pb on article = pb-7 (28).
-                    role→name gap 8 (mt-2), name-block→bio gap 24 (mt-6). */}
+                    Order is name → role → bio. name→role gap 8 (mt-2), name-block→bio gap 24 (mt-6). */}
                 <div className="flex flex-1 flex-col items-center px-6 pt-6 text-center">
-                  <p style={roleStyle}>{person.role}</p>
-                  <h3 className="mt-2 text-[var(--color-slate)]" style={nameStyle}>
+                  <h3 className="text-[var(--color-slate)]" style={nameStyle}>
                     {person.name}
                   </h3>
+                  <p className="mt-2" style={roleStyle}>{person.role}</p>
                   <p className="mt-6 text-[var(--color-slate)]" style={bioStyle}>
                     {person.bio}
                   </p>
