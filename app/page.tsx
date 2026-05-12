@@ -21,8 +21,10 @@ export default function Home() {
       <Team />
       <Pricing />
       <ApplyForm />
-      {/* Slider 2 — its own section, same 56/72 rhythm as everything else. Uses trip.slider2Photos so the photos can diverge from slider 1 later. */}
-      <section className="bg-white pt-10 pb-14 md:pt-[56px] md:pb-[72px]">
+      {/* Slider 2 — visually a tail of the ApplyForm section, so it carries pb only.
+          ApplyForm already provides the gap above (its own pb-72). Adding a pt here
+          would double the spacing and leave a huge dead zone above the photos. */}
+      <section className="bg-white pb-14 md:pb-[72px]">
         <GallerySlider id="slider-2" photos={trip.slider2Photos} />
       </section>
       <Footer />
