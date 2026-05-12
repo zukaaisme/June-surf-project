@@ -1,7 +1,6 @@
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icon } from "@/components/ui/icons";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
-import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
 const headingStyle = {
@@ -26,7 +25,9 @@ export function Program() {
   return (
     <section
       id="program"
-      className={`relative overflow-hidden bg-[var(--color-mist)] ${SECTION_PADDING_Y}`}
+      // Bottom override: pb 80 (instead of the universal 72) to compensate
+      // the visual weight of the big Team headline that follows. Top stays on the 56/40 rule.
+      className="relative overflow-hidden bg-[var(--color-mist)] pt-10 pb-[60px] md:pt-[56px] md:pb-[80px]"
     >
       <NoiseOverlay />
 

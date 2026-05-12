@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
-import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
 const headingStyle = {
@@ -44,7 +43,12 @@ const bioStyle = {
 
 export function Team() {
   return (
-    <section id="team" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
+    <section
+      id="team"
+      // Top override: pt 80 to balance the gap against Program's pb-80 above —
+      // the "Meet the Team" headline is heavy enough to need the extra breathing room.
+      className="overflow-hidden bg-white pt-[60px] pb-14 md:pt-[80px] md:pb-[72px]"
+    >
       <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
           <div className="mx-auto mb-12 flex max-w-[640px] flex-col items-center gap-4 text-center md:mb-16">
