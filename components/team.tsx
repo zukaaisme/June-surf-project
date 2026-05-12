@@ -23,7 +23,8 @@ const roleStyle = {
   fontFamily: "var(--font-typewriter), serif",
   fontSize: "14px",
   color: "rgba(50,55,64,0.5)",
-  letterSpacing: "0.01em",
+  letterSpacing: "0.07em",
+  textTransform: "uppercase",
   lineHeight: 1.2,
 } as const;
 
@@ -31,13 +32,14 @@ const nameStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
   fontSize: "28px",
   fontWeight: 700,
-  lineHeight: 1.2,
+  lineHeight: 1.1,
+  letterSpacing: "-0.01em",
 } as const;
 
 const bioStyle = {
   fontSize: "16px",
   fontWeight: 400,
-  lineHeight: 1.2,
+  lineHeight: 1.4,
 } as const;
 
 export function Team() {
@@ -63,7 +65,7 @@ export function Team() {
               <article className="card-lift flex h-full flex-col bg-[var(--color-mist)] pb-7">
                 <div
                   className="relative w-full overflow-hidden"
-                  style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.1)" }}
+                  style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.08)" }}
                 >
                   <Image
                     src={person.photo}
@@ -75,12 +77,12 @@ export function Team() {
                   />
                 </div>
 
-                <div className="flex flex-1 flex-col items-center gap-2 px-6 pt-7 text-center">
+                <div className="flex flex-1 flex-col items-center px-6 pt-7 text-center">
                   <p style={roleStyle}>{person.role}</p>
-                  <h3 className="text-[var(--color-slate)]" style={nameStyle}>
+                  <h3 className="mt-1 text-[var(--color-slate)]" style={nameStyle}>
                     {person.name}
                   </h3>
-                  <p className="text-[var(--color-slate)]" style={bioStyle}>
+                  <p className="mt-3 text-[var(--color-slate)]" style={bioStyle}>
                     {person.bio}
                   </p>
                 </div>

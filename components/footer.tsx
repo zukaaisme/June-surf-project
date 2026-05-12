@@ -42,7 +42,7 @@ export function Footer() {
       className="relative w-full overflow-hidden bg-[var(--color-magenta-light)]"
     >
       <NoiseOverlay />
-      <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-10 py-16 text-center md:gap-7 md:py-20 lg:py-24">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center gap-8 px-10 pt-10 pb-14 text-center md:gap-7 md:pt-[56px] md:pb-[72px]">
         {reduced ? (
           <h2
             className="text-[var(--color-mist)]"

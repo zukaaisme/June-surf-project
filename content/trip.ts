@@ -163,8 +163,8 @@ export const trip = {
   // Gallery slider 2 — second cluster (after Apply form). Different photos go in later;
   // for now mirrors slider 1.
   slider2Photos: [
-    { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
     { src: "/figma/gallery/photo-2.png", alt: "Surf session on the Atlantic" },
+    { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
     { src: "/figma/gallery/photo-3.png", alt: "Village street in Tamraght" },
     { src: "/figma/gallery/photo-4.png", alt: "House rooftop with ocean view" },
     { src: "/figma/gallery/photo-5.png", alt: "Local food at the port" },

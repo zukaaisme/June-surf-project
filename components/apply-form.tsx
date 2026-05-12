@@ -11,7 +11,7 @@ import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
 import { SECTION_PADDING_Y } from "@/lib/styles";
 
 const fieldStyle = {
-  backgroundColor: "rgba(50,55,64,0.1)",
+  backgroundColor: "rgba(50,55,64,0.08)",
   height: "56px",
   display: "flex",
   alignItems: "center",
