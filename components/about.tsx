@@ -53,8 +53,8 @@ export function About() {
       </div>
 
       {/* Slider — outside the max-w-7xl padded container so it bleeds to viewport edges.
-          Gap cards→slider = 56px per Figma (md:mt-14). */}
-      <FadeIn delay={0.1} className="mt-10 md:mt-14">
+          Gap cards→slider = 60px desktop / 44px mobile (was 56/40, +4 per the latest spec). */}
+      <FadeIn delay={0.1} className="mt-[44px] md:mt-[60px]">
         <GallerySlider photos={trip.galleryPhotos} />
       </FadeIn>
 

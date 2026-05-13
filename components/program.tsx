@@ -1,7 +1,6 @@
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icon } from "@/components/ui/icons";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
-import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
 const headingStyle = {
@@ -26,7 +25,9 @@ export function Program() {
   return (
     <section
       id="program"
-      className={`relative overflow-hidden bg-[var(--color-mist)] ${SECTION_PADDING_Y}`}
+      // Universal pt (72/56), but pb gets +8 over the rest — gives the two-row item grid
+      // more visual ground before the next section starts.
+      className="relative overflow-hidden bg-[var(--color-mist)] pt-14 pb-[80px] md:pt-[72px] md:pb-[100px]"
     >
       <NoiseOverlay />
 

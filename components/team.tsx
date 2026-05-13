@@ -3,19 +3,20 @@ import { FadeIn } from "@/components/ui/fade-in";
 import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
+// Match the Pricing section's headline + subhead recipe so the Team / Pricing duo reads as a pair.
 const headingStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
   fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
   fontWeight: 600,
-  lineHeight: 0.95,
+  lineHeight: 1.05,
   letterSpacing: "-0.02em",
 } as const;
 
 const subheadStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
   fontSize: "16px",
-  fontWeight: 500,
-  lineHeight: 1.2,
+  fontWeight: 400,
+  lineHeight: 1.4,
   whiteSpace: "pre-wrap",
 } as const;
 
