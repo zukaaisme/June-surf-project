@@ -70,9 +70,10 @@ export function ApplyForm() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-[124px]">
 
           {/* Left — dates heading + subhead + chips pinned to bottom on desktop.
-              Heading→subhead gap is gap-4 (16) — uniform with Team and Pricing. */}
+              Heading→subhead gap is gap-6 (24px). Apply's headline is two lines, so it
+              earns 8px more breathing than the single-line Team / Pricing headlines (16px). */}
           <FadeIn className="flex h-full flex-col">
-            <div className="flex h-full flex-col gap-4">
+            <div className="flex h-full flex-col gap-6">
               <h2
                 className="text-[var(--color-slate)]"
                 style={{
