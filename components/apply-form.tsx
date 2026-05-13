@@ -8,6 +8,7 @@ import { trip } from "@/content/trip";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
+import { SECTION_PADDING_Y } from "@/lib/styles";
 
 const fieldStyle = {
   backgroundColor: "rgba(50,55,64,0.08)",
@@ -61,10 +62,9 @@ export function ApplyForm() {
   }
 
   return (
-    // pt gets +8 over the universal rule — the "Nearest dates" headline is heavy enough
-    // to want a bit more breathing room above. pb stays universal so the slider-2 wrapper
-    // still sits flush below.
-    <section id="apply" className="bg-white pt-16 pb-[72px] md:pt-[80px] md:pb-[92px] overflow-hidden">
+    // V2: universal SECTION_PADDING_Y. The +8 pt override is gone — the new universal pt
+    // (80 desktop) already gives "Nearest dates" the breathing room it earned.
+    <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-[124px]">

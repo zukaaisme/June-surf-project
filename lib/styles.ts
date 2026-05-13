@@ -1,14 +1,32 @@
 import type { CSSProperties } from "react";
 
-// Section vertical padding — every full-width section.
-// House rule: blocks sit flush against each other, with 72px top / 92px bottom inside each block on desktop.
-// Mobile is 56/72 — same proportions, scaled down.
-export const SECTION_PADDING_Y = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";
+// ─────────────────────────────────────────
+// Section vertical padding — versioned for fast rollback.
+//
+// ROLLBACK to V1 (current as of commits up to b874fd6):
+//   $ git revert <THIS_COMMIT_HASH>     ← single command, reverts everything in one go.
+//
+// OR manually: swap which pair below is exported (uncomment V1, comment V2),
+// AND restore the inline overrides on Program + Apply (see those files).
+//
+// V1 — values as they were before the unification pass:
+//   export const SECTION_PADDING_Y       = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";  // 56/72 mobile, 72/92 desktop
+//   export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";       // 56/56 mobile, 72/72 desktop
+//   + Program had inline pt-14 pb-[80px] md:pt-[72px] md:pb-[100px]  (its own +8 pb)
+//   + Apply   had inline pt-16 pb-[72px] md:pt-[80px] md:pb-[92px]   (its own +8 pt)
+//
+// V2 — current. Unified to ONE universal pair + ONE About exception. Multiples of 4.
+//   Direction: slightly bigger. Program/Apply overrides folded into the universal.
+// ─────────────────────────────────────────
 
-// About is no longer a hard exception — its bottom padding now matches the top padding
-// (72 desktop / 56 mobile) so the gap below the buttons row visually mirrors the gap
-// above the next section's heading.
-export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";
+// Universal section padding — applies to every full-width section.
+// Mobile: 64 top / 80 bottom. Desktop: 80 top / 96 bottom.
+export const SECTION_PADDING_Y = "pt-16 pb-20 md:pt-20 md:pb-24";
+
+// About is the only exception: bottom padding equals top padding (no extra bottom airspace)
+// so the gap from the chips row to the next section visually mirrors the gap above the
+// next section's heading.
+export const SECTION_PADDING_Y_ABOUT = "pt-16 pb-16 md:pt-20 md:pb-20";
 
 // Drop shadows for text laid over photos/video (hero) and over photos (pricing price chip).
 // Opacity 0.32 (was 0.25) — slightly stronger so the white copy stays legible against bright

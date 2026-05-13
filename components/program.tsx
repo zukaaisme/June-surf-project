@@ -1,6 +1,7 @@
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icon } from "@/components/ui/icons";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
+import { SECTION_PADDING_Y } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
 const headingStyle = {
@@ -25,9 +26,9 @@ export function Program() {
   return (
     <section
       id="program"
-      // Universal pt (72/56), but pb gets +8 over the rest — gives the two-row item grid
-      // more visual ground before the next section starts.
-      className="relative overflow-hidden bg-[var(--color-mist)] pt-14 pb-[80px] md:pt-[72px] md:pb-[100px]"
+      // V2: back on the universal SECTION_PADDING_Y. The +8 pb override is gone — the new
+      // universal pb (96 desktop) absorbs the breathing room Program needed before Team.
+      className={`relative overflow-hidden bg-[var(--color-mist)] ${SECTION_PADDING_Y}`}
     >
       <NoiseOverlay />
 
