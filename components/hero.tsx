@@ -65,7 +65,7 @@ export function Hero() {
 
         <FadeIn delay={0.2}>
           <p
-            className="mx-auto text-[16px] text-white md:text-[18px]"
+            className="mx-auto text-[16px] text-white"
             style={{
               fontFamily: "var(--font-bricolage), sans-serif",
               fontWeight: 500,

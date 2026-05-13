@@ -11,8 +11,10 @@ export const SECTION_PADDING_Y = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";
 export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";
 
 // Drop shadows for text laid over photos/video (hero) and over photos (pricing price chip).
-export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.25)";
-export const TEXT_SHADOW_HERO_SUB = "0 1px 16px rgba(0,0,0,0.25)";
+// Opacity 0.32 (was 0.25) — slightly stronger so the white copy stays legible against bright
+// frames of the hero video.
+export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.32)";
+export const TEXT_SHADOW_HERO_SUB = "0 1px 16px rgba(0,0,0,0.32)";
 export const TEXT_SHADOW_OVER_PHOTO = "0 1px 8px rgba(0,0,0,0.1)";
 
 // Special Elite — typewriter family used for captions, labels, tag chips.
