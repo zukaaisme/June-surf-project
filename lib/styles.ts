@@ -1,13 +1,14 @@
 import type { CSSProperties } from "react";
 
 // Section vertical padding — every full-width section.
-// House rule: blocks sit flush against each other, with 64px top / 84px bottom inside each block on desktop.
-// Mobile scales down a touch to keep the rhythm visible without burning screen real estate.
-export const SECTION_PADDING_Y = "pt-12 pb-16 md:pt-[64px] md:pb-[84px]";
+// House rule: blocks sit flush against each other, with 72px top / 92px bottom inside each block on desktop.
+// Mobile is 56/72 — same proportions, scaled down.
+export const SECTION_PADDING_Y = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";
 
-// Exception: About ends with a buttons row tucked 36px under the slider — so the section also
-// closes with 36px instead of 84px, keeping slider→buttons and buttons→next-section symmetrical.
-export const SECTION_PADDING_Y_ABOUT = "pt-12 pb-9 md:pt-[64px] md:pb-[36px]";
+// About is no longer a hard exception — its bottom padding now matches the top padding
+// (72 desktop / 56 mobile) so the gap below the buttons row visually mirrors the gap
+// above the next section's heading.
+export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";
 
 // Drop shadows for text laid over photos/video (hero) and over photos (pricing price chip).
 export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.25)";

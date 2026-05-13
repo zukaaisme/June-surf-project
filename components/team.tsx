@@ -66,8 +66,10 @@ function TeamCard({ person, index, extraClassName = "" }: { person: Person; inde
         </div>
 
         {/* Figma: pt-6 (24), px-6 (24), pb on article = pb-7 (28).
-            Order is name → role → bio. name→role gap 8 (mt-2), name-block→bio gap 24 (mt-6). */}
-        <div className="flex flex-1 flex-col items-center px-6 pt-6 text-center">
+            Order is name → role → bio. name→role gap 8 (mt-2), name-block→bio gap 24 (mt-6).
+            flex-1 + justify-center vertically centres the text block inside whatever height the
+            equal-row machinery gives us, so short-bio cards don't look top-stacked. */}
+        <div className="flex flex-1 flex-col items-center justify-center px-6 pt-6 text-center">
           <h3 className="text-[var(--color-slate)]" style={nameStyle}>
             {person.name}
           </h3>
