@@ -86,10 +86,11 @@ export function Team() {
         </FadeIn>
       </div>
 
-      {/* Mobile carousel — full-width scroller, first card starts at the grid left edge
-          (px-10), identical pattern to the photo slider. items-stretch (flex default)
-          gives equal heights regardless of bio length. */}
-      <div className="flex w-full snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:hidden">
+      {/* Mobile carousel — full-width scroller, first card starts at the grid left edge.
+          scroll-pl-10 tells snap-mandatory that the snap origin is 40px inside the
+          container's left edge, so `snap-start` on the first card lands the card AT the
+          padding line instead of overshooting it to the viewport edge. */}
+      <div className="flex w-full snap-x snap-mandatory items-stretch gap-4 overflow-x-auto px-10 scroll-pl-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:hidden">
         {trip.people.map((person, i) => (
           <TeamCard
             key={person.id}

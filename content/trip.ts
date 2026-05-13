@@ -63,7 +63,7 @@ export const trip = {
       accommodation: "A door you can close. Quiet mornings before surf.",
       price: 800,
       priceDisplay: "€800",
-      perUnit: "/per couple",
+      perUnit: "/per person",
       currency: "EUR",
       description: "Your own room in the house, shared bathroom, ideal for couples",
       featured: false,
