@@ -22,8 +22,10 @@ export default function Home() {
       <Pricing />
       <ApplyForm />
       {/* Slider 2 — visually a tail of the ApplyForm section, so it carries pb only.
-          ApplyForm already provides the gap above (its own V2 pb-24/96). */}
-      <section className="bg-white pb-20 md:pb-24">
+          ApplyForm provides the gap above (its own V2 pb-24/96). Bottom gets a +8 optical
+          bump (pb-[88px] mobile / pb-[104px] desktop) so the magenta footer next door
+          doesn't visually squash the air below the photos. */}
+      <section className="bg-white pb-[88px] md:pb-[104px]">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}
