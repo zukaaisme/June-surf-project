@@ -101,7 +101,7 @@ export function Pricing() {
                     className="w-full"
                     style={{ height: "1px", backgroundColor: "rgba(50,55,64,0.15)" }}
                   />
-                  <p className="px-9 text-[var(--color-slate)]" style={descriptionStyle}>
+                  <p className="px-9 text-center text-[var(--color-slate)]" style={descriptionStyle}>
                     {tier.description}
                   </p>
                 </div>

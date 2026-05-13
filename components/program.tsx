@@ -27,7 +27,7 @@ export function Program() {
     <section
       id="program"
       // V2: back on the universal SECTION_PADDING_Y. The +8 pb override is gone — the new
-      // universal pb (96 desktop) absorbs the breathing room Program needed before Team.
+      // universal pb (96 desktop / 80 mobile) absorbs the breathing room Program needed.
       className={`relative overflow-hidden bg-[var(--color-mist)] ${SECTION_PADDING_Y}`}
     >
       <NoiseOverlay />

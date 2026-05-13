@@ -22,7 +22,7 @@ export default function Home() {
       <Pricing />
       <ApplyForm />
       {/* Slider 2 — visually a tail of the ApplyForm section, so it carries pb only.
-          ApplyForm already provides the gap above (its own pb-24/96). Matching V2 universal. */}
+          ApplyForm already provides the gap above (its own V2 pb-24/96). */}
       <section className="bg-white pb-20 md:pb-24">
         <GallerySlider
           id="slider-2"

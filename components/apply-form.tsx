@@ -63,15 +63,16 @@ export function ApplyForm() {
 
   return (
     // V2: universal SECTION_PADDING_Y. The +8 pt override is gone — the new universal pt
-    // (80 desktop) already gives "Nearest dates" the breathing room it earned.
+    // (80 desktop / 64 mobile) already gives "Nearest dates" the breathing room it earned.
     <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-[124px]">
 
-          {/* Left — dates heading + subhead + chips pinned to bottom on desktop */}
+          {/* Left — dates heading + subhead + chips pinned to bottom on desktop.
+              Heading→subhead gap is gap-4 (16) — uniform with Team and Pricing. */}
           <FadeIn className="flex h-full flex-col">
-            <div className="flex h-full flex-col gap-6">
+            <div className="flex h-full flex-col gap-4">
               <h2
                 className="text-[var(--color-slate)]"
                 style={{
@@ -88,7 +89,7 @@ export function ApplyForm() {
               </h2>
               <p
                 className="text-[var(--color-slate)]"
-                style={{ fontSize: "16px", fontWeight: 500, lineHeight: 1.4, maxWidth: "420px" }}
+                style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "420px" }}
               >
                 {trip.applySubhead}
               </p>

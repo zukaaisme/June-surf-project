@@ -3,13 +3,13 @@ import type { CSSProperties } from "react";
 // ─────────────────────────────────────────
 // Section vertical padding — versioned for fast rollback.
 //
-// ROLLBACK to V1 (current as of commits up to b874fd6):
+// ROLLBACK to V1:
 //   $ git revert <THIS_COMMIT_HASH>     ← single command, reverts everything in one go.
 //
-// OR manually: swap which pair below is exported (uncomment V1, comment V2),
-// AND restore the inline overrides on Program + Apply (see those files).
+// OR manually: swap the exports back to the V1 pair below and restore the inline
+// overrides on Program + Apply (they used to carry their own +8 boosts).
 //
-// V1 — values as they were before the unification pass:
+// V1 — values before the unification pass:
 //   export const SECTION_PADDING_Y       = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";  // 56/72 mobile, 72/92 desktop
 //   export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";       // 56/56 mobile, 72/72 desktop
 //   + Program had inline pt-14 pb-[80px] md:pt-[72px] md:pb-[100px]  (its own +8 pb)
