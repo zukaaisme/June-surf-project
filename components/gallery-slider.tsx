@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
+  animate,
   motion,
+  useMotionValue,
   useScroll,
   useTransform,
   type PanInfo,
@@ -28,13 +30,15 @@ type Props = {
   /** Card aspect on the strip. `portrait` (default) ≈ 340/493, `landscape` ≈ 3/2. */
   orientation?: Orientation;
   /**
-   * When true, the strip becomes natively scrollable (no scroll-tied auto-track)
-   * and two arrow buttons sit on the screen edges to flip through previews by one card per click.
+   * When true, the strip is a plain horizontally-scrollable container (Slider 2 mode).
+   * When false/default, the strip is scroll-tied: page scroll drives the auto-track (Slider 1 mode).
+   * Arrows show in BOTH modes on desktop and are wired to the right mechanism internally.
    */
-  manualArrows?: boolean;
+  nativeScroll?: boolean;
 };
 
 const GAP = 16;
+const STEP_FALLBACK_RATIO = 0.6;
 
 const STRIP_PORTRAIT = {
   width: "clamp(240px, 22vw, 340px)",
@@ -50,7 +54,7 @@ const STRIP_LANDSCAPE = {
 
 // Scroll-tied auto-track container (desktop, Slider 1).
 const TRACK_AUTO_CLASS = "relative w-full overflow-hidden";
-// Native horizontal scroll container — mobile of either slider, or any slider with manualArrows.
+// Native horizontal scroll container — mobile of either slider, or any slider with nativeScroll.
 const TRACK_NATIVE_CLASS =
   "relative w-full overflow-x-auto px-10 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
@@ -58,15 +62,14 @@ export function GallerySlider({
   photos,
   id = "gallery",
   orientation = "portrait",
-  manualArrows = false,
+  nativeScroll = false,
 }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const isDesktop = useIsDesktop();
 
-  // The scroll-tied auto-track only runs on desktop when arrows are NOT enabled.
-  // Arrows imply manual control, so the auto-track is mutually exclusive.
-  const autoTrackEnabled = isDesktop && !manualArrows;
+  // The scroll-tied auto-track only runs on desktop AND when nativeScroll is off.
+  const autoTrackEnabled = isDesktop && !nativeScroll;
 
   const strip = orientation === "landscape" ? STRIP_LANDSCAPE : STRIP_PORTRAIT;
 
@@ -94,21 +97,43 @@ export function GallerySlider({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    autoTrackEnabled ? [bounds.start, bounds.end] : [0, 0],
+
+  // Manual offset added on top of the scroll-tied position when the user clicks an arrow
+  // in autoTrack mode. Scroll-tied animation still runs underneath — arrows just nudge the
+  // baseline.
+  const manualOffset = useMotionValue(0);
+
+  const x = useTransform<number, number>(
+    [scrollYProgress, manualOffset],
+    ([progress, manual]) => {
+      if (!autoTrackEnabled) return 0;
+      const base = bounds.start + (bounds.end - bounds.start) * progress;
+      return base + manual;
+    },
   );
 
-  // Manual arrow scroll — measures the actual card width at runtime so it stays correct
-  // across the clamp() range.
-  const scrollBy = useCallback((dir: 1 | -1) => {
-    const el = sectionRef.current;
+  // Measure card width at runtime so the step matches whatever the clamp() resolves to.
+  const measureStep = useCallback(() => {
     const card = trackRef.current?.firstElementChild as HTMLElement | undefined;
-    if (!el) return;
-    const step = card ? card.offsetWidth + GAP : el.clientWidth * 0.6;
-    el.scrollBy({ left: step * dir, behavior: "smooth" });
+    if (card) return card.offsetWidth + GAP;
+    return (sectionRef.current?.clientWidth ?? 0) * STEP_FALLBACK_RATIO;
   }, []);
+
+  const scrollByCard = useCallback(
+    (dir: 1 | -1) => {
+      const step = measureStep();
+      if (autoTrackEnabled) {
+        // Moving forward visually = track translates left = x becomes more negative.
+        animate(manualOffset, manualOffset.get() - step * dir, {
+          duration: 0.4,
+          ease: [0.22, 1, 0.36, 1],
+        });
+      } else {
+        sectionRef.current?.scrollBy({ left: step * dir, behavior: "smooth" });
+      }
+    },
+    [autoTrackEnabled, manualOffset, measureStep],
+  );
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const open = activeIndex !== null;
@@ -187,26 +212,22 @@ export function GallerySlider({
           </motion.div>
         </div>
 
-        {/* Strip arrows — sit on the viewport edges so they read like the lightbox controls.
-            Hidden on mobile because native touch-scroll already handles flipping. */}
-        {manualArrows && (
-          <>
-            <StripArrow
-              onClick={() => scrollBy(-1)}
-              ariaLabel="Scroll photos left"
-              className="left-3 hidden md:flex"
-            >
-              <path d="M11 3 L5 9 L11 15" />
-            </StripArrow>
-            <StripArrow
-              onClick={() => scrollBy(1)}
-              ariaLabel="Scroll photos right"
-              className="right-3 hidden md:flex"
-            >
-              <path d="M7 3 L13 9 L7 15" />
-            </StripArrow>
-          </>
-        )}
+        {/* Strip arrows — always on desktop for both modes. In auto-track mode they nudge
+            the manual offset; in native-scroll mode they scrollBy the container. */}
+        <StripArrow
+          onClick={() => scrollByCard(-1)}
+          ariaLabel="Scroll photos left"
+          className="left-3 hidden md:flex"
+        >
+          <path d="M11 3 L5 9 L11 15" />
+        </StripArrow>
+        <StripArrow
+          onClick={() => scrollByCard(1)}
+          ariaLabel="Scroll photos right"
+          className="right-3 hidden md:flex"
+        >
+          <path d="M7 3 L13 9 L7 15" />
+        </StripArrow>
       </div>
 
       <AnimatePresence>
@@ -304,9 +325,9 @@ function StripArrow({ onClick, ariaLabel, className, children }: ArrowButtonProp
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`absolute top-1/2 z-10 -translate-y-1/2 h-11 w-11 items-center justify-center rounded-full bg-[var(--color-mist)] text-[var(--color-slate)] shadow-sm hover-fade ${className}`}
+      className={`absolute top-1/2 z-10 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[var(--color-slate)] shadow-[0_2px_8px_rgba(50,55,64,0.15)] hover-fade ${className}`}
     >
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </svg>
     </button>

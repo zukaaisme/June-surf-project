@@ -29,7 +29,7 @@ export default function Home() {
           id="slider-2"
           photos={trip.slider2Photos}
           orientation="landscape"
-          manualArrows
+          nativeScroll
         />
       </section>
       <Footer />
