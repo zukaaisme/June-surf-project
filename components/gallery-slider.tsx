@@ -123,16 +123,25 @@ export function GallerySlider({
     (dir: 1 | -1) => {
       const step = measureStep();
       if (autoTrackEnabled) {
-        // Moving forward visually = track translates left = x becomes more negative.
-        animate(manualOffset, manualOffset.get() - step * dir, {
+        // x = base + manualOffset.   Moving "right" visually = x becomes more negative.
+        // Clamp the TARGET x to [bounds.end, bounds.start] so the strip never overshoots
+        // its content — once you're showing the last (or first) card, the arrow no-ops.
+        const currentX = x.get();
+        const currentManual = manualOffset.get();
+        const targetX = currentX - step * dir;
+        const clampedX = Math.max(bounds.end, Math.min(bounds.start, targetX));
+        const deltaApplied = clampedX - currentX;
+        if (Math.abs(deltaApplied) < 1) return; // already at boundary
+        animate(manualOffset, currentManual + deltaApplied, {
           duration: 0.4,
           ease: [0.22, 1, 0.36, 1],
         });
       } else {
+        // Native scroll: the browser handles boundary clamping for free.
         sectionRef.current?.scrollBy({ left: step * dir, behavior: "smooth" });
       }
     },
-    [autoTrackEnabled, manualOffset, measureStep],
+    [autoTrackEnabled, bounds.end, bounds.start, manualOffset, measureStep, x],
   );
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
