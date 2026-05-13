@@ -8,7 +8,7 @@ import { trip } from "@/content/trip";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
-import { SECTION_PADDING_Y } from "@/lib/styles";
+import { SECTION_PADDING_Y, sectionSubheadStyle } from "@/lib/styles";
 
 const fieldStyle = {
   backgroundColor: "rgba(50,55,64,0.08)",
@@ -89,7 +89,7 @@ export function ApplyForm() {
               </h2>
               <p
                 className="text-[var(--color-slate)]"
-                style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "420px" }}
+                style={{ ...sectionSubheadStyle, maxWidth: "420px" }}
               >
                 {trip.applySubhead}
               </p>

@@ -151,18 +151,15 @@ export const trip = {
   aboutCards: [
     {
       title: "Not a marathon",
-      rotate: -2,
-      body: "Start the day with yoga, breakfast and surf to set the energy for the day. Join group activities if you want or use your initiative. We’re not here to rush.",
+body: "Start the day with yoga, breakfast and surf to set the energy for the day. Join group activities if you want or use your initiative. We’re not here to rush.",
     },
     {
       title: "Not a resort",
-      rotate: 1,
-      body: "3-story house in Taghazout, Morocco owned by locals, with an Atlantic ocean-view rooftop. Near surf spots, the beach, local skatepark and places to go out.",
+body: "3-story house in Taghazout, Morocco owned by locals, with an Atlantic ocean-view rooftop. Near surf spots, the beach, local skatepark and places to go out.",
     },
     {
       title: "Not a checklist",
-      rotate: -2,
-      body: "Part of understanding how people live here is being open. To the weather, the people and the time around you. Just be spontaneous and trust the process.",
+body: "Part of understanding how people live here is being open. To the weather, the people and the time around you. Just be spontaneous and trust the process.",
     },
   ],
 

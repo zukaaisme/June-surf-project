@@ -1,16 +1,8 @@
 import { FadeIn } from "@/components/ui/fade-in";
 import { Icon } from "@/components/ui/icons";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
-import { SECTION_PADDING_Y } from "@/lib/styles";
+import { SECTION_PADDING_Y, sectionHeadingStyle } from "@/lib/styles";
 import { trip } from "@/content/trip";
-
-const headingStyle = {
-  fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
-  fontWeight: 600,
-  lineHeight: 1.05,
-  letterSpacing: "-0.02em",
-} as const;
 
 const itemTitleStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
@@ -34,7 +26,7 @@ export function Program() {
 
       <div className="relative mx-auto w-full max-w-7xl px-10">
         <FadeIn>
-          <h2 className="mb-12 text-center text-[var(--color-magenta-light)] md:mb-16" style={headingStyle}>
+          <h2 className="mb-12 text-center text-[var(--color-magenta-light)] md:mb-16" style={sectionHeadingStyle}>
             {trip.programHeadline}
             <br />
             {trip.programHeadlineLine2}

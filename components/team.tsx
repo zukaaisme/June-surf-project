@@ -1,24 +1,7 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
-import { SECTION_PADDING_Y } from "@/lib/styles";
+import { SECTION_PADDING_Y, sectionHeadingStyle, sectionSubheadStyle } from "@/lib/styles";
 import { trip } from "@/content/trip";
-
-// Match the Pricing section's headline + subhead recipe so the Team / Pricing duo reads as a pair.
-const headingStyle = {
-  fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
-  fontWeight: 600,
-  lineHeight: 1.05,
-  letterSpacing: "-0.02em",
-} as const;
-
-const subheadStyle = {
-  fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "16px",
-  fontWeight: 400,
-  lineHeight: 1.4,
-  whiteSpace: "pre-wrap",
-} as const;
 
 const roleStyle = {
   fontFamily: "var(--font-typewriter), serif",
@@ -91,10 +74,10 @@ export function Team() {
       <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
           <div className="mx-auto mb-12 flex max-w-[640px] flex-col items-center gap-4 text-center md:mb-16">
-            <h2 className="text-[var(--color-slate)]" style={headingStyle}>
+            <h2 className="text-[var(--color-slate)]" style={sectionHeadingStyle}>
               {trip.teamHeadline}
             </h2>
-            <p className="text-[var(--color-slate)]" style={subheadStyle}>
+            <p className="text-[var(--color-slate)]" style={sectionSubheadStyle}>
               {trip.teamSubhead}
               <br />
               {trip.teamSubheadAttribution}

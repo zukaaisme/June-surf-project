@@ -35,6 +35,29 @@ export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.32)";
 export const TEXT_SHADOW_HERO_SUB = "0 1px 16px rgba(0,0,0,0.32)";
 export const TEXT_SHADOW_OVER_PHOTO = "0 1px 8px rgba(0,0,0,0.1)";
 
+// Shared section heading + subhead recipe — Program, Team, Pricing all use this.
+// Colour is per-section via className (slate / magenta-light). Apply Form uses its own
+// heading recipe (smaller clamp min, tighter line-height) so it isn't reused there.
+export const sectionHeadingStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
+  fontWeight: 600,
+  lineHeight: 1.05,
+  letterSpacing: "-0.02em",
+} as const satisfies CSSProperties;
+
+// Subhead recipe — every section that has a subhead under the headline uses this.
+// Each section applies its own `maxWidth` inline (the readable measure differs by content).
+export const sectionSubheadStyle = {
+  fontFamily: "var(--font-bricolage), sans-serif",
+  fontSize: "16px",
+  fontWeight: 400,
+  lineHeight: 1.4,
+} as const satisfies CSSProperties;
+
+// Heading→subhead gap is `gap-4` (16px) everywhere — kept inline at the JSX level via
+// the Tailwind utility, since centring/orientation differs by section.
+
 // Special Elite — typewriter family used for captions, labels, tag chips.
 export const captionStyle = {
   fontFamily: "var(--font-typewriter), serif",

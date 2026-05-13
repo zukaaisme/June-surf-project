@@ -16,13 +16,13 @@
   --color-mist:          #EEF5FF; /* mist blue — Taghazout tag, contact chips, team card hover */
   --color-magenta-light: #FDB3F3; /* primary pink — CTAs, headlines, Maps tag */
 
-  /* Typography scale — exactly 6 sizes */
-  --text-display:  clamp(3.25rem, 8vw, 6rem);   /* hero headline */
-  --text-h1:       clamp(2.25rem, 4.5vw, 3.5rem); /* section openers */
-  --text-h2:       clamp(1.5rem, 2.4vw, 2rem);  /* subheads */
-  --text-body:     1.125rem;                     /* 18px */
-  --text-label:    1rem;                         /* 16px — nav, buttons, captions */
-  --text-caption:  0.875rem;                     /* 14px — mono captions, fine print */
+  /* Typography scale — only the tokens still consumed somewhere remain.
+     Section headings + subheads now come from sectionHeadingStyle / sectionSubheadStyle
+     in lib/styles.ts; the page-level display / h1 / h2 scale that used to live here
+     was unused after that consolidation and is gone. */
+  --text-body:     1.125rem;                     /* 18px — <body> base */
+  --text-label:    1rem;                         /* 16px — nav brand */
+  --text-caption:  0.875rem;                     /* 14px — typewriter captions */
 
   /* Typography families */
   --font-family-display: var(--font-bricolage), system-ui, sans-serif;
@@ -46,42 +46,16 @@ body {
 }
 
 /* ─────────────────────────────────────────
-   TYPE SCALE — 6 named classes
+   TYPE SCALE — only the utilities still consumed by components remain.
+   Display / h1 / h2 / caption classes were removed (use sectionHeadingStyle and
+   sectionSubheadStyle from lib/styles.ts for section openers).
 ───────────────────────────────────────── */
-
-.text-display {
-  font-size: var(--text-display);
-  font-weight: 700;
-  line-height: 1.0;
-  letter-spacing: -0.01em;
-}
-
-.text-h1 {
-  font-size: var(--text-h1);
-  font-weight: 700;
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-}
-
-.text-h2 {
-  font-size: var(--text-h2);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-/* Body inherits from <body> above — no class needed */
 
 .text-label {
   font-size: var(--text-label);
   font-weight: 500;
 }
 
-.text-caption {
-  font-size: var(--text-caption);
-}
-
-/* Typography utilities */
 .font-display {
   font-family: var(--font-family-display);
 }

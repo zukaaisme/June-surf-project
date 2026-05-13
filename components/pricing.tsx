@@ -1,16 +1,13 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/fade-in";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
-import { SECTION_PADDING_Y, TEXT_SHADOW_OVER_PHOTO } from "@/lib/styles";
+import {
+  SECTION_PADDING_Y,
+  TEXT_SHADOW_OVER_PHOTO,
+  sectionHeadingStyle,
+  sectionSubheadStyle,
+} from "@/lib/styles";
 import { trip } from "@/content/trip";
-
-const headingStyle = {
-  fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
-  fontWeight: 600,
-  lineHeight: 1.05,
-  letterSpacing: "-0.02em",
-} as const;
 
 const priceStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
@@ -55,12 +52,12 @@ export function Pricing() {
       <div className="relative mx-auto max-w-7xl px-10">
         <FadeIn>
           <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
-            <h2 className="mb-4 text-[var(--color-magenta-light)]" style={headingStyle}>
+            <h2 className="mb-4 text-[var(--color-magenta-light)]" style={sectionHeadingStyle}>
               {trip.pricingHeadline}
             </h2>
             <p
               className="mx-auto text-[var(--color-slate)]"
-              style={{ fontSize: "16px", fontWeight: 400, lineHeight: 1.4, maxWidth: "632px" }}
+              style={{ ...sectionSubheadStyle, maxWidth: "632px" }}
             >
               {trip.pricingSubhead}
             </p>
