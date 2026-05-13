@@ -1,30 +1,33 @@
-// Brand, contact, SEO meta, and hero copy — V3
-// All copy from Figma source of truth.
+// Brand, contact, SEO meta, and hero copy — v3
+// All copy from Figma node 8:2235 (file yLe2GVz177buM1WYfL4f7l), 13 May 2026 audit.
 
 export const site = {
   name: "Surf Morocco",
-  tagline: "Real Morocco, Not Tourism.",
+  tagline: "An adventure. Not tourism.",
 
-  // Hero headline — per Figma iter 2 (Covered By Your Grace font)
-  heroHeadline: "An adventure, not tourism.",
+  // Hero handwritten SVG headline. Kept as plain text for sr-only fallback.
+  heroHeadline: "An adventure. Not tourism.",
 
-  // Hero subhead — per Figma iter 2 (longer, more atmospheric)
+  // Hero subhead — unchanged in the latest figma pass.
   heroSubhead:
     "Six days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time living a simple life. Enjoying the smell and sound of the ocean that creates memories itself.",
 
   // SEO
-  seoTitle: "Surf Morocco — Real Morocco, Not Tourism. Summer 2026",
+  seoTitle: "Surf Morocco — An adventure, not tourism. Summer 2026",
   seoDescription:
-    "Seven days in Tamraght, a fishing village south of Agadir. Small group, real house, local food. June 24 – July 1, 2026.",
-  seoUrl: "https://surfmorocco.vercel.app",
+    "Six days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026.",
+  seoUrl: "https://zukaaisme.com",
 
-  // Contact — per Figma
-  instagram: "https://instagram.com/surfmorocco",
-  telegram: "https://t.me/surfmorocco",
+  // Contact — Tazuri Surfhouse (the place we're collaborating with) instagram.
+  instagram: "https://www.instagram.com/tazuri_surfhouse",
+  telegram: "https://t.me/zukaaisme",
 
-  // Location chip — name matches the Maps pin (Tazuri Surf House, in Tamraght village).
-  // Wikipedia article for Tazuri specifically doesn't exist; linking to Tamraght (the village it sits in).
-  location: "Tazuri Surf House",
-  mapsUrl: "https://maps.app.goo.gl/4SHVHBwwkDBUa61a9",
-  locationWikiUrl: "https://en.wikipedia.org/wiki/Tamraght",
+  // Location chips under the About slider. The village is Taghazout (not Tamraght — that was older copy).
+  location: "Taghazout, Morocco",
+  mapsUrl: "https://maps.app.goo.gl/HdSLiTpBRvUizQ1N6?g_st=ic",
+  locationWikiUrl: "https://en.wikipedia.org/wiki/Taghazout",
+
+  // The third chip points at the surf house instagram — separate from the brand instagram in case
+  // these ever diverge.
+  tazuriInstagramUrl: "https://www.instagram.com/tazuri_surfhouse",
 } as const;

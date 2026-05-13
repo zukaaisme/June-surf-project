@@ -11,7 +11,13 @@ import {
 } from "framer-motion";
 import { useIsDesktop } from "@/lib/use-is-desktop";
 
-type Photo = { src: string; alt: string };
+type Photo = {
+  /** Strip thumbnail. Should be a -mini variant for fast initial paint. */
+  src: string;
+  /** Full-res variant served only when the lightbox opens. Falls back to `src` if absent. */
+  full?: string;
+  alt: string;
+};
 type Props = {
   photos: readonly Photo[];
   /** DOM id for the slider container — make it unique if rendering more than one slider on the page */
@@ -178,7 +184,7 @@ export function GallerySlider({ photos, id = "gallery" }: Props) {
               onDragEnd={onSwipe}
             >
               <Image
-                src={photos[activeIndex].src}
+                src={photos[activeIndex].full ?? photos[activeIndex].src}
                 alt={photos[activeIndex].alt}
                 fill
                 className="object-contain"

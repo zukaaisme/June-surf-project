@@ -5,7 +5,7 @@ export function PhotoSection() {
   return (
     <section
       id="house"
-      aria-label="Tamraght — Atlantic coastline"
+      aria-label="Taghazout — Atlantic coastline"
       className="relative w-full overflow-hidden bg-[var(--color-paper)]"
       style={{ height: "clamp(420px, 56vw, 800px)" }}
     >
@@ -14,7 +14,7 @@ export function PhotoSection() {
         <div className="absolute -inset-y-[8%] inset-x-0">
           <Image
             src="/figma/photo-section.png"
-            alt="Tamraght fishing village and the Atlantic"
+            alt="Taghazout fishing village and the Atlantic"
             fill
             className="object-cover"
             sizes="100vw"

@@ -9,10 +9,10 @@ export const images = {
     src: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=1200&q=85&fit=crop&auto=format",
     alt: "Lone surfer paddling out into the Atlantic at golden hour",
   },
-  // B: whitewashed wall, vivid blue door, Tamraght character — polaroid 4/5
+  // B: whitewashed wall, vivid blue door, Taghazout character — polaroid 4/5
   heroVillage: {
     src: "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=900&q=85&fit=crop&auto=format",
-    alt: "Whitewashed wall and blue door, Tamraght fishing village",
+    alt: "Whitewashed wall and blue door, Taghazout fishing village",
   },
   // C: surf wax bar on a deck, close-up detail — raw photo 1/1
   heroAccent: {

@@ -1,22 +1,41 @@
 // Source of truth: Figma file yLe2GVz177buM1WYfL4f7l, frame 8:2235.
+// All texts pulled fresh from the 13 May 2026 audit. Typos preserved as-found
+// in figma ("Actitvities", "OUR TECHER", "Prefered Plan") — flagged in BACKLOG.md
+// for the operator to decide whether to fix in figma or in code.
+
+const SLIDER_1_COUNT = 14;
+const SLIDER_2_COUNT = 14;
+
+const buildPhotoList = (
+  folder: "slider-1" | "slider-2",
+  count: number,
+  altPrefix: string,
+) =>
+  Array.from({ length: count }, (_, i) => {
+    const n = i + 1;
+    return {
+      src: `/figma/${folder}/photo-${n}-mini.png`,
+      full: `/figma/${folder}/photo-${n}.png`,
+      alt: `${altPrefix} ${n}`,
+    };
+  });
 
 export const trip = {
   season: "Summer 2026",
-  location: "Tamraght, Morocco",
+  location: "Taghazout, Morocco",
   duration: "7 days",
 
-  // Nearest dates — per Figma footer
-  nearestDates: "22 June 2026",
+  nearestDates: "22 – 28 June 2026",
   dates: [
-    { label: "Wave 1", range: "22 June – 28 June, 2026" },
+    { label: "Wave 1", range: "22 – 28 June 2026" },
   ],
 
-  // Pricing tiers — €600 / €650 / €800 per Figma 06-pricing (iter 2)
+  // Pricing tiers — €600 / €650 / €800 per Figma 06-pricing (iter 3)
   pricingTiers: [
     {
       id: "dorm",
       name: "Dorm room",
-      accommodation: "Bunk in a shared house room (4–6 people)",
+      accommodation: "8-bed dormitory room.",
       price: 600,
       priceDisplay: "€600",
       perUnit: "/per person",
@@ -28,7 +47,7 @@ export const trip = {
     {
       id: "shared",
       name: "Shared Room",
-      accommodation: "A door you can close. Quiet mornings before surf.",
+      accommodation: "4 single or 2 double beds in one room.",
       price: 650,
       priceDisplay: "€650",
       perUnit: "/per person",
@@ -51,28 +70,27 @@ export const trip = {
     },
   ],
 
-  // Program — 8 items per Figma 03-program_section (4×2 grid)
-  // Order matches Figma top-line then bottom-line.
+  // Program — 8 items, 4×2 grid. Order matches Figma top-line then bottom-line.
   program: [
     {
       icon: "seven_days" as const,
       title: "Seven days",
-      body: "6 nights included. Shared dorm or private double room, you choose. You can stay longer afterwards by agreement with the owner.",
+      body: "6 nights included. You can stay after the trip as long as you want by agreement with the owner.",
     },
     {
       icon: "food" as const,
       title: "Food",
-      body: "Breakfast at the house, lunch at the port or cooked together, dinner at the house.",
+      body: "Breakfasts & dinners at the house. Lunch cooked at home or in a cafe in the village or at the beach, there's a lot of them! Worth to try.",
     },
     {
       icon: "surf" as const,
       title: "Surf sessions",
-      body: "Guided, with a local instructor who knows what he's doing. Equipment included.",
+      body: "5 surf lessons in the week with a local instructor. Equipment included & beginner friendly.",
     },
     {
       icon: "transfer" as const,
       title: "Transfer",
-      body: "Airport pickup, daily rides to the beach depending on where the good waves are. A trip to Paradise Valley.",
+      body: "Agadir airport pickup, daily rides to the beach, depending where are the good waves. A trip to Paradise Valley.",
     },
     {
       icon: "place_to_stay" as const,
@@ -86,18 +104,17 @@ export const trip = {
     },
     {
       icon: "season" as const,
-      title: "Off season",
-      body: "Locals say that this year, thanks to the rains, there will still be waves for beginners and fewer tourists as a bonus.",
+      title: "Off-season",
+      body: "Locals say that this year thanks to the rains there will still be waves for beginners and less tourists as a bonus.",
     },
     {
       icon: "activities" as const,
       title: "Activities",
-      body: "Movie nights, desert trip, morning yoga and other experiences can be organized depending on the group vibe.",
+      body: "3 sunrise yoga sessions, collective gatherings, thrifting, cinema, street walks and pics. Also leave some room for surprises we've planned.",
     },
   ],
 
   // Team — 4 people per Figma 05-team_section
-  // photo paths point to public/figma/team/*.png
   people: [
     {
       id: "zukaa",
@@ -110,7 +127,7 @@ export const trip = {
       id: "khalid",
       name: "Khalid",
       role: "OUR MANAGER aka ANGEL",
-      bio: "Handles airport runs, bookings, the WhatsApp chaos, and just being there.",
+      bio: "Handles airport runs, bookings, and the WhatsApp chaos and just being there.",
       photo: "/figma/team/person-03.png",
     },
     {
@@ -123,59 +140,41 @@ export const trip = {
     {
       id: "chajara",
       name: "Chajara",
-      role: "OUR TEACHER",
+      role: "OUR TECHER",
       bio: "Your guide in the ocean and on the beach before every surf session.",
       photo: "/figma/team/person-02.png",
     },
   ],
 
-  // Headings are tilted per Figma. Hover on the card straightens the heading
-  // back to 0° via CSS transform — container height is fixed to prevent layout shift.
+  // About — Not_a cards
   aboutCards: [
     {
       title: "Not a marathon",
       rotate: -2,
-      body: "Start the day with a delicious breakfast and surf to set the energy for the day, then have the rest of the afternoon for yourself. Join the group activities or use your own initiative.",
+      body: "Start the day with yoga, breakfast and surf to set the energy for the day and have the rest of the afternoon for yourself. Join group activities if you want or use your initiative. We're not here to rush.",
     },
     {
       title: "Not a resort",
       rotate: 1,
-      body: "A 3-story house in Tamraght, Morocco, with an Atlantic ocean-view rooftop. Near surf spots, the beach, and the local skatepark.",
+      body: "3-story house in Taghazout, Morocco owned by locals, with an Atlantic ocean-view rooftop. Near surf spots, the beach, local skatepark and places to go out.",
     },
     {
       title: "Not a checklist",
       rotate: -2,
-      body: "Only group surf is on a schedule. For the rest, trust the process. We want to live a life, be spontaneous, and let things unfold.",
+      body: "Part of understanding how people live here is being open. To the weather, the people and the time around you. Just be spontaneous and trust the process.",
     },
   ],
 
-  // Gallery slider 1 — first cluster (after About section)
-  galleryPhotos: [
-    { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
-    { src: "/figma/gallery/photo-2.png", alt: "Surf session on the Atlantic" },
-    { src: "/figma/gallery/photo-3.png", alt: "Village street in Tamraght" },
-    { src: "/figma/gallery/photo-4.png", alt: "House rooftop with ocean view" },
-    { src: "/figma/gallery/photo-5.png", alt: "Local food at the port" },
-    { src: "/figma/gallery/photo-6.png", alt: "Surfboards leaning on a wall" },
-    { src: "/figma/gallery/photo-7.png", alt: "Atlantic horizon from the cliffs" },
-  ],
-
-  // Gallery slider 2 — second cluster (after Apply form). Different photos go in later;
-  // for now mirrors slider 1.
-  slider2Photos: [
-    { src: "/figma/gallery/photo-2.png", alt: "Surf session on the Atlantic" },
-    { src: "/figma/gallery/photo-1.png", alt: "Tamraght beach at golden hour" },
-    { src: "/figma/gallery/photo-3.png", alt: "Village street in Tamraght" },
-    { src: "/figma/gallery/photo-4.png", alt: "House rooftop with ocean view" },
-    { src: "/figma/gallery/photo-5.png", alt: "Local food at the port" },
-    { src: "/figma/gallery/photo-6.png", alt: "Surfboards leaning on a wall" },
-    { src: "/figma/gallery/photo-7.png", alt: "Atlantic horizon from the cliffs" },
-  ],
+  // Gallery sliders — 14 photos each.
+  // `src` = -mini thumbnail (fast load on the strip).
+  // `full` = full-res, served only when the lightbox opens.
+  galleryPhotos: buildPhotoList("slider-1", SLIDER_1_COUNT, "Surf trip moment"),
+  slider2Photos: buildPhotoList("slider-2", SLIDER_2_COUNT, "Taghazout life moment"),
 
   // Pricing section copy
   pricingHeadline: "Choose what fits you better",
   pricingSubhead:
-    "All tiers include accommodation, daily meals, five surf sessions with local instructors, transport around the region, hidden spots, and the full slow-living Morocco experience. The only difference between the tiers is the type of room and living setup you choose.",
+    "All tiers include accommodation, daily meals, five surf sessions with local instructors, transport around the region, spontaneous activities, hidden spots, and the full slow-living Morocco experience. The only difference between the tiers is the type of room and living setup you choose.",
 
   // Program section copy
   programHeadline: "Everything you need.",
@@ -184,18 +183,18 @@ export const trip = {
   // Team section copy
   teamHeadline: "Meet the Team",
   teamSubhead:
-    "“I’m collaborating with Tazuri Surf house and inviting you to join, spending a week there. I will be with each one of you. There’s a lot to discover!”",
-  teamSubheadAttribution: "— Zukaa ✌️",
+    "“I’m collaborating with Tazuri Surf house and inviting you to join spending a week there. I will be with and one of you. There’s a lot to discover!”",
+  teamSubheadAttribution: "- Zukaa ✌️",
 
   // Apply / Contact section
   applyHeadline: "Nearest dates",
-  applyHeadlineLine2: "24 June – 1 July",
+  applyHeadlineLine2: "22 – 28 June 2026",
   applySubhead:
-    "If these dates don't work for you, feel free to apply anyway — we're putting together a second group for September–October 2026.",
+    "If these dates don't work for you, feel free to apply anyway — we're putting together a second group for September–October 2026. Don't hesitate to ask any questions, I'm open.",
 
   // Footer
   footerHeadline: "Let's go on an adventure together!",
-  footerDate: "22 June 2026",
+  footerDate: "June 2026 EDITION",
   footerCollaboration: "Send me a letter if you want to collaborate",
   footerEmail: "zukaaisme@gmail.com",
 } as const;

@@ -163,7 +163,7 @@ export function ApplyForm() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
+                    <label htmlFor="plan" style={labelStyle}>Prefered Plan</label>
                     <select
                       id="plan"
                       className="hover-fade"
@@ -199,7 +199,7 @@ export function ApplyForm() {
                   <label htmlFor="message" style={labelStyle}>Additional Info</label>
                   <textarea
                     id="message"
-                    placeholder="Questions, do you go alone or with friends or partner, expectations or suggestions"
+                    placeholder="Questions, Do you go alone, or with your friends or partner, Expectations or Suggestions"
                     className="hover-fade"
                     style={{
                       ...fieldStyle,

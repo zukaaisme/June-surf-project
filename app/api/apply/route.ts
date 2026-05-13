@@ -39,7 +39,7 @@ function renderEmail(data: ApplyFormValues): { subject: string; text: string; ht
     ["Instagram", data.instagram || undefined],
     ["Plan", plan],
     ["Message", data.message || undefined],
-    ["Received", `${stamp} (Tamraght)`],
+    ["Received", `${stamp} (Taghazout)`],
   ];
 
   const text = rows
