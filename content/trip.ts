@@ -121,7 +121,7 @@ export const trip = {
       id: "zukaa",
       name: "Zukaa",
       role: "YOURS TRULY",
-      bio: "Will be your friend and photographer for the week, as well as showing my favourite spots.",
+      bio: "Will be your friend, photographer and guide to my favourite spots.",
       photo: "/figma/team/person-04.png",
     },
     {
@@ -152,7 +152,7 @@ export const trip = {
     {
       title: "Not a marathon",
       rotate: -2,
-      body: "Start the day with yoga, breakfast and surf to set the energy for the day and have the rest of the afternoon for yourself. Join group activities if you want or use your initiative. We're not here to rush.",
+      body: "Start the day with yoga, breakfast and surf to set the energy for the day. Join group activities if you want or use your initiative. We’re not here to rush.",
     },
     {
       title: "Not a resort",
