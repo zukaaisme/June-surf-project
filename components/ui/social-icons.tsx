@@ -54,7 +54,7 @@ export function SocialButton({ social: { label, href, Icon }, bg = "mist", onCli
       rel="noopener noreferrer"
       aria-label={label}
       onClick={onClick}
-      className="hover-fade flex h-14 w-14 items-center justify-center rounded-full text-[var(--color-slate)]"
+      className="icon-button flex h-14 w-14 items-center justify-center rounded-full text-[var(--color-slate)]"
       style={{ backgroundColor: bg === "white" ? "#fff" : "var(--color-mist)" }}
     >
       <Icon className="h-6 w-6" />

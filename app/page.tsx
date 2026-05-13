@@ -22,9 +22,9 @@ export default function Home() {
       <Pricing />
       <ApplyForm />
       {/* Slider 2 — visually a tail of the ApplyForm section, so it carries pb only.
-          ApplyForm already provides the gap above (its own pb-72). Adding a pt here
+          ApplyForm already provides the gap above (its own pb-84). Adding a pt here
           would double the spacing and leave a huge dead zone above the photos. */}
-      <section className="bg-white pb-14 md:pb-[72px]">
+      <section className="bg-white pb-16 md:pb-[84px]">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}

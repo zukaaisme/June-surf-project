@@ -27,7 +27,9 @@ export function Program() {
       id="program"
       // Bottom override: pb 80 (instead of the universal 72) to compensate
       // the visual weight of the big Team headline that follows. Top stays on the 56/40 rule.
-      className="relative overflow-hidden bg-[var(--color-mist)] pt-10 pb-[60px] md:pt-[56px] md:pb-[80px]"
+      // Universal 64/84 desktop rhythm. The earlier Program ↔ Team 80px override is gone —
+      // the new 84px baseline is already taller than the old special-case.
+      className="relative overflow-hidden bg-[var(--color-mist)] pt-12 pb-16 md:pt-[64px] md:pb-[84px]"
     >
       <NoiseOverlay />
 

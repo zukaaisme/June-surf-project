@@ -1,13 +1,13 @@
 import type { CSSProperties } from "react";
 
 // Section vertical padding — every full-width section.
-// Figma rule: blocks sit flush against each other, with 56px top / 72px bottom inside each block.
+// House rule: blocks sit flush against each other, with 64px top / 84px bottom inside each block on desktop.
 // Mobile scales down a touch to keep the rhythm visible without burning screen real estate.
-export const SECTION_PADDING_Y = "pt-10 pb-14 md:pt-[56px] md:pb-[72px]";
+export const SECTION_PADDING_Y = "pt-12 pb-16 md:pt-[64px] md:pb-[84px]";
 
 // Exception: About ends with a buttons row tucked 36px under the slider — so the section also
-// closes with 36px instead of 72px, keeping slider→buttons and buttons→next-section symmetrical.
-export const SECTION_PADDING_Y_ABOUT = "pt-10 pb-9 md:pt-[56px] md:pb-[36px]";
+// closes with 36px instead of 84px, keeping slider→buttons and buttons→next-section symmetrical.
+export const SECTION_PADDING_Y_ABOUT = "pt-12 pb-9 md:pt-[64px] md:pb-[36px]";
 
 // Drop shadows for text laid over photos/video (hero) and over photos (pricing price chip).
 export const TEXT_SHADOW_HERO = "0 1px 16px rgba(0,0,0,0.25)";

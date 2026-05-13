@@ -334,9 +334,9 @@ function StripArrow({ onClick, ariaLabel, className, children }: ArrowButtonProp
       type="button"
       onClick={onClick}
       aria-label={ariaLabel}
-      className={`absolute top-1/2 z-10 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[var(--color-slate)] shadow-[0_2px_8px_rgba(50,55,64,0.15)] hover-fade ${className}`}
+      className={`icon-button absolute top-1/2 z-10 -translate-y-1/2 flex h-14 w-14 items-center justify-center rounded-full bg-white text-[var(--color-slate)] shadow-[0_2px_8px_rgba(50,55,64,0.15)] ${className}`}
     >
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         {children}
       </svg>
     </button>
