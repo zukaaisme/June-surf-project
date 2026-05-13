@@ -96,7 +96,9 @@ export function Team() {
             key={person.id}
             person={person}
             index={i}
-            extraClassName="w-[78vw] max-w-[340px] shrink-0 snap-start"
+            // w-[70vw] (was 78vw) so the next card peeks ~50-70px on first load —
+            // that's the visual cue that the row is horizontally scrollable.
+            extraClassName="w-[70vw] max-w-[320px] shrink-0 snap-start"
           />
         ))}
       </div>
