@@ -90,7 +90,7 @@ export function Pricing() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col justify-center gap-2 px-9 py-9 text-center text-[var(--color-slate)]">
+                <div className="flex flex-1 flex-col justify-center gap-2 px-9 py-7 text-center text-[var(--color-slate)]">
                   <h3 style={tierNameStyle}>{tier.name}</h3>
                   <p style={accommodationStyle}>{tier.accommodation}</p>
                 </div>
