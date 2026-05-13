@@ -163,7 +163,7 @@ export function ApplyForm() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="plan" style={labelStyle}>Prefered Plan</label>
+                    <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
                     <select
                       id="plan"
                       className="hover-fade"

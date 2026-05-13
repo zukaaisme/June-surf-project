@@ -25,7 +25,12 @@ export default function Home() {
           ApplyForm already provides the gap above (its own pb-72). Adding a pt here
           would double the spacing and leave a huge dead zone above the photos. */}
       <section className="bg-white pb-14 md:pb-[72px]">
-        <GallerySlider id="slider-2" photos={trip.slider2Photos} />
+        <GallerySlider
+          id="slider-2"
+          photos={trip.slider2Photos}
+          orientation="landscape"
+          manualArrows
+        />
       </section>
       <Footer />
     </main>

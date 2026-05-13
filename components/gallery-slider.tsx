@@ -18,30 +18,62 @@ type Photo = {
   full?: string;
   alt: string;
 };
+
+type Orientation = "portrait" | "landscape";
+
 type Props = {
   photos: readonly Photo[];
   /** DOM id for the slider container — make it unique if rendering more than one slider on the page */
   id?: string;
+  /** Card aspect on the strip. `portrait` (default) ≈ 340/493, `landscape` ≈ 3/2. */
+  orientation?: Orientation;
+  /**
+   * When true, the strip becomes natively scrollable (no scroll-tied auto-track)
+   * and two arrow buttons sit on the screen edges to flip through previews by one card per click.
+   */
+  manualArrows?: boolean;
 };
 
 const GAP = 16;
-const PHOTO_WIDTH_CLAMP = "clamp(240px, 22vw, 340px)";
 
-// On mobile the track is a native horizontal scroller — no scroll-tied transform,
-// no framer-motion overhead.
-const TRACK_DESKTOP_CLASS = "relative w-full overflow-hidden";
-const TRACK_MOBILE_CLASS =
-  "relative w-full overflow-x-auto px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+const STRIP_PORTRAIT = {
+  width: "clamp(240px, 22vw, 340px)",
+  aspect: "340 / 493",
+  sizes: "(max-width: 768px) 240px, 340px",
+} as const;
 
-export function GallerySlider({ photos, id = "gallery" }: Props) {
+const STRIP_LANDSCAPE = {
+  width: "clamp(320px, 32vw, 520px)",
+  aspect: "3 / 2",
+  sizes: "(max-width: 768px) 320px, 520px",
+} as const;
+
+// Scroll-tied auto-track container (desktop, Slider 1).
+const TRACK_AUTO_CLASS = "relative w-full overflow-hidden";
+// Native horizontal scroll container — mobile of either slider, or any slider with manualArrows.
+const TRACK_NATIVE_CLASS =
+  "relative w-full overflow-x-auto px-10 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+
+export function GallerySlider({
+  photos,
+  id = "gallery",
+  orientation = "portrait",
+  manualArrows = false,
+}: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const animEnabled = useIsDesktop();
+  const isDesktop = useIsDesktop();
+
+  // The scroll-tied auto-track only runs on desktop when arrows are NOT enabled.
+  // Arrows imply manual control, so the auto-track is mutually exclusive.
+  const autoTrackEnabled = isDesktop && !manualArrows;
+
+  const strip = orientation === "landscape" ? STRIP_LANDSCAPE : STRIP_PORTRAIT;
 
   const [bounds, setBounds] = useState({ start: 0, end: 0 });
 
   useEffect(() => {
-    if (!animEnabled || !trackRef.current) return;
+    if (!autoTrackEnabled || !trackRef.current) return;
     const update = () => {
       if (!trackRef.current) return;
       const track = trackRef.current.scrollWidth;
@@ -56,7 +88,7 @@ export function GallerySlider({ photos, id = "gallery" }: Props) {
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [animEnabled, photos.length]);
+  }, [autoTrackEnabled, photos.length]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -65,8 +97,18 @@ export function GallerySlider({ photos, id = "gallery" }: Props) {
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    animEnabled ? [bounds.start, bounds.end] : [0, 0],
+    autoTrackEnabled ? [bounds.start, bounds.end] : [0, 0],
   );
+
+  // Manual arrow scroll — measures the actual card width at runtime so it stays correct
+  // across the clamp() range.
+  const scrollBy = useCallback((dir: 1 | -1) => {
+    const el = sectionRef.current;
+    const card = trackRef.current?.firstElementChild as HTMLElement | undefined;
+    if (!el) return;
+    const step = card ? card.offsetWidth + GAP : el.clientWidth * 0.6;
+    el.scrollBy({ left: step * dir, behavior: "smooth" });
+  }, []);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const open = activeIndex !== null;
@@ -102,46 +144,69 @@ export function GallerySlider({ photos, id = "gallery" }: Props) {
 
   return (
     <>
-      <div
-        ref={sectionRef}
-        id={id}
-        className={animEnabled ? TRACK_DESKTOP_CLASS : TRACK_MOBILE_CLASS}
-        style={{ paddingTop: "8px", paddingBottom: "8px" }}
-      >
-        <motion.div
-          ref={trackRef}
-          className="flex shrink-0"
-          style={{
-            x: animEnabled ? x : 0,
-            gap: `${GAP}px`,
-            willChange: animEnabled ? "transform" : "auto",
-          }}
+      <div className="relative">
+        <div
+          ref={sectionRef}
+          id={id}
+          className={autoTrackEnabled ? TRACK_AUTO_CLASS : TRACK_NATIVE_CLASS}
+          style={{ paddingTop: "8px", paddingBottom: "8px" }}
         >
-          {photos.map((photo, i) => (
-            <button
-              key={photo.src}
-              type="button"
-              onClick={() => setActiveIndex(i)}
-              aria-label={`Open photo ${i + 1}: ${photo.alt}`}
-              className="relative shrink-0 overflow-hidden cursor-zoom-in hover-fade"
-              style={{
-                width: PHOTO_WIDTH_CLAMP,
-                aspectRatio: "340 / 493",
-                border: "0.74px solid rgba(50,55,64,0.1)",
-                background: "rgba(50,55,64,0.1)",
-              }}
+          <motion.div
+            ref={trackRef}
+            className="flex shrink-0"
+            style={{
+              x: autoTrackEnabled ? x : 0,
+              gap: `${GAP}px`,
+              willChange: autoTrackEnabled ? "transform" : "auto",
+            }}
+          >
+            {photos.map((photo, i) => (
+              <button
+                key={photo.src}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                aria-label={`Open photo ${i + 1}: ${photo.alt}`}
+                className="relative shrink-0 overflow-hidden cursor-zoom-in hover-fade"
+                style={{
+                  width: strip.width,
+                  aspectRatio: strip.aspect,
+                  border: "0.74px solid rgba(50,55,64,0.1)",
+                  background: "rgba(50,55,64,0.1)",
+                }}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  className="object-cover"
+                  sizes={strip.sizes}
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Strip arrows — sit on the viewport edges so they read like the lightbox controls.
+            Hidden on mobile because native touch-scroll already handles flipping. */}
+        {manualArrows && (
+          <>
+            <StripArrow
+              onClick={() => scrollBy(-1)}
+              ariaLabel="Scroll photos left"
+              className="left-3 hidden md:flex"
             >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 240px, 340px"
-                loading="lazy"
-              />
-            </button>
-          ))}
-        </motion.div>
+              <path d="M11 3 L5 9 L11 15" />
+            </StripArrow>
+            <StripArrow
+              onClick={() => scrollBy(1)}
+              ariaLabel="Scroll photos right"
+              className="right-3 hidden md:flex"
+            >
+              <path d="M7 3 L13 9 L7 15" />
+            </StripArrow>
+          </>
+        )}
       </div>
 
       <AnimatePresence>
@@ -211,14 +276,14 @@ export function GallerySlider({ photos, id = "gallery" }: Props) {
   );
 }
 
-type LightboxButtonProps = {
+type ArrowButtonProps = {
   onClick: () => void;
   ariaLabel: string;
   className: string;
   children: React.ReactNode;
 };
 
-function LightboxButton({ onClick, ariaLabel, className, children }: LightboxButtonProps) {
+function LightboxButton({ onClick, ariaLabel, className, children }: ArrowButtonProps) {
   return (
     <button
       type="button"
@@ -227,6 +292,21 @@ function LightboxButton({ onClick, ariaLabel, className, children }: LightboxBut
       className={`absolute z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover-fade ${className}`}
     >
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {children}
+      </svg>
+    </button>
+  );
+}
+
+function StripArrow({ onClick, ariaLabel, className, children }: ArrowButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={`absolute top-1/2 z-10 -translate-y-1/2 h-11 w-11 items-center justify-center rounded-full bg-[var(--color-mist)] text-[var(--color-slate)] shadow-sm hover-fade ${className}`}
+    >
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto">
         {children}
       </svg>
     </button>

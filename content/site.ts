@@ -18,9 +18,10 @@ export const site = {
     "Six days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026.",
   seoUrl: "https://zukaaisme.com",
 
-  // Contact — Tazuri Surfhouse (the place we're collaborating with) instagram.
-  instagram: "https://www.instagram.com/tazuri_surfhouse",
-  telegram: "https://t.me/zukaaisme",
+  // Personal contact for the round social buttons (mobile drawer + apply form).
+  // These reach Zukaa directly — separate from the Tazuri surf house chip below.
+  instagram: "https://www.instagram.com/zukaaisme",
+  telegram: "https://www.t.me/zukaa_support",
 
   // Location chips under the About slider. The village is Taghazout (not Tamraght — that was older copy).
   location: "Taghazout, Morocco",

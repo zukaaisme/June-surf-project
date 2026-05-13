@@ -1,11 +1,12 @@
 // Source of truth: Figma file yLe2GVz177buM1WYfL4f7l, frame 8:2235.
-// All texts pulled fresh from the 13 May 2026 audit. Typos preserved as-found
-// in figma ("Actitvities", "OUR TECHER", "Prefered Plan") — flagged in BACKLOG.md
-// for the operator to decide whether to fix in figma or in code.
+// Texts pulled fresh from the 13 May 2026 audit. Figma typos fixed in code
+// where they were obvious: TECHER -> TEACHER, Prefered -> Preferred.
 
 const SLIDER_1_COUNT = 14;
 const SLIDER_2_COUNT = 14;
 
+// Slider strips serve compressed -mini JPEGs (~100KB each).
+// Lightbox loads the full JPEG (~600KB) only when a thumbnail is clicked.
 const buildPhotoList = (
   folder: "slider-1" | "slider-2",
   count: number,
@@ -14,8 +15,8 @@ const buildPhotoList = (
   Array.from({ length: count }, (_, i) => {
     const n = i + 1;
     return {
-      src: `/figma/${folder}/photo-${n}-mini.png`,
-      full: `/figma/${folder}/photo-${n}.png`,
+      src: `/figma/${folder}/photo-${n}-mini.jpg`,
+      full: `/figma/${folder}/photo-${n}.jpg`,
       alt: `${altPrefix} ${n}`,
     };
   });
@@ -140,7 +141,7 @@ export const trip = {
     {
       id: "chajara",
       name: "Chajara",
-      role: "OUR TECHER",
+      role: "OUR TEACHER",
       bio: "Your guide in the ocean and on the beach before every surf session.",
       photo: "/figma/team/person-02.png",
     },
