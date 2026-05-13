@@ -65,7 +65,7 @@ export const trip = {
       priceDisplay: "€800",
       perUnit: "/per couple",
       currency: "EUR",
-      description: "Your own room in the house, shared bathroom, ideal for",
+      description: "Your own room in the house, shared bathroom, ideal for couples",
       featured: false,
       photo: "/figma/pricing/tier-03.png",
     },

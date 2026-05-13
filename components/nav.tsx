@@ -81,10 +81,12 @@ export function Nav() {
             ))}
           </ul>
 
-          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open (drawer carries its own Apply) */}
+          {/* Apply CTA — anchored right; hidden on mobile while the drawer is open
+              (drawer carries its own Apply). Tailwind v4 `hidden!` to win over the
+              :where(.btn-nav) display rule with absolute certainty. */}
           <a
             href="#apply"
-            className={`btn-nav hover-fade ${menuOpen ? "hidden md:inline-flex" : ""}`}
+            className={`btn-nav hover-fade ${menuOpen ? "hidden! md:inline-flex!" : ""}`}
           >
             Apply now
           </a>
@@ -95,7 +97,7 @@ export function Nav() {
         {menuOpen && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 flex flex-col items-center bg-[var(--color-mist)] px-10 pt-16 pb-14"
+            className="fixed inset-0 z-40 flex flex-col items-center bg-white px-10 pt-16 pb-14"
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
@@ -116,7 +118,8 @@ export function Nav() {
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="font-display text-h1 font-medium text-[var(--color-slate)] hover-fade block"
+                      className="font-display block text-[2.25rem] leading-none tracking-[-0.02em] text-[var(--color-slate)] hover-fade"
+                      style={{ fontWeight: 500 }}
                     >
                       {link.label}
                     </a>
@@ -143,7 +146,7 @@ export function Nav() {
               transition={{ delay: reduced ? 0 : (navLinks.length + 1) * 0.06, duration: reduced ? 0 : 0.35 }}
             >
               {SOCIALS.map((s) => (
-                <SocialButton key={s.label} social={s} bg="white" onClick={closeMenu} />
+                <SocialButton key={s.label} social={s} bg="mist" onClick={closeMenu} />
               ))}
             </motion.div>
           </motion.div>
