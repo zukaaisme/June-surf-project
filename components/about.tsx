@@ -28,8 +28,8 @@ const tagBase = {
 // All three chips share the same mist (light blue) background per the v3 mockup.
 const TAGS = [
   { label: site.location, href: site.locationWikiUrl },
-  { label: "Check on Google Maps", href: site.mapsUrl },
   { label: "Tazuri Surfhouse", href: site.tazuriInstagramUrl },
+  { label: "Check on Google Maps", href: site.mapsUrl },
 ] as const;
 
 export function About() {

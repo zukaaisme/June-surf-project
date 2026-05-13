@@ -90,12 +90,12 @@ export function Pricing() {
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col justify-center gap-2 px-9 py-12 text-center text-[var(--color-slate)]">
+                <div className="flex flex-1 flex-col justify-center gap-2 px-9 py-11 text-center text-[var(--color-slate)]">
                   <h3 style={tierNameStyle}>{tier.name}</h3>
                   <p style={accommodationStyle}>{tier.accommodation}</p>
                 </div>
 
-                <div className="flex flex-col gap-7">
+                <div className="flex flex-col gap-8">
                   <div
                     aria-hidden="true"
                     className="w-full"
