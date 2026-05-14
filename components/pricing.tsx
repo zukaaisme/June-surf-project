@@ -65,7 +65,11 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        <div className="grid auto-rows-fr grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
+        {/* Mobile: each card sizes to its own content (no auto-rows-fr) — otherwise the
+            tallest card (Double Bed, 3-line description) stretches the others, and the
+            middle flex-1 block inflates with empty whitespace.
+            Desktop: md:auto-rows-fr keeps the 3 side-by-side cards equal-height. */}
+        <div className="grid grid-cols-1 gap-8 md:auto-rows-fr md:grid-cols-3 md:gap-4">
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
               <article className="card-lift flex h-full flex-col bg-white pb-9">
