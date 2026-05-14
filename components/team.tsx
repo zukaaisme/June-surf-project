@@ -22,12 +22,12 @@ const nameStyle = {
 } as const;
 
 // fontSize lives in className (`text-[14px] md:text-[16px]`) so it can vary by breakpoint.
-// whiteSpace: pre-line preserves explicit "\n" line breaks in trip.ts bios (used by
-// Chajara to force a 3-line wrap on desktop so all 4 cards share the same content height).
+// whiteSpace is also className-based (`whitespace-normal md:whitespace-pre-line`) so the
+// \n line breaks in Aymen's bio fire ONLY on desktop. On mobile the same string wraps
+// naturally — narrow column shouldn't be forced into the desktop break points.
 const bioStyle = {
   fontWeight: 400,
   lineHeight: 1.2,
-  whiteSpace: "pre-line",
 } as const;
 
 type Person = (typeof trip.people)[number];
@@ -72,7 +72,7 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
           {person.name}
         </h3>
         <p
-          className="mt-4 text-[14px] text-[var(--color-slate)] md:text-[16px]"
+          className="mt-4 whitespace-normal text-[14px] text-[var(--color-slate)] md:whitespace-pre-line md:text-[16px]"
           style={bioStyle}
         >
           {person.bio}
