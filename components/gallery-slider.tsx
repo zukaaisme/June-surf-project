@@ -68,6 +68,20 @@ export function GallerySlider({
   const trackRef = useRef<HTMLDivElement>(null);
   const isDesktop = useIsDesktop();
 
+  // Per-visit shuffle. We start with the canonical order so SSR + first client paint match
+  // (no hydration warning), then on mount we Fisher-Yates the array. Each page load = new
+  // order; each visitor = different order. Sliders are below-the-fold so the brief
+  // reorder happens long before the user scrolls down to them.
+  const [orderedPhotos, setOrderedPhotos] = useState<readonly Photo[]>(photos);
+  useEffect(() => {
+    const next = [...photos];
+    for (let i = next.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [next[i], next[j]] = [next[j], next[i]];
+    }
+    setOrderedPhotos(next);
+  }, [photos]);
+
   // The scroll-tied auto-track only runs on desktop AND when nativeScroll is off.
   const autoTrackEnabled = isDesktop && !nativeScroll;
 
@@ -91,7 +105,7 @@ export function GallerySlider({
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [autoTrackEnabled, photos.length]);
+  }, [autoTrackEnabled, orderedPhotos.length]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -148,12 +162,12 @@ export function GallerySlider({
   const open = activeIndex !== null;
   const close = useCallback(() => setActiveIndex(null), []);
   const next = useCallback(
-    () => setActiveIndex((i) => (i === null ? null : (i + 1) % photos.length)),
-    [photos.length],
+    () => setActiveIndex((i) => (i === null ? null : (i + 1) % orderedPhotos.length)),
+    [orderedPhotos.length],
   );
   const prev = useCallback(
-    () => setActiveIndex((i) => (i === null ? null : (i - 1 + photos.length) % photos.length)),
-    [photos.length],
+    () => setActiveIndex((i) => (i === null ? null : (i - 1 + orderedPhotos.length) % orderedPhotos.length)),
+    [orderedPhotos.length],
   );
 
   useEffect(() => {
@@ -194,7 +208,7 @@ export function GallerySlider({
               willChange: autoTrackEnabled ? "transform" : "auto",
             }}
           >
-            {photos.map((photo, i) => (
+            {orderedPhotos.map((photo, i) => (
               <button
                 key={photo.src}
                 type="button"
@@ -279,8 +293,8 @@ export function GallerySlider({
               onDragEnd={onSwipe}
             >
               <Image
-                src={photos[activeIndex].full ?? photos[activeIndex].src}
-                alt={photos[activeIndex].alt}
+                src={orderedPhotos[activeIndex].full ?? orderedPhotos[activeIndex].src}
+                alt={orderedPhotos[activeIndex].alt}
                 fill
                 className="object-contain"
                 sizes="88vw"
@@ -297,7 +311,7 @@ export function GallerySlider({
                 textTransform: "uppercase",
               }}
             >
-              {activeIndex + 1} / {photos.length}
+              {activeIndex + 1} / {orderedPhotos.length}
             </p>
           </motion.div>
         )}
