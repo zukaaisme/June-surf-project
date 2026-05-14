@@ -7,17 +7,21 @@ const SLIDER_2_COUNT = 22;
 
 // Slider strips serve compressed -mini JPEGs (~100KB each).
 // Lightbox loads the full JPEG (~600KB) only when a thumbnail is clicked.
+// `swaps` lets us reorder specific slots without renaming files on disk: e.g. `{ 12: 13, 13: 12 }`
+// puts photo-13.jpg into slot 12 and photo-12.jpg into slot 13.
 const buildPhotoList = (
   folder: "slider-1" | "slider-2",
   count: number,
   altPrefix: string,
+  swaps: Readonly<Record<number, number>> = {},
 ) =>
   Array.from({ length: count }, (_, i) => {
-    const n = i + 1;
+    const slot = i + 1;
+    const fileN = swaps[slot] ?? slot;
     return {
-      src: `/figma/${folder}/photo-${n}-mini.jpg`,
-      full: `/figma/${folder}/photo-${n}.jpg`,
-      alt: `${altPrefix} ${n}`,
+      src: `/figma/${folder}/photo-${fileN}-mini.jpg`,
+      full: `/figma/${folder}/photo-${fileN}.jpg`,
+      alt: `${altPrefix} ${slot}`,
     };
   });
 
@@ -167,7 +171,7 @@ body: "Part of understanding how people live here is being open. To the weather,
   // `src` = -mini thumbnail (fast load on the strip).
   // `full` = full-res, served only when the lightbox opens.
   galleryPhotos: buildPhotoList("slider-1", SLIDER_1_COUNT, "Surf trip moment"),
-  slider2Photos: buildPhotoList("slider-2", SLIDER_2_COUNT, "Taghazout life moment"),
+  slider2Photos: buildPhotoList("slider-2", SLIDER_2_COUNT, "Taghazout life moment", { 12: 13, 13: 12 }),
 
   // Pricing section copy
   pricingHeadline: "Choose what fits you better",
