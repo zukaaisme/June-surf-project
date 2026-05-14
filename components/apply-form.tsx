@@ -66,11 +66,12 @@ export function ApplyForm() {
   }
 
   return (
-    // Universal pt (V2). pb gets a +8 optical bump (88/104 vs the universal 80/96) because
-    // the magenta footer below visually squashes the gap if left at the standard pb.
+    // Universal pt. pb keeps the +8 optical bump over universal (the magenta footer below
+    // visually squashes the gap if left at the standard pb).
+    // MOBILE_PADDING_SHRINK: pt 64 -> 56 (pt-16 -> pt-14), pb 88 -> 80 (pb-[88px] -> pb-20).
     <section
       id="apply"
-      className="overflow-hidden bg-white pt-16 pb-[88px] md:pt-20 md:pb-[104px]"
+      className="overflow-hidden bg-white pt-14 pb-20 md:pt-20 md:pb-[104px]"
     >
       <div className="mx-auto max-w-7xl px-10">
 

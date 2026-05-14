@@ -21,11 +21,9 @@ export default function Home() {
       <Team />
       <Pricing />
       {/* Slider 2 — sits between Pricing and ApplyForm.
-          pt only (universal V2 values: pt-16 mobile / pt-20 desktop). No pb — ApplyForm's
-          own pt provides the gap below, so we avoid stacking two pbs+pts and ending up
-          with a "double" empty band beneath the photos. Above the photos lands at the
-          system gap (144 mobile / 176 desktop, same as every other section transition). */}
-      <section className="bg-white pt-16 md:pt-20">
+          pt only (MOBILE_PADDING_SHRINK: pt-14 mobile = 56, pt-20 desktop = 80). No pb —
+          ApplyForm's own pt provides the gap below. */}
+      <section className="bg-white pt-14 md:pt-20">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}

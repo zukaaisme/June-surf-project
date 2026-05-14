@@ -79,7 +79,7 @@ export function Team() {
       {/* Heading inside the grid */}
       <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
-          <div className="mx-auto mb-12 flex max-w-[640px] flex-col items-center gap-4 text-center md:mb-16">
+          <div className="mx-auto mb-10 flex max-w-[640px] flex-col items-center gap-4 text-center md:mb-16">
             <h2 className="text-[var(--color-slate)]" style={sectionHeadingStyle}>
               {trip.teamHeadline}
             </h2>

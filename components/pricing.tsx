@@ -52,7 +52,7 @@ export function Pricing() {
       <NoiseOverlay />
       <div className="relative mx-auto max-w-7xl px-10">
         <FadeIn>
-          <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
+          <div className="mx-auto mb-10 max-w-3xl text-center md:mb-16">
             <h2 className="mb-4 text-[var(--color-slate)]" style={sectionHeadingStyle}>
               {trip.pricingHeadline}
             </h2>
@@ -65,11 +65,9 @@ export function Pricing() {
           </div>
         </FadeIn>
 
-        {/* Mobile: each card sizes to its own content (no auto-rows-fr) — otherwise the
-            tallest card (Double Bed, 3-line description) stretches the others, and the
-            middle flex-1 block inflates with empty whitespace.
-            Desktop: md:auto-rows-fr keeps the 3 side-by-side cards equal-height. */}
-        <div className="grid grid-cols-1 gap-8 md:auto-rows-fr md:grid-cols-3 md:gap-4">
+        {/* Mobile: each card sizes to its own content (no auto-rows-fr). MOBILE_PADDING_SHRINK
+            drops the inter-card gap 32 -> 24. Desktop md:auto-rows-fr + md:gap-4 unchanged. */}
+        <div className="grid grid-cols-1 gap-6 md:auto-rows-fr md:grid-cols-3 md:gap-4">
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
               <article className="card-lift flex h-full flex-col bg-white pb-9">

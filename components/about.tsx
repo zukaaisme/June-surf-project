@@ -39,7 +39,7 @@ export function About() {
     <section id="about" className={`bg-white ${SECTION_PADDING_Y_ABOUT} overflow-hidden`}>
       <div className="mx-auto max-w-7xl px-10">
         <FadeIn>
-          <div className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 sm:gap-y-10">
             {trip.aboutCards.map((card) => (
               <div key={card.title} className="flex flex-col items-center gap-4 pr-0 text-center lg:pr-5">
                 <h3 className="text-black" style={cardHeadingStyle}>
@@ -55,8 +55,8 @@ export function About() {
       </div>
 
       {/* Slider — outside the max-w-7xl padded container so it bleeds to viewport edges.
-          Gap cards→slider = 68px desktop / 52px mobile (the +4 round was followed by another +8). */}
-      <FadeIn delay={0.1} className="mt-[52px] md:mt-[68px]">
+          Gap cards→slider = 68px desktop. MOBILE_PADDING_SHRINK: 52 -> 44 mobile. */}
+      <FadeIn delay={0.1} className="mt-[44px] md:mt-[68px]">
         <GallerySlider photos={trip.galleryPhotos} />
       </FadeIn>
 

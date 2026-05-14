@@ -42,7 +42,7 @@ export function Hero() {
         <div aria-hidden="true" className="absolute inset-0 bg-[rgba(50,55,64,0.1)]" />
       </Parallax>
 
-      <div className="relative z-10 flex h-full flex-col items-center px-10 pt-[100px] pb-14 text-center">
+      <div className="relative z-10 flex h-full flex-col items-center px-10 pt-[100px] pb-12 text-center md:pb-14">
         <FadeIn delay={0.1} className="w-full">
           <h1 className="sr-only">{site.heroHeadline}</h1>
           <img

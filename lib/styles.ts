@@ -3,30 +3,31 @@ import type { CSSProperties } from "react";
 // ─────────────────────────────────────────
 // Section vertical padding — versioned for fast rollback.
 //
-// ROLLBACK to V1:
+// ROLLBACK:
 //   $ git revert <THIS_COMMIT_HASH>     ← single command, reverts everything in one go.
 //
-// OR manually: swap the exports back to the V1 pair below and restore the inline
-// overrides on Program + Apply (they used to carry their own +8 boosts).
+// Or manually swap the exports below.
 //
-// V1 — values before the unification pass:
-//   export const SECTION_PADDING_Y       = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]";  // 56/72 mobile, 72/92 desktop
-//   export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]";       // 56/56 mobile, 72/72 desktop
-//   + Program had inline pt-14 pb-[80px] md:pt-[72px] md:pb-[100px]  (its own +8 pb)
-//   + Apply   had inline pt-16 pb-[72px] md:pt-[80px] md:pb-[92px]   (its own +8 pt)
+// V1 — original values before any unification pass.
+//   SECTION_PADDING_Y       = "pt-14 pb-[72px] md:pt-[72px] md:pb-[92px]"
+//   SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-[72px] md:pb-[72px]"
 //
-// V2 — current. Unified to ONE universal pair + ONE About exception. Multiples of 4.
-//   Direction: slightly bigger. Program/Apply overrides folded into the universal.
+// V2 — desktop unification (current desktop values, mobile was bumped to 64/80).
+//   SECTION_PADDING_Y       = "pt-16 pb-20 md:pt-20 md:pb-24"   // 64/80 mobile, 80/96 desktop
+//   SECTION_PADDING_Y_ABOUT = "pt-16 pb-16 md:pt-20 md:pb-20"   // 64/64 mobile, 80/80 desktop
+//
+// V3 (current) — MOBILE_PADDING_SHRINK companion to MOBILE_TYPE_EXPERIMENT.
+//   With body text 16->14 and headings -2px on mobile, the V2 mobile padding (64/80) felt
+//   too airy. Mobile drops -8 each side (pt-16 -> pt-14, pb-20 -> pb-16). Desktop unchanged.
 // ─────────────────────────────────────────
 
 // Universal section padding — applies to every full-width section.
-// Mobile: 64 top / 80 bottom. Desktop: 80 top / 96 bottom.
-export const SECTION_PADDING_Y = "pt-16 pb-20 md:pt-20 md:pb-24";
+// Mobile: 56 top / 64 bottom. Desktop: 80 top / 96 bottom.
+export const SECTION_PADDING_Y = "pt-14 pb-16 md:pt-20 md:pb-24";
 
-// About is the only exception: bottom padding equals top padding (no extra bottom airspace)
-// so the gap from the chips row to the next section visually mirrors the gap above the
-// next section's heading.
-export const SECTION_PADDING_Y_ABOUT = "pt-16 pb-16 md:pt-20 md:pb-20";
+// About — bottom padding mirrors top so the gap from the chips row to the next section
+// equals the gap above the next section's heading. Mobile: 56/56. Desktop: 80/80.
+export const SECTION_PADDING_Y_ABOUT = "pt-14 pb-14 md:pt-20 md:pb-20";
 
 // Drop shadows for text laid over photos/video (hero) and over photos (pricing price chip).
 // Opacity 0.32 (was 0.25) — slightly stronger so the white copy stays legible against bright
