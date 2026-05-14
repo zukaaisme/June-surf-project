@@ -50,11 +50,11 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* Figma: pt-6 (24), px-6 (24), pb on article = pb-7 (28).
-          Order is name → role → bio. name→role gap 8 (mt-2), name-block→bio gap 24 (mt-6).
-          flex-1 + justify-center vertically centres the text block inside whatever height the
-          equal-row machinery gives us, so short-bio cards don't look top-stacked. */}
-      <div className="flex flex-1 flex-col items-center justify-center px-6 pt-6 text-center">
+      {/* px-5 (20) — was px-6 (24) per figma; trimmed 4px each side so the bio gets a
+          touch more readable width, especially on mobile where the card is narrow.
+          pt-6 (24) and pb-7 (28 on the <article>) stay. name→role gap mt-2, name→bio mt-6.
+          flex-1 + justify-center vertically centres the stack inside the equalised row. */}
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-6 text-center">
         <h3 className="text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
         </h3>

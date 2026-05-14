@@ -34,7 +34,7 @@ export function Nav() {
         className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[rgba(50,55,64,0.08)]"
         aria-label="Main navigation"
       >
-        <div className="mx-auto max-w-7xl px-10 h-16 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-5 md:px-10 h-16 flex items-center justify-between">
           <button
             className="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8 hover-fade"
             onClick={() => setMenuOpen((v) => !v)}
