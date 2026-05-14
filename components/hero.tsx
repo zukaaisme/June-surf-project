@@ -65,9 +65,11 @@ export function Hero() {
 
         <FadeIn delay={0.2}>
           <p
-            className="mx-auto text-[16px] text-white"
+            className="mx-auto text-white"
             style={{
               fontFamily: "var(--font-bricolage), sans-serif",
+              // MOBILE_TYPE_EXPERIMENT: 14 mobile / 16 desktop via --fs-body-shrink.
+              fontSize: "var(--fs-body-shrink)",
               fontWeight: 500,
               lineHeight: 1.2,
               maxWidth: "634px",

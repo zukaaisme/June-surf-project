@@ -38,9 +38,11 @@ export const TEXT_SHADOW_OVER_PHOTO = "0 1px 8px rgba(0,0,0,0.1)";
 // Shared section heading + subhead recipe — Program, Team, Pricing all use this.
 // Colour is per-section via className (slate / magenta-light). Apply Form uses its own
 // heading recipe (smaller clamp min, tighter line-height) so it isn't reused there.
+// font-size clamp lower comes from --fs-h-section (MOBILE_TYPE_EXPERIMENT) so mobile gets
+// the shrunk value and desktop stays on 2.25rem.
 export const sectionHeadingStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
+  fontSize: "clamp(var(--fs-h-section), 5vw, 3.5rem)",
   fontWeight: 600,
   lineHeight: 1.05,
   letterSpacing: "-0.02em",
@@ -48,9 +50,10 @@ export const sectionHeadingStyle = {
 
 // Subhead recipe — every section that has a subhead under the headline uses this.
 // Each section applies its own `maxWidth` inline (the readable measure differs by content).
+// font-size comes from --fs-body-shrink (MOBILE_TYPE_EXPERIMENT).
 export const sectionSubheadStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   fontWeight: 400,
   lineHeight: 1.4,
 } as const satisfies CSSProperties;

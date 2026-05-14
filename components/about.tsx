@@ -4,23 +4,25 @@ import { SECTION_PADDING_Y_ABOUT, captionStyle } from "@/lib/styles";
 import { trip } from "@/content/trip";
 import { site } from "@/content/site";
 
+// MOBILE_TYPE_EXPERIMENT: heading min and body size come from CSS vars.
 const cardHeadingStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(1.625rem, 2.5vw, 2rem)",
+  fontSize: "clamp(var(--fs-h-card), 2.5vw, 2rem)",
   fontWeight: 600,
   lineHeight: 1,
   letterSpacing: "-0.03em",
 } as const;
 
 const cardBodyStyle = {
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   fontWeight: 400,
   lineHeight: 1.2,
 } as const;
 
+// MOBILE_TYPE_EXPERIMENT: location chips shrink 16 -> 14 on mobile via --fs-body-shrink.
 const tagBase = {
   ...captionStyle,
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   color: "var(--color-slate)",
   letterSpacing: "0.01em",
 } as const;

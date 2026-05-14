@@ -40,6 +40,30 @@ html {
   color: var(--color-slate);
 }
 
+/* ─────────────────────────────────────────
+   ▼ MOBILE_TYPE_EXPERIMENT — preview toggle
+   Defaults below = desktop values (current behaviour, unchanged).
+   The @media (max-width: 767.98px) block at the very bottom of this file
+   shrinks them on mobile only.
+
+   ROLLBACK in one move:
+     Comment out (or delete) the `@media (max-width: 767.98px) { :root { ... } }`
+     block at the end of this file. Mobile will revert to the desktop values.
+   ───────────────────────────────────────── */
+:root {
+  --fs-body-shrink:  16px;     /* body / labels / chips / subheads — 16 desktop, 14 mobile */
+  --fs-button:       1rem;     /* .btn-nav / .btn-submit — 16 desktop, 14 mobile */
+  --fs-name:         28px;     /* team person name + pricing tier name — 28 desktop, 26 mobile */
+  --fs-h-section:    2.25rem;  /* sectionHeadingStyle clamp lower — 36 desktop, 34 mobile */
+  --fs-h-card:       1.625rem; /* about Not_a card heading clamp lower — 26 desktop, 24 mobile */
+  --fs-h-item:       1.375rem; /* program item title clamp lower — 22 desktop, 20 mobile */
+  --fs-h-price:      2.5rem;   /* pricing €-price clamp lower — 40 desktop, 38 mobile */
+  --fs-h-apply:      1.875rem; /* apply form h2 clamp lower — 30 desktop, 28 mobile */
+  --fs-h-footer:     2.25rem;  /* footer headline clamp lower — 36 desktop, 34 mobile */
+  --fs-drawer-link:  2.25rem;  /* mobile nav drawer link */
+}
+/* ▲ MOBILE_TYPE_EXPERIMENT */
+
 body {
   font-family: var(--font-family-ui);
   font-size: var(--text-body);
@@ -127,7 +151,7 @@ body {
   border: 2px solid var(--color-magenta-light);
   border-radius: 9999px;
   font-family: var(--font-family-ui);
-  font-size: var(--text-label);
+  font-size: var(--fs-button); /* MOBILE_TYPE_EXPERIMENT — was var(--text-label) */
   font-weight: 500;
   color: var(--color-slate);
   text-decoration: none;
@@ -144,7 +168,7 @@ body {
   border: 2px solid var(--color-magenta-light);
   border-radius: 9999px;
   font-family: var(--font-family-ui);
-  font-size: var(--text-label);
+  font-size: var(--fs-button); /* MOBILE_TYPE_EXPERIMENT — was var(--text-label) */
   font-weight: 500;
   color: var(--color-slate);
   cursor: pointer;
@@ -248,3 +272,27 @@ select:invalid {
     scroll-behavior: auto;
   }
 }
+
+/* ─────────────────────────────────────────
+   ▼ MOBILE_TYPE_EXPERIMENT — mobile overrides
+   All shrunk values for screens narrower than the Tailwind md breakpoint (768px).
+   Form inputs (.field-style equivalents) are NOT shrunk anywhere here: iOS Safari
+   auto-zooms a focused input whose font-size is below 16px, which is a UX killer.
+   To ROLL BACK the experiment, comment this entire block out — every consumer
+   reverts to the desktop default declared up top in :root.
+   ───────────────────────────────────────── */
+@media (max-width: 767.98px) {
+  :root {
+    --fs-body-shrink: 14px;
+    --fs-button:      0.875rem;
+    --fs-name:        26px;
+    --fs-h-section:   2.125rem;
+    --fs-h-card:      1.5rem;
+    --fs-h-item:      1.25rem;
+    --fs-h-price:     2.375rem;
+    --fs-h-apply:     1.75rem;
+    --fs-h-footer:    2.125rem;
+    --fs-drawer-link: 2.125rem;
+  }
+}
+/* ▲ MOBILE_TYPE_EXPERIMENT */

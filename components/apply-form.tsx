@@ -10,6 +10,9 @@ import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
 import { sectionSubheadStyle } from "@/lib/styles";
 
+// fieldStyle.fontSize stays HARD-CODED at 16px (not --fs-body-shrink) on purpose:
+// iOS Safari auto-zooms a focused input whose font-size is below 16px. Keeping it at 16
+// prevents the zoom-on-focus UX killer regardless of the MOBILE_TYPE_EXPERIMENT toggle.
 const fieldStyle = {
   backgroundColor: "rgba(50,55,64,0.08)",
   height: "56px",
@@ -27,9 +30,10 @@ const fieldStyle = {
   borderRadius: 0,
 } as const;
 
+// MOBILE_TYPE_EXPERIMENT: label shrinks to 14 on mobile via --fs-body-shrink.
 const labelStyle = {
   fontFamily: "var(--font-typewriter), serif",
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   color: "var(--color-slate)",
   letterSpacing: "0.01em",
   display: "block",
@@ -81,7 +85,8 @@ export function ApplyForm() {
                 className="text-[var(--color-slate)]"
                 style={{
                   fontFamily: "var(--font-bricolage), sans-serif",
-                  fontSize: "clamp(1.875rem, 4.5vw, 3.5rem)",
+                  // MOBILE_TYPE_EXPERIMENT: --fs-h-apply = 1.875rem desktop, 1.75rem mobile.
+                  fontSize: "clamp(var(--fs-h-apply), 4.5vw, 3.5rem)",
                   fontWeight: 600,
                   lineHeight: 1.0,
                   letterSpacing: "-0.02em",

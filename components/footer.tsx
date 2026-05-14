@@ -78,9 +78,10 @@ export function Footer() {
   );
 }
 
+// MOBILE_TYPE_EXPERIMENT: --fs-h-footer = 2.25rem desktop, 2.125rem mobile (clamp lower).
 const headlineBaseStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.25rem, 8vw, 6rem)",
+  fontSize: "clamp(var(--fs-h-footer), 8vw, 6rem)",
   fontWeight: 700,
   lineHeight: 0.9,
   letterSpacing: "-0.02em",

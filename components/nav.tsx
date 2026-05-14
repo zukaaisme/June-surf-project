@@ -118,8 +118,9 @@ export function Nav() {
                     <a
                       href={link.href}
                       onClick={closeMenu}
-                      className="font-display block text-[2.25rem] leading-none tracking-[-0.02em] text-[var(--color-slate)] hover-fade"
-                      style={{ fontWeight: 500 }}
+                      className="font-display block leading-none tracking-[-0.02em] text-[var(--color-slate)] hover-fade"
+                      // MOBILE_TYPE_EXPERIMENT: --fs-drawer-link = 2.25rem desktop, 2.125rem mobile.
+                      style={{ fontSize: "var(--fs-drawer-link)", fontWeight: 500 }}
                     >
                       {link.label}
                     </a>

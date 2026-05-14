@@ -9,9 +9,10 @@ import {
 } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
+// MOBILE_TYPE_EXPERIMENT: price clamp min, tier name, and 16px bodies come from CSS vars.
 const priceStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
+  fontSize: "clamp(var(--fs-h-price), 5vw, 3.5rem)",
   fontWeight: 600,
   lineHeight: 1,
   textShadow: TEXT_SHADOW_OVER_PHOTO,
@@ -19,7 +20,7 @@ const priceStyle = {
 
 const perUnitStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   fontWeight: 700,
   lineHeight: 1.4,
   textShadow: TEXT_SHADOW_OVER_PHOTO,
@@ -28,16 +29,16 @@ const perUnitStyle = {
 
 const tierNameStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "28px",
+  fontSize: "var(--fs-name)",
   fontWeight: 700,
   lineHeight: 1.2,
 } as const;
 
-const accommodationStyle = { fontSize: "16px", fontWeight: 400, lineHeight: 1.4 } as const;
+const accommodationStyle = { fontSize: "var(--fs-body-shrink)", fontWeight: 400, lineHeight: 1.4 } as const;
 
 const descriptionStyle = {
   fontFamily: "var(--font-typewriter), serif",
-  fontSize: "16px",
+  fontSize: "var(--fs-body-shrink)",
   lineHeight: 1.4,
   letterSpacing: "0.01em",
 } as const;

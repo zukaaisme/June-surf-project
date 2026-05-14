@@ -12,9 +12,10 @@ const roleStyle = {
   lineHeight: 1.2,
 } as const;
 
+// MOBILE_TYPE_EXPERIMENT: --fs-name = 28 desktop, 26 mobile.
 const nameStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "28px",
+  fontSize: "var(--fs-name)",
   fontWeight: 700,
   lineHeight: 1.1,
   letterSpacing: "-0.01em",

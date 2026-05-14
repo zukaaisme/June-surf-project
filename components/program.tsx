@@ -4,15 +4,16 @@ import { NoiseOverlay } from "@/components/ui/noise-overlay";
 import { SECTION_PADDING_Y, sectionHeadingStyle } from "@/lib/styles";
 import { trip } from "@/content/trip";
 
+// MOBILE_TYPE_EXPERIMENT: item title clamp min + body size come from CSS vars.
 const itemTitleStyle = {
   fontFamily: "var(--font-bricolage), sans-serif",
-  fontSize: "clamp(1.375rem, 2vw, 1.75rem)",
+  fontSize: "clamp(var(--fs-h-item), 2vw, 1.75rem)",
   fontWeight: 700,
   lineHeight: 1.2,
   letterSpacing: "-0.01em",
 } as const;
 
-const itemBodyStyle = { fontSize: "16px", fontWeight: 400, lineHeight: 1.2 } as const;
+const itemBodyStyle = { fontSize: "var(--fs-body-shrink)", fontWeight: 400, lineHeight: 1.2 } as const;
 
 export function Program() {
   return (
