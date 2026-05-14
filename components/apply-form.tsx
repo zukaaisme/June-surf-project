@@ -8,7 +8,7 @@ import { trip } from "@/content/trip";
 import { FadeIn } from "@/components/ui/fade-in";
 import { CHEVRON_DOWN_URL } from "@/components/ui/icons";
 import { SOCIALS, SocialButton } from "@/components/ui/social-icons";
-import { SECTION_PADDING_Y, sectionSubheadStyle } from "@/lib/styles";
+import { sectionSubheadStyle } from "@/lib/styles";
 
 const fieldStyle = {
   backgroundColor: "rgba(50,55,64,0.08)",
@@ -62,9 +62,12 @@ export function ApplyForm() {
   }
 
   return (
-    // V2: universal SECTION_PADDING_Y. The +8 pt override is gone — the new universal pt
-    // (80 desktop / 64 mobile) already gives "Nearest dates" the breathing room it earned.
-    <section id="apply" className={`bg-white ${SECTION_PADDING_Y} overflow-hidden`}>
+    // Universal pt (V2). pb gets a +8 optical bump (88/104 vs the universal 80/96) because
+    // the magenta footer below visually squashes the gap if left at the standard pb.
+    <section
+      id="apply"
+      className="overflow-hidden bg-white pt-16 pb-[88px] md:pt-20 md:pb-[104px]"
+    >
       <div className="mx-auto max-w-7xl px-10">
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-[124px]">

@@ -20,18 +20,16 @@ export default function Home() {
       {/* <PhotoSection /> */}
       <Team />
       <Pricing />
-      <ApplyForm />
-      {/* Slider 2 — visually a tail of the ApplyForm section, so it carries pb only.
-          ApplyForm provides the gap above (its own V2 pb-24/96). Bottom gets a +8 optical
-          bump (pb-[88px] mobile / pb-[104px] desktop) so the magenta footer next door
-          doesn't visually squash the air below the photos. */}
-      <section className="bg-white pb-[88px] md:pb-[104px]">
+      {/* Slider 2 — sits between Pricing and the apply form. Normal SECTION_PADDING_Y now
+          that it isn't the last thing before the magenta footer. */}
+      <section className="bg-white pt-16 pb-20 md:pt-20 md:pb-24">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}
           orientation="landscape"
         />
       </section>
+      <ApplyForm />
       <Footer />
     </main>
   );
