@@ -20,10 +20,12 @@ export default function Home() {
       {/* <PhotoSection /> */}
       <Team />
       <Pricing />
-      {/* Slider 2 — sits between Pricing and ApplyForm. Pricing's pb already provides
-          the gap above (no pt needed here); slider-2 just carries its own pb to the form
-          below. Section has no headline, so adding pt would just stack empty whitespace. */}
-      <section className="bg-white pb-20 md:pb-24">
+      {/* Slider 2 — sits between Pricing and ApplyForm.
+          Mobile: pb only — pt would double the air above on small screens.
+          Desktop: pt + pb so the section reads as its own breathing block (without
+          desktop pt the photos butted up against Pricing while the gap below to the
+          form looked twice as big — broken asymmetry). */}
+      <section className="bg-white pb-20 md:pt-20 md:pb-24">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}
