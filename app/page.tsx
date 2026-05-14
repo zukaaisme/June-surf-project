@@ -20,12 +20,12 @@ export default function Home() {
       {/* <PhotoSection /> */}
       <Team />
       <Pricing />
-      {/* Slider 2 — sits between Pricing and ApplyForm. Symmetric paddings on both axes.
-          Math (mobile):  80 (Pricing pb) + 48 (slider pt) ≈ 64 (slider pb) + 64 (Apply pt) = 128px
-          Math (desktop): 96 + 80 = 96 + 80 = 176px
-          The mobile pair is intentionally a touch tighter than the universal 144/144 since
-          the slider has no headline — too much air around bare photos reads as empty. */}
-      <section className="bg-white pt-12 pb-16 md:pt-20 md:pb-24">
+      {/* Slider 2 — sits between Pricing and ApplyForm.
+          pt only (universal V2 values: pt-16 mobile / pt-20 desktop). No pb — ApplyForm's
+          own pt provides the gap below, so we avoid stacking two pbs+pts and ending up
+          with a "double" empty band beneath the photos. Above the photos lands at the
+          system gap (144 mobile / 176 desktop, same as every other section transition). */}
+      <section className="bg-white pt-16 md:pt-20">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}

@@ -50,11 +50,11 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* px-5 (20) — was px-6 (24) per figma; trimmed 4px each side so the bio gets a
-          touch more readable width, especially on mobile where the card is narrow.
-          pt-6 (24) and pb-7 (28 on the <article>) stay. name→role gap mt-2, name→bio mt-6.
+      {/* Mobile px-5 (20) — bio gets +8 readable width on the narrow w-[55vw] card.
+          Desktop md:px-6 (24) keeps the figma spec where the card is comfortable.
+          pt-6 (24) + pb-7 on the <article> stay. name→role mt-2, name→bio mt-6.
           flex-1 + justify-center vertically centres the stack inside the equalised row. */}
-      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-6 text-center">
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-6 text-center md:px-6">
         <h3 className="text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
         </h3>
