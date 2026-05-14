@@ -20,9 +20,10 @@ export default function Home() {
       {/* <PhotoSection /> */}
       <Team />
       <Pricing />
-      {/* Slider 2 — sits between Pricing and the apply form. Normal SECTION_PADDING_Y now
-          that it isn't the last thing before the magenta footer. */}
-      <section className="bg-white pt-16 pb-20 md:pt-20 md:pb-24">
+      {/* Slider 2 — sits between Pricing and ApplyForm. Pricing's pb already provides
+          the gap above (no pt needed here); slider-2 just carries its own pb to the form
+          below. Section has no headline, so adding pt would just stack empty whitespace. */}
+      <section className="bg-white pb-20 md:pb-24">
         <GallerySlider
           id="slider-2"
           photos={trip.slider2Photos}

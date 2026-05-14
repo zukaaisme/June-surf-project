@@ -33,7 +33,10 @@
 /* Base resets */
 html {
   scroll-behavior: smooth;
-  background-color: var(--color-paper);
+  /* Magenta — same colour as the footer. iOS Safari shows the html bg when the user
+     overscrolls past the bottom of the page; matching it to the footer makes the bounce
+     look like the pink continues, instead of revealing the old cream "paper" colour. */
+  background-color: var(--color-magenta-light);
   color: var(--color-slate);
 }
 

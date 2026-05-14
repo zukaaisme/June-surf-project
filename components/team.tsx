@@ -96,7 +96,9 @@ export function Team() {
             <TeamCard
               key={person.id}
               person={person}
-              className="w-[78vw] max-w-[340px] shrink-0 snap-start"
+              // ~0.7 of the previous w-[78vw] max-w-[340px]: cards no longer dominate the
+              // mobile screen vertically, peek of the next card grows accordingly.
+              className="w-[55vw] max-w-[240px] shrink-0 snap-start"
             />
           ))}
         </div>
