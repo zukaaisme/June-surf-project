@@ -5,7 +5,7 @@ import { trip } from "@/content/trip";
 
 const roleStyle = {
   fontFamily: "var(--font-typewriter), serif",
-  fontSize: "14px",
+  fontSize: "12px",
   color: "rgba(50,55,64,0.5)",
   letterSpacing: "0.07em",
   textTransform: "uppercase",
@@ -39,7 +39,7 @@ type Person = (typeof trip.people)[number];
 // invisible until the user scrolled.
 function TeamCard({ person, className = "" }: { person: Person; className?: string }) {
   return (
-    <article className={`card-lift flex flex-col bg-[var(--color-mist)] pb-7 ${className}`}>
+    <article className={`card-lift flex flex-col bg-[var(--color-mist)] pb-7 md:pb-8 ${className}`}>
       <div
         className="relative w-full overflow-hidden"
         style={{ aspectRatio: "1/1", background: "rgba(50,55,64,0.08)" }}
