@@ -70,7 +70,7 @@ export function Pricing() {
         <div className="grid grid-cols-1 gap-6 md:auto-rows-fr md:grid-cols-3 md:gap-4">
           {trip.pricingTiers.map((tier, i) => (
             <FadeIn key={tier.id} delay={Math.min(i * 0.06, 0.12)} className="h-full">
-              <article className="card-lift flex h-full flex-col bg-white pb-7 md:pb-9">
+              <article className="card-lift flex h-full flex-col bg-white pb-6 md:pb-9">
                 <div
                   className="relative overflow-hidden"
                   style={{ height: "280px", background: "rgba(50,55,64,0.1)" }}

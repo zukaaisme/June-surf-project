@@ -54,15 +54,13 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* Same layout on every breakpoint — operator mirrored the desktop composition
-          on mobile too (role chip is no longer hidden). Typography shrinks via the
-          MOBILE_TYPE_EXPERIMENT vars (name 28/26, role 12px, bio 16/14).
-            • content div pt-6 (24)  → photo → role gap
-            • mt-1 on name (4)       → role → name gap
-            • mt-4 on bio (16)       → name → bio gap
-            • article pb-7 (28) mobile / md:pb-8 (32) desktop → bio → card bottom
-            • items-start top-aligns the content block. */}
-      <div className="flex flex-1 flex-col items-center px-5 pt-6 text-center md:px-6">
+      {/* Same role -> name -> bio composition on every breakpoint.
+          Desktop: pt-6 (24) + justify-start (top-align), gaps 4/16 from role to bio,
+          pb-8 (32) under bio. Honours the operator's exact desktop measurements.
+          Mobile: pt-7 (28) + justify-center, pb-7 (28) on the article — pt == pb so
+          the content stack lands at the TRUE vertical centre of the mist (light-blue)
+          zone between photo bottom and card bottom. */}
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-7 text-center md:justify-start md:px-6 md:pt-6">
         <p style={roleStyle}>{person.role}</p>
         <h3 className="mt-1 text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
