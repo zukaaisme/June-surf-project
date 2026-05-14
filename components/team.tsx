@@ -20,8 +20,8 @@ const nameStyle = {
   letterSpacing: "-0.01em",
 } as const;
 
+// fontSize lives in className (`text-[14px] md:text-[16px]`) so it can vary by breakpoint.
 const bioStyle = {
-  fontSize: "16px",
   fontWeight: 400,
   lineHeight: 1.2,
 } as const;
@@ -58,8 +58,12 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         <h3 className="text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
         </h3>
-        <p className="mt-2" style={roleStyle}>{person.role}</p>
-        <p className="mt-6 text-[var(--color-slate)]" style={bioStyle}>
+        {/* Role chip hidden on mobile (may return — kept in DOM tree, just display:none < md). */}
+        <p className="mt-2 hidden md:block" style={roleStyle}>{person.role}</p>
+        <p
+          className="mt-6 text-[14px] text-[var(--color-slate)] md:text-[16px]"
+          style={bioStyle}
+        >
           {person.bio}
         </p>
       </div>
