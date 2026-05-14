@@ -12,10 +12,11 @@ export const site = {
   heroSubhead:
     "Six days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time living a simple life. Enjoying the smell and sound of the ocean that creates memories itself.",
 
-  // SEO
-  seoTitle: "Surf Morocco — An adventure, not tourism. Summer 2026",
+  // SEO — "An Adventure. Not Tourism." lives at the END of the description now (was at
+  // the start of the title). Keeps the SERP title cleaner / less repetitive.
+  seoTitle: "Surf Morocco — Summer 2026",
   seoDescription:
-    "Six days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026.",
+    "Six days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026. An Adventure. Not Tourism.",
   seoUrl: "https://zukaaisme.com",
 
   // Personal contact for the round social buttons (mobile drawer + apply form).
