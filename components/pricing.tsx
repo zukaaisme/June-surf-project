@@ -52,7 +52,7 @@ export function Pricing() {
       <div className="relative mx-auto max-w-7xl px-10">
         <FadeIn>
           <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
-            <h2 className="mb-4 text-[var(--color-magenta-light)]" style={sectionHeadingStyle}>
+            <h2 className="mb-4 text-[var(--color-slate)]" style={sectionHeadingStyle}>
               {trip.pricingHeadline}
             </h2>
             <p
