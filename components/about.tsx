@@ -55,8 +55,8 @@ export function About() {
       </div>
 
       {/* Slider — outside the max-w-7xl padded container so it bleeds to viewport edges.
-          Gap cards→slider = 68px desktop. MOBILE_PADDING_SHRINK: 52 -> 44 mobile. */}
-      <FadeIn delay={0.1} className="mt-[44px] md:mt-[68px]">
+          Gap cards→slider = 68px desktop / 52px mobile (operator bumped mobile back +8). */}
+      <FadeIn delay={0.1} className="mt-[52px] md:mt-[68px]">
         <GallerySlider photos={trip.galleryPhotos} />
       </FadeIn>
 

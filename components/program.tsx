@@ -27,7 +27,7 @@ export function Program() {
 
       <div className="relative mx-auto w-full max-w-7xl px-10">
         <FadeIn>
-          <h2 className="mb-10 text-center text-[var(--color-slate)] md:mb-16" style={sectionHeadingStyle}>
+          <h2 className="mb-12 text-center text-[var(--color-slate)] md:mb-16" style={sectionHeadingStyle}>
             {trip.programHeadline}
             <br />
             {trip.programHeadlineLine2}

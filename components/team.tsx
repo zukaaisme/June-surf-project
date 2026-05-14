@@ -54,21 +54,17 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* Desktop spec (operator-supplied, measured from photo bottom):
-            24px → role → 4px → name → 16px → bio → 28px to card bottom
-          Implementation:
-            • content div pt-6 (24)        → photo → role gap
-            • md:mt-1 on name (4)          → role → name gap
-            • mt-4 on bio (16)             → name → bio gap
-            • article pb-7 (28)            → bio  → card bottom
-            • md:justify-start             → desktop top-aligns to honour those exact gaps
-          Mobile keeps justify-center + pt-7 (28 == pb-7) so the name+bio block sits
-          centred between photo bottom and card bottom while the role is display:none.
-          Mobile px-5 / desktop md:px-6 as before. */}
-      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-7 text-center md:justify-start md:px-6 md:pt-6">
-        {/* Role: hidden on mobile, first on desktop. */}
-        <p className="hidden md:block" style={roleStyle}>{person.role}</p>
-        <h3 className="text-[var(--color-slate)] md:mt-1" style={nameStyle}>
+      {/* Same layout on every breakpoint — operator mirrored the desktop composition
+          on mobile too (role chip is no longer hidden). Typography shrinks via the
+          MOBILE_TYPE_EXPERIMENT vars (name 28/26, role 12px, bio 16/14).
+            • content div pt-6 (24)  → photo → role gap
+            • mt-1 on name (4)       → role → name gap
+            • mt-4 on bio (16)       → name → bio gap
+            • article pb-7 (28) mobile / md:pb-8 (32) desktop → bio → card bottom
+            • items-start top-aligns the content block. */}
+      <div className="flex flex-1 flex-col items-center px-5 pt-6 text-center md:px-6">
+        <p style={roleStyle}>{person.role}</p>
+        <h3 className="mt-1 text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
         </h3>
         <p
