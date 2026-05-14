@@ -22,9 +22,12 @@ const nameStyle = {
 } as const;
 
 // fontSize lives in className (`text-[14px] md:text-[16px]`) so it can vary by breakpoint.
+// whiteSpace: pre-line preserves explicit "\n" line breaks in trip.ts bios (used by
+// Chajara to force a 3-line wrap on desktop so all 4 cards share the same content height).
 const bioStyle = {
   fontWeight: 400,
   lineHeight: 1.2,
+  whiteSpace: "pre-line",
 } as const;
 
 type Person = (typeof trip.people)[number];
@@ -51,19 +54,25 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* Mobile: pt-7 (28) matches article's pb-7 so the name+bio block sits at the TRUE
-          vertical centre between photo bottom and card bottom. md:pt-6 keeps figma's 24
-          on desktop where the role is also visible.
-          Mobile px-5 (20) gives the bio +8 readable width on the narrow w-[55vw] card;
-          desktop md:px-6 (24) keeps the figma spec. */}
-      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-7 text-center md:px-6 md:pt-6">
-        <h3 className="text-[var(--color-slate)]" style={nameStyle}>
+      {/* Desktop spec (operator-supplied, measured from photo bottom):
+            24px → role → 4px → name → 16px → bio → 28px to card bottom
+          Implementation:
+            • content div pt-6 (24)        → photo → role gap
+            • md:mt-1 on name (4)          → role → name gap
+            • mt-4 on bio (16)             → name → bio gap
+            • article pb-7 (28)            → bio  → card bottom
+            • md:justify-start             → desktop top-aligns to honour those exact gaps
+          Mobile keeps justify-center + pt-7 (28 == pb-7) so the name+bio block sits
+          centred between photo bottom and card bottom while the role is display:none.
+          Mobile px-5 / desktop md:px-6 as before. */}
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-7 text-center md:justify-start md:px-6 md:pt-6">
+        {/* Role: hidden on mobile, first on desktop. */}
+        <p className="hidden md:block" style={roleStyle}>{person.role}</p>
+        <h3 className="text-[var(--color-slate)] md:mt-1" style={nameStyle}>
           {person.name}
         </h3>
-        {/* Role chip hidden on mobile (may return — kept in DOM tree, just display:none < md). */}
-        <p className="mt-2 hidden md:block" style={roleStyle}>{person.role}</p>
         <p
-          className="mt-4 text-[14px] text-[var(--color-slate)] md:mt-6 md:text-[16px]"
+          className="mt-4 text-[14px] text-[var(--color-slate)] md:text-[16px]"
           style={bioStyle}
         >
           {person.bio}

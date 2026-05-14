@@ -146,7 +146,10 @@ export const trip = {
       id: "aymen",
       name: "Aymen",
       role: "OUR TEACHER",
-      bio: "Your guide in the ocean and on the beach before every surf session.",
+      // Explicit \n breaks so the bio wraps to 3 lines on desktop just like the other 3
+      // cards do naturally — keeps every team card the same content height.
+      // team.tsx bioStyle has whiteSpace: pre-line, which honours these newlines.
+      bio: "Your guide in the ocean\nand on the beach before every\nsurf session.",
       photo: "/figma/team/person-02.png",
     },
   ],
