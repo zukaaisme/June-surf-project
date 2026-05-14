@@ -50,18 +50,19 @@ function TeamCard({ person, className = "" }: { person: Person; className?: stri
         />
       </div>
 
-      {/* Mobile px-5 (20) — bio gets +8 readable width on the narrow w-[55vw] card.
-          Desktop md:px-6 (24) keeps the figma spec where the card is comfortable.
-          pt-6 (24) + pb-7 on the <article> stay. name→role mt-2, name→bio mt-6.
-          flex-1 + justify-center vertically centres the stack inside the equalised row. */}
-      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-6 text-center md:px-6">
+      {/* Mobile: pt-7 (28) matches article's pb-7 so the name+bio block sits at the TRUE
+          vertical centre between photo bottom and card bottom. md:pt-6 keeps figma's 24
+          on desktop where the role is also visible.
+          Mobile px-5 (20) gives the bio +8 readable width on the narrow w-[55vw] card;
+          desktop md:px-6 (24) keeps the figma spec. */}
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pt-7 text-center md:px-6 md:pt-6">
         <h3 className="text-[var(--color-slate)]" style={nameStyle}>
           {person.name}
         </h3>
         {/* Role chip hidden on mobile (may return — kept in DOM tree, just display:none < md). */}
         <p className="mt-2 hidden md:block" style={roleStyle}>{person.role}</p>
         <p
-          className="mt-6 text-[14px] text-[var(--color-slate)] md:text-[16px]"
+          className="mt-4 text-[14px] text-[var(--color-slate)] md:mt-6 md:text-[16px]"
           style={bioStyle}
         >
           {person.bio}
