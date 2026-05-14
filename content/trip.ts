@@ -2,8 +2,8 @@
 // Texts pulled fresh from the 13 May 2026 audit. Figma typos fixed in code
 // where they were obvious: TECHER -> TEACHER, Prefered -> Preferred.
 
-const SLIDER_1_COUNT = 14;
-const SLIDER_2_COUNT = 14;
+const SLIDER_1_COUNT = 15;
+const SLIDER_2_COUNT = 22;
 
 // Slider strips serve compressed -mini JPEGs (~100KB each).
 // Lightbox loads the full JPEG (~600KB) only when a thumbnail is clicked.
