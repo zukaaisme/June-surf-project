@@ -16,7 +16,7 @@ export const site = {
   // the start of the title). Keeps the SERP title cleaner / less repetitive.
   seoTitle: "Surf Morocco — Summer 2026",
   seoDescription:
-    "Six days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026. An Adventure. Not Tourism.",
+    "Seven days in Taghazout, a fishing village on the Atlantic. Small group, real house, local food. 22 – 28 June 2026. An Adventure. Not Tourism.",
   seoUrl: "https://zukaaisme.com",
 
   // Personal contact for the round social buttons (mobile drawer + apply form).
