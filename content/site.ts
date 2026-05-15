@@ -10,7 +10,7 @@ export const site = {
 
   // Hero subhead — unchanged in the latest figma pass.
   heroSubhead:
-    "Six days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time living a simple life. Enjoying the smell and sound of the ocean that creates memories itself.",
+    "Seven days in a fishing village. You surf when the swell comes, eat where the locals eat, and spend the rest of the time living a simple life. Enjoying the smell and sound of the ocean that creates memories itself.",
 
   // SEO — "An Adventure. Not Tourism." lives at the END of the description now (was at
   // the start of the title). Keeps the SERP title cleaner / less repetitive.
