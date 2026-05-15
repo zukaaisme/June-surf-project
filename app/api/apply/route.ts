@@ -121,6 +121,65 @@ async function sendEmail(data: ApplyFormValues): Promise<{ ok: boolean }> {
   }
 }
 
+// Auto-confirmation to the applicant — removes the "did my submission actually go through?"
+// anxiety. Fire-and-forget: a failure here doesn't fail the overall request.
+async function sendApplicantConfirmation(data: ApplyFormValues): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return;
+  if (!looksLikeEmail(data.contact)) return; // only email contacts, not "@instagram" handles
+  const firstName = data.name.split(" ")[0] || data.name;
+  const subject = "Got your application — Surf Morocco 🌊";
+  const text = `Hey ${firstName},
+
+Thanks for sending in your application for the Surf Morocco trip (22–28 June 2026).
+I got it and will personally get back to you within 24–48 hours.
+
+In the meantime, you can find me on Instagram if you have questions:
+https://www.instagram.com/zukaaisme
+
+Talk soon,
+Zukaa ✌️`;
+  const html = `<!doctype html>
+<html>
+  <body style="margin:0;padding:0;background:#efe3cc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#323740">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#efe3cc;padding:32px 16px">
+      <tr><td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:16px;overflow:hidden">
+          <tr><td style="padding:32px 28px 8px">
+            <p style="margin:0;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(50,55,64,0.55)">Surf Morocco</p>
+            <h1 style="margin:8px 0 0;font-size:24px;font-weight:600;line-height:1.2;letter-spacing:-0.01em">Hey ${escapeHtml(firstName)} 🌊</h1>
+          </td></tr>
+          <tr><td style="padding:8px 28px 24px;font-size:16px;line-height:1.55">
+            <p style="margin:0 0 14px">Thanks for sending in your application for the Surf Morocco trip — <strong>22–28 June 2026</strong> in Taghazout.</p>
+            <p style="margin:0 0 14px">I got your message and will personally get back to you within <strong>24–48 hours</strong>.</p>
+            <p style="margin:0">In the meantime, you can find me on Instagram if you have questions: <a href="https://www.instagram.com/zukaaisme" style="color:#323740;text-decoration:underline">@zukaaisme</a></p>
+          </td></tr>
+          <tr><td style="padding:0 28px 32px;font-size:16px;line-height:1.55">
+            <p style="margin:0">Talk soon,<br>Zukaa ✌️</p>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body>
+</html>`;
+  try {
+    const resend = new Resend(apiKey);
+    const result = await resend.emails.send({
+      from: FROM,
+      to: data.contact,
+      subject,
+      text,
+      html,
+      replyTo: process.env.RESEND_TO,
+    });
+    if (result.error) {
+      console.error("[apply] confirmation Resend error:", result.error);
+    }
+  } catch (err) {
+    console.error("[apply] confirmation Resend exception:", err);
+  }
+}
+
 async function appendToSheet(data: ApplyFormValues): Promise<{ ok: boolean }> {
   const url = process.env.GOOGLE_SCRIPT_URL;
   if (!url) {
@@ -160,11 +219,22 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Email + Sheet in parallel — Sheet is a "nice-to-have" archive; even if it fails the user
-  // is still considered submitted as long as email made it through.
+  // Honeypot — if the hidden `website` field came back filled, a bot did this. Respond 200
+  // with `ok: true` so the bot's script thinks it succeeded, but quietly drop the payload
+  // (no email, no sheet row). Real users never reach this branch — they can't see or focus
+  // the field.
+  if (parsed.data.website && parsed.data.website.length > 0) {
+    console.warn("[apply] honeypot triggered, dropping submission");
+    return NextResponse.json({ ok: true });
+  }
+
+  // Email to operator + Sheet + applicant auto-confirmation, all in parallel.
+  // Operator email is the only HARD dependency — sheet and auto-confirm are best-effort
+  // (a missing confirmation email shouldn't fail the user's submission).
   const [emailResult, sheetResult] = await Promise.all([
     sendEmail(parsed.data),
     appendToSheet(parsed.data),
+    sendApplicantConfirmation(parsed.data),
   ]);
 
   if (!emailResult.ok) {

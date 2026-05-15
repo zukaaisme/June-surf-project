@@ -1,4 +1,5 @@
 import { Nav } from "@/components/nav";
+import { StickyApply } from "@/components/sticky-apply";
 import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Program } from "@/components/program";
@@ -32,6 +33,7 @@ export default function Home() {
       </section>
       <ApplyForm />
       <Footer />
+      <StickyApply />
     </main>
   );
 }

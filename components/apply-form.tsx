@@ -127,6 +127,16 @@ export function ApplyForm() {
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+                {/* Honeypot — invisible to humans, irresistible to dumb bots. Server rejects
+                    any submission where this field is non-empty. */}
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-[-9999px] h-px w-px opacity-0"
+                  {...register("website")}
+                />
 
                 {/* Row 1: Name + Email */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
