@@ -172,8 +172,25 @@ export function ApplyForm() {
                   </div>
                 </div>
 
-                {/* Row 2: Instagram + Preferred Plan */}
+                {/* Row 2: WhatsApp * + Instagram (both are reach-me handles, grouped together). */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="whatsapp" style={labelStyle}>WhatsApp *</label>
+                    <input
+                      id="whatsapp"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="+1 234 567 8900"
+                      className="hover-fade"
+                      style={fieldStyle}
+                      {...register("whatsapp")}
+                      aria-invalid={errors.whatsapp ? "true" : "false"}
+                    />
+                    {errors.whatsapp && (
+                      <p className="mt-1 text-red-500" style={{ fontSize: "13px" }}>{errors.whatsapp.message}</p>
+                    )}
+                  </div>
                   <div>
                     <label htmlFor="instagram" style={labelStyle}>Instagram</label>
                     <input
@@ -185,36 +202,38 @@ export function ApplyForm() {
                       {...register("instagram")}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
-                    <select
-                      id="plan"
-                      className="hover-fade"
-                      style={{
-                        ...fieldStyle,
-                        cursor: "pointer",
-                        appearance: "none",
-                        WebkitAppearance: "none",
-                        MozAppearance: "none",
-                        backgroundImage: `url(${CHEVRON_DOWN_URL})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "right 12px center",
-                        backgroundSize: "20px",
-                        paddingRight: "44px",
-                      }}
-                      {...register("plan")}
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Choose plan…
+                </div>
+
+                {/* Row 3: Preferred Plan (alone, full width — select reads cleaner without a neighbour). */}
+                <div>
+                  <label htmlFor="plan" style={labelStyle}>Preferred Plan</label>
+                  <select
+                    id="plan"
+                    className="hover-fade"
+                    style={{
+                      ...fieldStyle,
+                      cursor: "pointer",
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      MozAppearance: "none",
+                      backgroundImage: `url(${CHEVRON_DOWN_URL})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "right 12px center",
+                      backgroundSize: "20px",
+                      paddingRight: "44px",
+                    }}
+                    {...register("plan")}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Choose plan…
+                    </option>
+                    {trip.pricingTiers.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.name} — {t.priceDisplay}
                       </option>
-                      {trip.pricingTiers.map((t) => (
-                        <option key={t.id} value={t.id}>
-                          {t.name} — {t.priceDisplay}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Additional info textarea */}

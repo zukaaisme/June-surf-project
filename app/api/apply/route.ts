@@ -35,7 +35,8 @@ function renderEmail(data: ApplyFormValues): { subject: string; text: string; ht
 
   const rows: Array<[string, string | undefined]> = [
     ["Name", data.name],
-    ["Contact", data.contact],
+    ["Email", data.contact],
+    ["WhatsApp", data.whatsapp],
     ["Instagram", data.instagram || undefined],
     ["Plan", plan],
     ["Message", data.message || undefined],
